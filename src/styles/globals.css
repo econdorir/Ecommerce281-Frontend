@@ -1,0 +1,60 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* styles/globals.css */
+
+/* Estilos básicos para todo el documento */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+/* Contenedor principal de la aplicación */
+#__next {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Estilos para encabezados */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  font-family: "Roboto", sans-serif;
+}
+
+/* Estilos de enlaces */
+a {
+  color: #0070f3;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Estilos para los formularios */
+input,
+textarea,
+select {
+  font: inherit;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 0.5em;
+}
+
+/* Añadir espaciado en la parte superior de la página */
+main {
+  padding: 1em;
+}

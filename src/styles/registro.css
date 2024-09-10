@@ -1,0 +1,135 @@
+/* General Styles */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f0f4f8;
+  width: 900px;
+  background-color: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Left Side */
+.left-side {
+  width: 50%;
+  background-color: #2ed9c3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.image-container {
+  width: 250px;
+  height: 350px;
+  background-color: #ffa944;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.image {
+  border-radius: 50%;
+}
+
+/* Right Side */
+.right-side {
+  width: 50%;
+  padding: 50px;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: #333333;
+}
+
+.input {
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.btn {
+  padding: 12px;
+  background-color: #ffa944;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #ff8a00;
+}
+
+.text {
+  font-size: 14px;
+  color: #333333;
+}
+
+.link {
+  color: #ffa944;
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.or-divider {
+  margin: 20px 0;
+  text-align: center;
+  color: #888888;
+}
+
+.google-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  background-color: #ffffff;
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.google-icon {
+  width: 20px;
+  margin-right: 10px;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 10px;
+}
+
+.footer-text {
+  font-size: 12px;
+  color: #888888;
+}

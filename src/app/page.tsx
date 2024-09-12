@@ -4,12 +4,16 @@
 import { FC } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "@/components/footer";
+import HeroSection from "../components/Hero";
+import ProductCarousel from "@/components/ProductCarousel";
 
 const HomePage: FC = () => {
   return (
     <>
-      <Navbar />
+      <Navbar/>
       <main className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
+        <HeroSection />
+        <ProductCarousel />
         <h1 className="text-4xl font-bold mb-4 text-gray-800">
           Welcome to Next.js
         </h1>

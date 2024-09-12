@@ -2,7 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+@import '~slick-carousel/slick/slick.css';
+@import '~slick-carousel/slick/slick-theme.css';
+
+
 /* styles/globals.css */
+
+:root {
+  --main-orange-color: #FF9F1C;
+  --secondary-orange-color: #FFBF69;
+  --white: #FFFFFF;
+  --soft-tourquise-color: #CBF3F0;
+  --strong-tourquise-color: #2EC4B6;
+  --font-size: 16px;
+}
 
 /* Estilos básicos para todo el documento */
 html,

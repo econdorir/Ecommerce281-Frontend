@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import React, { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 
@@ -33,14 +34,20 @@ const Navbar = () => {
       <div>
         {/* <h1 className="text-5xl font-signature ml-2"><a className="link-underline hover:transition ease-in-out delay-150 hover:underline hover:decoration-solid" href="">Logo</a></h1> */}
         <h1 className="text-5xl font-signature ml-2">
-          <a
-            className="link-underline link-underline-black"
-            href=""
-            target="_blank"
-            rel="noreferrer"
-          >
-            Logo
-          </a>
+          <Link href="/" passHref>
+            <div className="flex items-center space-x-2">
+              <div className="relative w-12 h-12 sm:w-16 sm:h-16">
+                <Image
+                  src="/images/Logo281.png"
+                  alt="logo"
+                  layout="fill"
+                  objectFit="cover"
+                  className="rounded-full"
+                />
+              </div>
+              <span className="text-sm font-medium text-white">Artiisninc</span>
+            </div>
+          </Link>
         </h1>
       </div>
 
@@ -54,9 +61,13 @@ const Navbar = () => {
           </li>
         ))}
         <div className="flex text-gray-600">
-          <Link href={"register"} className="text-gray-100">Registrarse</Link>
+          <Link href={"register"} className="text-gray-100">
+            Registrarse
+          </Link>
           <p>&nbsp;|&nbsp;</p>
-          <Link href={"login"} className="text-gray-100">Iniciar Sesión</Link>
+          <Link href={"login"} className="text-gray-100">
+            Iniciar Sesión
+          </Link>
         </div>
       </ul>
 

@@ -16,11 +16,11 @@ const Navbar = () => {
     },
     {
       id: 3,
-      link: "portfolio",
+      link: "comunidades",
     },
     {
       id: 4,
-      link: "experience",
+      link: "ofertas",
     },
     {
       id: 5,
@@ -53,6 +53,11 @@ const Navbar = () => {
             <Link href={link}>{link}</Link>
           </li>
         ))}
+        <div className="flex text-gray-600">
+          <Link href={"register"} className="text-gray-100">Registrarse</Link>
+          <p>&nbsp;|&nbsp;</p>
+          <Link href={"login"} className="text-gray-100">Iniciar Sesión</Link>
+        </div>
       </ul>
 
       <div
@@ -75,9 +80,9 @@ const Navbar = () => {
             </li>
           ))}
           <div className="flex">
-            <Link href={"registro"}>Registrarse</Link>
-            <p>|</p>
-            <Link href={"iniciar-sesion"}>Iniciar Sesión</Link>
+            <Link href={"register"}>Registrarse</Link>
+            <p>&nbsp;|&nbsp;</p>
+            <Link href={"login"}>Iniciar Sesión</Link>
           </div>
         </ul>
       )}

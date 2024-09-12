@@ -1,88 +1,105 @@
 import Image from "next/image";
-import Head from "next/head";
-import "../styles/registro.css"
 
-export default function Registro() {
+export default function SignupForm() {
   return (
-    <>
-      <Head>
-        <title>Crear una Nueva Cuenta</title>
-        <link rel="stylesheet" href="/styles/registro.css" />
-      </Head>
-      <div className="container">
-        <div className="left-side">
-          <div className="image-container">
-            <Image
-              src="/images/telas.jpg"
-              alt="Imagen de telas"
-              width={250}
-              height={350}
-              className="image"
-            />
-          </div>
+    <div className="flex flex-col md:flex-row w-full max-w-screen-lg mx-auto bg-white rounded-lg overflow-hidden shadow-lg">
+      {/* Left Side */}
+      <div className="md:w-1/2 bg-teal-300 relative flex items-center justify-center p-4">
+        <div className="w-64 h-64 bg-orange-400 rounded-full absolute top-1/2 transform -translate-y-1/2 rotate-[-30deg] flex items-center justify-center">
+          <Image
+            src="/images/telas.jpg"
+            alt="Imagen de telas"
+            layout="fill"
+            objectFit="cover"
+          />
         </div>
-        <div className="right-side">
-          <h1>Crear una Nueva Cuenta</h1>
-          <form className="form">
-            <label className="label" htmlFor="nombre">
-              Nombre Completo
-            </label>
-            <input
-              className="input"
-              type="text"
-              id="nombre"
-              placeholder="Enter your Full Name here"
-              required
-            />
-
-            <label className="label" htmlFor="email">
-              Correo
-            </label>
-            <input
-              className="input"
-              type="email"
-              id="email"
-              placeholder="Enter your Email here"
-              required
-            />
-
-            <label className="label" htmlFor="password">
-              Contraseña
-            </label>
-            <input
-              className="input"
-              type="password"
-              id="password"
-              placeholder="Enter your Password here"
-              required
-            />
-
-            <button type="submit" className="btn">
-              Crear Cuenta
-            </button>
-          </form>
-          <p className="text">
-            Ya tienes una cuenta{" "}
-            <a href="#" className="link">
-              Iniciar Sesión
-            </a>
-          </p>
-          <div className="or-divider">- OR -</div>
-          <button className="google-btn">
-            <Image
-              src="/images/google-logo.png"
-              alt="Google Icon"
-              width={20}
-              height={20}
-              className="google-icon"
-            />
-            Sign up with Google
-          </button>
+        <div className="w-40 h-40 bg-opacity-10 rounded-full absolute top-1/2 transform -translate-y-1/2 flex items-center justify-center">
+          <Image
+            src="/images/Logo281.png"
+            alt="Logo"
+            layout="fill"
+            objectFit="cover"
+          />
         </div>
       </div>
-      <footer className="footer">
-        <p className="footer-text">Derechos Reservados</p>
-      </footer>
-    </>
+
+      {/* Right Side */}
+      <div className="md:w-1/2 p-6 md:p-12 flex flex-col justify-center">
+        <h1 className="text-2xl md:text-3xl font-bold mb-6 text-gray-800">
+          Crear una Nueva Cuenta
+        </h1>
+        <form className="flex flex-col space-y-4">
+          <label htmlFor="nombre" className="text-sm text-gray-700">
+            Nombre Completo
+          </label>
+          <input
+            type="text"
+            id="nombre"
+            placeholder="Enter your Full Name here"
+            required
+            className="p-3 border border-gray-300 rounded-lg text-sm"
+          />
+
+          <label htmlFor="email" className="text-sm text-gray-700">
+            Correo
+          </label>
+          <input
+            type="email"
+            id="email"
+            placeholder="Enter your Email here"
+            required
+            className="p-3 border border-gray-300 rounded-lg text-sm"
+          />
+
+          <label htmlFor="password" className="text-sm text-gray-700">
+            Contraseña
+          </label>
+          <input
+            type="password"
+            id="password"
+            placeholder="Enter your Password here"
+            required
+            className="p-3 border border-gray-300 rounded-lg text-sm"
+          />
+
+          <label htmlFor="confirm-password" className="text-sm text-gray-700">
+            Confirmar Contraseña
+          </label>
+          <input
+            type="password"
+            id="confirm-password"
+            placeholder="Confirm your Password here"
+            required
+            className="p-3 border border-gray-300 rounded-lg text-sm"
+          />
+
+          <button
+            type="submit"
+            className="py-3 bg-orange-400 hover:bg-orange-500 text-white rounded-lg text-lg cursor-pointer"
+          >
+            Crear Cuenta
+          </button>
+        </form>
+
+        <p className="text-sm text-gray-700 mt-4">
+          Ya tienes una cuenta{" "}
+          <a href="#" className="text-orange-400 hover:underline">
+            Iniciar Sesión
+          </a>
+        </p>
+
+        <div className="my-6 text-gray-400 text-center">- OR -</div>
+
+        <button className="flex items-center justify-center py-3 bg-white border border-gray-300 rounded-lg cursor-pointer">
+          <Image
+            src="/images/google_logo.jpg"
+            alt="Google Icon"
+            width={20}
+            height={20}
+          />
+          <span className="ml-2 text-gray-800">Sign up with Google</span>
+        </button>
+      </div>
+    </div>
   );
 }

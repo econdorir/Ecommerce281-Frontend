@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { RegisterService } from "@/services/registerService";
+import { RegisterService } from "@/services/RegisterService";
 import { useState } from "react";
 
 export default function SignupForm() {

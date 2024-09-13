@@ -18,7 +18,7 @@ const HeroSection = () => {
         {/* Buttons */}
         <div className="flex flex-col md:flex-row gap-4 justify-center">
           {/* Start Now Button */}
-          <Link href="/shop">
+          <Link href="/register">
             <div className="inline-block bg-orange-400 text-white py-3 px-6 rounded-lg font-semibold text-lg shadow-lg hover:bg-orange-500 transition duration-300 cursor-pointer">
               Comenzar Ahora
             </div>

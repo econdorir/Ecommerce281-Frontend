@@ -1,7 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
+
+
 
 export default function LoginForm() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [role, setRole] = useState(""); // Estado para manejar la opción seleccionada
+
+
   return (
     <div className="flex flex-col md:flex-row w-full max-w-screen-lg mx-auto bg-white rounded-lg overflow-hidden shadow-lg">
       {/* Left Side */}
@@ -97,6 +105,26 @@ export default function LoginForm() {
             required
             className="p-3 border border-gray-300 rounded-lg text-sm"
           />
+
+<label htmlFor="role" className="text-sm text-gray-700">
+            Rol
+          </label>
+          <select
+            id="role"
+            name="role"
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+            required
+            className="p-3 border border-gray-300 rounded-lg text-sm"
+          >
+            <option value="" disabled>
+              Selecciona tu rol
+            </option>
+            <option value="cliente">Cliente</option>
+            <option value="artesano">Artesano</option>
+            <option value="delivery">Delivery</option>
+            <option value="administrador">Administrador</option>
+          </select>
 
           <button
             type="submit"

@@ -1,7 +1,33 @@
 import Image from "next/image";
 import Link from "next/link";
+import { RegisterService } from "@/services/registerService";
+import { useState } from "react";
 
 export default function SignupForm() {
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState(""); // Estado para el mensaje de error
+  const [role, setRole] = useState(""); // Estado para manejar la opción seleccionada
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (password !== confirmPassword) {
+      setError("Las contraseñas no coinciden.");
+      return;
+    }
+
+    setError("");
+
+    try {
+      const result = await RegisterService(username, email, password, role);
+      console.log(result);
+    } catch (error) {
+      console.error("Error during registration:", error);
+    }
+  };
   return (
     <div className="flex flex-col md:flex-row w-full max-w-screen-lg mx-auto bg-white rounded-lg overflow-hidden shadow-lg">
       {/* Left Side */}
@@ -76,12 +102,15 @@ export default function SignupForm() {
           Crear una Nueva Cuenta
         </h1>
         <form className="flex flex-col space-y-4">
-          <label htmlFor="nombre" className="text-sm text-gray-700">
+          <label htmlFor="username" className="text-sm text-gray-700">
             Nombre Completo
           </label>
           <input
             type="text"
-            id="nombre"
+            id="username"
+            name="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
             placeholder="Enter your Full Name here"
             required
             className="p-3 border border-gray-300 rounded-lg text-sm"
@@ -93,6 +122,9 @@ export default function SignupForm() {
           <input
             type="email"
             id="email"
+            name="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             placeholder="Enter your Email here"
             required
             className="p-3 border border-gray-300 rounded-lg text-sm"
@@ -104,6 +136,9 @@ export default function SignupForm() {
           <input
             type="password"
             id="password"
+            name="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             placeholder="Enter your Password here"
             required
             className="p-3 border border-gray-300 rounded-lg text-sm"
@@ -115,17 +150,41 @@ export default function SignupForm() {
           <input
             type="password"
             id="confirm-password"
+            name="confirm-password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
             placeholder="Confirm your Password here"
             required
             className="p-3 border border-gray-300 rounded-lg text-sm"
           />
 
+          <label htmlFor="role" className="text-sm text-gray-700">
+            Rol
+          </label>
+          <select
+            id="role"
+            name="role"
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+            required
+            className="p-3 border border-gray-300 rounded-lg text-sm"
+          >
+            <option value="" disabled>
+              Selecciona tu rol
+            </option>
+            <option value="cliente">Cliente</option>
+            <option value="artesano">Artesano</option>
+            <option value="delivery">Delivery</option>
+          </select>
+
           <button
             type="submit"
+            onClick={handleSubmit}
             className="py-3 bg-orange-400 hover:bg-orange-500 text-white rounded-lg text-lg cursor-pointer"
           >
             Crear Cuenta
           </button>
+          {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
         </form>
 
         <p className="text-sm text-gray-700 mt-4">

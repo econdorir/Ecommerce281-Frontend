@@ -1,14 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-
+import { FaRegEyeSlash, FaRegEye  } from "react-icons/fa";
 
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState(""); // Estado para manejar la opción seleccionada
-
+  const [showPassword, setShowPassword] = useState(false);
 
   return (
     <div className="flex flex-col md:flex-row w-full max-w-screen-lg mx-auto bg-white rounded-lg overflow-hidden shadow-lg">
@@ -98,15 +98,23 @@ export default function LoginForm() {
           <label htmlFor="password" className="text-sm text-gray-700">
             Contraseña
           </label>
-          <input
-            type="password"
-            id="password"
-            placeholder="Enter your Password here"
-            required
-            className="p-3 border border-gray-300 rounded-lg text-sm"
-          />
-
-<label htmlFor="role" className="text-sm text-gray-700">
+          <div className="relative">
+            <input
+              type={showPassword ? "text" : "password"}
+              id="password"
+              placeholder="Enter your Password here"
+              required
+              className="w-full p-3 border border-gray-300 rounded-lg text-sm pr-10" // Añade pr-10 para espacio al ícono
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute inset-y-0 right-3 flex items-center"
+            >
+              {showPassword ? <FaRegEye /> : <FaRegEyeSlash />}
+            </button>
+          </div>
+          <label htmlFor="role" className="text-sm text-gray-700">
             Rol
           </label>
           <select

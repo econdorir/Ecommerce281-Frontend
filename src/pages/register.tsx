@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { RegisterService } from "@/services/RegisterService";
+import { FaRegEyeSlash, FaRegEye  } from "react-icons/fa";
+
 import { useState } from "react";
 
 export default function SignupForm() {
@@ -10,6 +12,7 @@ export default function SignupForm() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState(""); // Estado para el mensaje de error
   const [role, setRole] = useState(""); // Estado para manejar la opción seleccionada
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -133,30 +136,48 @@ export default function SignupForm() {
           <label htmlFor="password" className="text-sm text-gray-700">
             Contraseña
           </label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Enter your Password here"
-            required
-            className="p-3 border border-gray-300 rounded-lg text-sm"
-          />
+          <div className="relative">
+            <input
+              type={showPassword ? "text" : "password"}
+              id="password"
+              name="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter your Password here"
+              required
+              className="w-full p-3 border border-gray-300 rounded-lg text-sm pr-10" // Añade pr-10 para espacio al ícono
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute inset-y-0 right-3 flex items-center" // Ajusta la posición
+            >
+              {showPassword ? <FaRegEye /> : <FaRegEyeSlash />}
+            </button>
+          </div>
 
           <label htmlFor="confirm-password" className="text-sm text-gray-700">
             Confirmar Contraseña
           </label>
-          <input
-            type="password"
-            id="confirm-password"
-            name="confirm-password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            placeholder="Confirm your Password here"
-            required
-            className="p-3 border border-gray-300 rounded-lg text-sm"
-          />
+          <div className="relative">
+            <input
+              type={showPassword ? "text" : "password"}
+              id="confirm-password"
+              name="confirm-password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              placeholder="Confirm your Password here"
+              required
+              className="w-full p-3 border border-gray-300 rounded-lg text-sm pr-10"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute inset-y-0 right-3 flex items-center"
+            >
+              {showPassword ? <FaRegEye /> : <FaRegEyeSlash />}
+            </button>
+          </div>
 
           <label htmlFor="role" className="text-sm text-gray-700">
             Rol
@@ -189,7 +210,7 @@ export default function SignupForm() {
 
         <p className="text-sm text-gray-700 mt-4">
           Ya tienes una cuenta{" "}
-          <a href="#" className="text-orange-400 hover:underline">
+          <a href="/login" className="text-orange-400 hover:underline">
             Iniciar Sesión
           </a>
         </p>

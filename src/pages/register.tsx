@@ -1,18 +1,26 @@
 import Image from "next/image";
 import Link from "next/link";
 import { RegisterService } from "@/services/RegisterService";
-import { FaRegEyeSlash, FaRegEye  } from "react-icons/fa";
-import { useRouter } from 'next/router';
-
+import { FaRegEyeSlash, FaRegEye } from "react-icons/fa";
+import { useRouter } from "next/router";
 import { useState } from "react";
+import { useAppContext } from "@/context";
 
 export default function SignupForm() {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
+  const {
+    username,
+    setUsername,
+    email,
+    setEmail,
+    role,
+    setRole,
+    isLoggedIn,
+    setIsLoggedIn,
+  } = useAppContext();
+
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState(""); // Estado para el mensaje de error
-  const [role, setRole] = useState(""); // Estado para manejar la opción seleccionada
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
   const currentDate = new Date();
@@ -28,10 +36,22 @@ export default function SignupForm() {
     setError("");
 
     try {
-      const result = await RegisterService(username, email, password, role, currentDate);
-      console.log(result);
-      router.push('/products');
-
+      const result = await RegisterService(
+        username,
+        email,
+        password,
+        role,
+        currentDate
+      );
+      localStorage.setItem("username", username);
+      localStorage.setItem("email", email);
+      localStorage.setItem("password", password);
+      localStorage.setItem("role", role);
+      setIsLoggedIn(true);
+      setUsername(result.nombre_usuario);
+      setEmail(result.email_usuario);
+      setPassword(result.password_usuario);
+      router.push("/verification-sent");
     } catch (error) {
       console.error("Error during registration:", error);
     }

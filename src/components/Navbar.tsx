@@ -2,9 +2,29 @@ import Link from "next/link";
 import Image from "next/image";
 import React, { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
+import { useAppContext } from "@/context";
 
 const Navbar = () => {
   const [nav, setNav] = useState(false);
+  const {
+    username,
+    setUsername,
+    setEmail,
+    setRole,
+    setPassword,
+    isLoggedIn,
+    setIsLoggedIn,
+  } = useAppContext();
+
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setUsername("");
+    setEmail("");
+    setRole("");
+    setPassword("");
+    localStorage.clear();
+  };
 
   const links = [
     {
@@ -66,13 +86,22 @@ const Navbar = () => {
           </li>
         ))}
         <div className="flex text-gray-600">
-          <Link href={"register"} className="text-gray-100">
-            Registrarse
-          </Link>
-          <p>&nbsp;|&nbsp;</p>
-          <Link href={"login"} className="text-gray-100">
-            Iniciar Sesión
-          </Link>
+          {isLoggedIn ? (
+            <>
+              <span>{username}</span>
+              <button onClick={handleLogout}>Cerrar Sesión</button>
+            </>
+          ) : (
+            <>
+              <Link href={"register"} className="text-gray-100">
+                Registrarse
+              </Link>
+              <p>&nbsp;|&nbsp;</p>
+              <Link href={"login"} className="text-gray-100">
+                Iniciar Sesión
+              </Link>
+            </>
+          )}
         </div>
       </ul>
 
@@ -96,9 +125,18 @@ const Navbar = () => {
             </li>
           ))}
           <div className="flex">
-            <Link href={"register"}>Registrarse</Link>
-            <p>&nbsp;|&nbsp;</p>
-            <Link href={"login"}>Iniciar Sesión</Link>
+            {isLoggedIn ? (
+              <>
+                <span>{username}</span>
+                <button onClick={handleLogout}>Cerrar Sesión</button>
+              </>
+            ) : (
+              <>
+                <Link href={"register"}>Registrarse</Link>
+                <p>&nbsp;|&nbsp;</p>
+                <Link href={"login"}>Iniciar Sesión</Link>
+              </>
+            )}
           </div>
         </ul>
       )}

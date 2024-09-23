@@ -1,35 +1,53 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { FaRegEyeSlash, FaRegEye  } from "react-icons/fa";
+import { FaRegEyeSlash, FaRegEye } from "react-icons/fa";
 import { LoginService } from "@/services/LoginService";
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
+import { useAppContext } from "../context";
 
 export default function LoginForm() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [role, setRole] = useState(""); // Estado para manejar la opción seleccionada
+  const {
+    username,
+    setUsername,
+    email,
+    setEmail,
+    password,
+    setPassword,
+    role,
+    setRole,
+    isLoggedIn,
+    setIsLoggedIn,
+  } = useAppContext();
+
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(""); // Estado para el mensaje de error
   const router = useRouter();
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
+    console.log("push lol");
 
     setError(""); // Resetea el error antes de iniciar
+    console.log(email);
+    console.log(password);
+    console.log(role);
 
     try {
-        const result = await LoginService(email, password);
-        console.log(result);
-        router.push('/products');
-        // Aquí puedes manejar la respuesta, como redirigir al usuario o almacenar el token
+      const result = await LoginService(email, password, role);
+      setUsername(result.nombre_usuario);
+      setPassword(result.password_usuario);
+      setRole(result.tipo_usuario);
+      setIsLoggedIn(true);
+      router.push("/products");
+      // Aquí puedes manejar la respuesta, como redirigir al usuario o almacenar el token
     } catch (error) {
-        setError("Error en el inicio de sesión. Verifica tus credenciales.");
-        console.error("Error during login:", error);
+      setError("Error en el inicio de sesión. Verifica tus credenciales.");
+      console.error("Error during login:", error);
     }
-};
-
-
+  };
 
   return (
     <div className="flex flex-col md:flex-row w-full max-w-screen-lg mx-auto bg-white rounded-lg overflow-hidden shadow-lg">
@@ -162,7 +180,6 @@ export default function LoginForm() {
             className="py-3 bg-orange-400 hover:bg-orange-500 text-white rounded-lg text-lg cursor-pointer"
             onClick={handleLoginSubmit}
           >
-            
             Iniciar Sesión
           </button>
         </form>

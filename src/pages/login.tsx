@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { FaRegEyeSlash, FaRegEye  } from "react-icons/fa";
 import { LoginService } from "@/services/LoginService";
+import { useRouter } from 'next/router';
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
@@ -10,7 +11,7 @@ export default function LoginForm() {
   const [role, setRole] = useState(""); // Estado para manejar la opción seleccionada
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(""); // Estado para el mensaje de error
-
+  const router = useRouter();
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
@@ -20,6 +21,7 @@ export default function LoginForm() {
     try {
         const result = await LoginService(email, password);
         console.log(result);
+        router.push('/products');
         // Aquí puedes manejar la respuesta, como redirigir al usuario o almacenar el token
     } catch (error) {
         setError("Error en el inicio de sesión. Verifica tus credenciales.");

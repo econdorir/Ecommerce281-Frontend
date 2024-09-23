@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Navbar from "../components/Navbar";
 import Footer from "@/components/footer";
+import ProductCard from "../components/ProductCard"; // Asegúrate de que la ruta es correcta
 
 // Definimos la interfaz para un producto
 interface Product {
@@ -49,30 +50,17 @@ const ProductPage: React.FC = () => {
           className="p-2 border border-gray-300 rounded mb-4 w-full"
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {/* Grid responsive para las tarjetas de productos */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {filteredProducts.map((product) => (
-            <div key={product.id} className="border rounded-lg p-4">
-              <img
-                src={product.image}
-                alt={product.title}
-                className="h-32 w-full object-cover mb-2"
-              />
-              <h2 className="text-lg font-semibold">{product.title}</h2>
-              <p className="text-gray-700">${product.price}</p>
-              <div className="flex justify-between mt-2">
-                <button
-                  onClick={() => handleAddToCart(product)}
-                  className="bg-orange-400 hover:bg-orange-500 text-white py-1 px-3 rounded"
-                >
-                  Añadir al carrito
-                </button>
-                <Link href={`/product/${product.id}`}>
-                  <button className="bg-blue-500 hover:bg-blue-600 text-white py-1 px-3 rounded">
-                    Ver
-                  </button>
-                </Link>
-              </div>
-            </div>
+            <ProductCard
+              key={product.id}
+              title={product.title}
+              price={product.price}
+              imageUrl={product.image}
+              onAddToCart={() => handleAddToCart(product)}
+              onViewDetail={() => console.log(`View details for product with id ${product.id}`)} // Cambia esto según sea necesario
+            />
           ))}
         </div>
 

@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { RegisterService } from "@/services/RegisterService";
 import { FaRegEyeSlash, FaRegEye  } from "react-icons/fa";
+import { useRouter } from 'next/router';
 
 import { useState } from "react";
 
@@ -13,6 +14,8 @@ export default function SignupForm() {
   const [error, setError] = useState(""); // Estado para el mensaje de error
   const [role, setRole] = useState(""); // Estado para manejar la opción seleccionada
   const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
+  const currentDate = new Date();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,8 +28,10 @@ export default function SignupForm() {
     setError("");
 
     try {
-      const result = await RegisterService(username, email, password, role);
+      const result = await RegisterService(username, email, password, role, currentDate);
       console.log(result);
+      router.push('/products');
+
     } catch (error) {
       console.error("Error during registration:", error);
     }

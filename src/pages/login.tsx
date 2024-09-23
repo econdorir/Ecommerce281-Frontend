@@ -174,6 +174,13 @@ export default function LoginForm() {
           </Link>
         </p>
 
+        <p className="text-sm text-gray-700 mt-4">
+          ¿Olvidaste tu contraseña?{" "}
+          <Link href="/recovery" className="text-orange-400 hover:underline">
+            Recuperar Contraseña
+          </Link>
+        </p>
+
         <div className="my-6 text-gray-400 text-center">- OR -</div>
 
         <button className="flex items-center justify-center py-3 bg-white border border-gray-300 rounded-lg cursor-pointer">

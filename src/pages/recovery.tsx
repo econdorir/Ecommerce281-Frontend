@@ -1,36 +1,31 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { FaRegEyeSlash, FaRegEye  } from "react-icons/fa";
-import { LoginService } from "@/services/LoginService";
+import { FaRegEyeSlash, FaRegEye } from "react-icons/fa";
+import { RecoveryService } from "@/services/RecoveryService";
 
-export default function LoginForm() {
+export default function RecoveryForm() {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [role, setRole] = useState(""); // Estado para manejar la opción seleccionada
-  const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState(""); // Estado para el mensaje de error
+  const [error, setError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
-
-  const handleLoginSubmit = async (e) => {
+  const handleRecoverySubmit = async (e) => {
     e.preventDefault();
-
     setError(""); // Resetea el error antes de iniciar
+    setSuccessMessage(""); // Resetea el mensaje de éxito
 
     try {
-        const result = await LoginService(email, password);
-        console.log(result);
-        // Aquí puedes manejar la respuesta, como redirigir al usuario o almacenar el token
+      const result = await RecoveryService(email);
+      setSuccessMessage("Se ha enviado un enlace de recuperación a tu correo.");
+      console.log(result);
     } catch (error) {
-        setError("Error en el inicio de sesión. Verifica tus credenciales.");
-        console.error("Error during login:", error);
+      setError("Error en la recuperación. Verifica tu correo.");
+      console.error("Error during recovery:", error);
     }
-};
-
-
+  };
 
   return (
-    <div className="flex flex-col md:flex-row w-full max-w-screen-lg mx-auto bg-white rounded-lg overflow-hidden shadow-lg">
+    <div className="md:h-[100vh] flex flex-col md:flex-row w-full max-w-screen-lg mx-auto bg-white rounded-lg overflow-hidden shadow-lg">
       {/* Left Side */}
       <div className="md:w-1/2 bg-teal-300 relative flex items-center justify-center p-4">
         <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
@@ -100,89 +95,41 @@ export default function LoginForm() {
           </Link>
         </div>
         <h1 className="text-2xl md:text-3xl font-bold mb-6 text-gray-800">
-          Iniciar Sesión
+          Recuperación de Cuenta
         </h1>
-        <form className="flex flex-col space-y-4">
+        {error && <p className="text-red-500 mb-4">{error}</p>}
+        {successMessage && (
+          <p className="text-green-500 mb-4">{successMessage}</p>
+        )}
+        <form
+          className="flex flex-col space-y-4"
+          onSubmit={handleRecoverySubmit}
+        >
           <label htmlFor="email" className="text-sm text-gray-700">
             Correo
           </label>
           <input
             type="email"
             id="email"
-            placeholder="Enter your Email here"
+            placeholder="Ingresa tu correo aquí"
             required
             onChange={(e) => setEmail(e.target.value)}
             className="p-3 border border-gray-300 rounded-lg text-sm"
           />
-
-          <label htmlFor="password" className="text-sm text-gray-700">
-            Contraseña
-          </label>
-          <div className="relative">
-            <input
-              type={showPassword ? "text" : "password"}
-              id="password"
-              placeholder="Enter your Password here"
-              required
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-3 border border-gray-300 rounded-lg text-sm pr-10" // Añade pr-10 para espacio al ícono
-            />
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute inset-y-0 right-3 flex items-center"
-            >
-              {showPassword ? <FaRegEye /> : <FaRegEyeSlash />}
-            </button>
-          </div>
-          <label htmlFor="role" className="text-sm text-gray-700">
-            Rol
-          </label>
-          <select
-            id="role"
-            name="role"
-            value={role}
-            onChange={(e) => setRole(e.target.value)}
-            required
-            className="p-3 border border-gray-300 rounded-lg text-sm"
-          >
-            <option value="" disabled>
-              Selecciona tu rol
-            </option>
-            <option value="cliente">Cliente</option>
-            <option value="artesano">Artesano</option>
-            <option value="delivery">Delivery</option>
-            <option value="administrador">Administrador</option>
-          </select>
-
           <button
             type="submit"
             className="py-3 bg-orange-400 hover:bg-orange-500 text-white rounded-lg text-lg cursor-pointer"
-            onClick={handleLoginSubmit}
           >
-            
-            Iniciar Sesión
+            Enviar enlace de recuperación
           </button>
         </form>
 
         <p className="text-sm text-gray-700 mt-4">
-          ¿No tienes una cuenta?{" "}
-          <Link href="/register" className="text-orange-400 hover:underline">
-            Regístrate
+          ¿Ya tienes una cuenta?{" "}
+          <Link href="/login" className="text-orange-400 hover:underline">
+            Inicia sesión
           </Link>
         </p>
-
-        <div className="my-6 text-gray-400 text-center">- OR -</div>
-
-        <button className="flex items-center justify-center py-3 bg-white border border-gray-300 rounded-lg cursor-pointer">
-          <Image
-            src="/images/google_logo.jpg"
-            alt="Google Icon"
-            width={20}
-            height={20}
-          />
-          <span className="ml-2 text-gray-800">Iniciar sesión con Google</span>
-        </button>
       </div>
     </div>
   );

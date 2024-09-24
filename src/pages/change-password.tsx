@@ -52,13 +52,13 @@ export default function ChangePasswordForm() {
     }
   };
 
-  useEffect(() => {
-    if (!token) {
-      setError(
-        "Token no encontrado. Asegúrate de que estás usando un enlace válido."
-      );
-    }
-  }, [token]);
+  // useEffect(() => {
+  //   if (!token) {
+  //     setError(
+  //       "Token no encontrado. Asegúrate de que estás usando un enlace válido."
+  //     );
+  //   }
+  // }, [token]);
   return (
     <div className="flex flex-col md:flex-row w-full max-w-screen-lg mx-auto bg-white rounded-lg overflow-hidden shadow-lg">
       {/* Left Side */}

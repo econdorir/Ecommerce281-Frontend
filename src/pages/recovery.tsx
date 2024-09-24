@@ -3,11 +3,21 @@ import Link from "next/link";
 import { useState } from "react";
 import { FaRegEyeSlash, FaRegEye } from "react-icons/fa";
 import { RecoveryService } from "@/services/RecoveryService";
+import { useAppContext } from "@/context";
 
 export default function RecoveryForm() {
-  const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const {
+    username,
+    setUsername,
+    email,
+    setEmail,
+    role,
+    setRole,
+    isLoggedIn,
+    setIsLoggedIn,
+  } = useAppContext();
 
   const handleRecoverySubmit = async (e) => {
     e.preventDefault();
@@ -15,7 +25,7 @@ export default function RecoveryForm() {
     setSuccessMessage(""); // Resetea el mensaje de éxito
 
     try {
-      const result = await RecoveryService(email);
+      const result = await RecoveryService(email, role);
       setSuccessMessage("Se ha enviado un enlace de recuperación a tu correo.");
       console.log(result);
     } catch (error) {
@@ -116,6 +126,26 @@ export default function RecoveryForm() {
             onChange={(e) => setEmail(e.target.value)}
             className="p-3 border border-gray-300 rounded-lg text-sm"
           />
+
+          <label htmlFor="role" className="text-sm text-gray-700">
+            Rol
+          </label>
+          <select
+            id="role"
+            name="role"
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+            required
+            className="p-3 border border-gray-300 rounded-lg text-sm"
+          >
+            <option value="" disabled>
+              Selecciona tu rol
+            </option>
+            <option value="cliente">Cliente</option>
+            <option value="artesano">Artesano</option>
+            <option value="delivery">Delivery</option>
+          </select>
+
           <button
             type="submit"
             className="py-3 bg-orange-400 hover:bg-orange-500 text-white rounded-lg text-lg cursor-pointer"

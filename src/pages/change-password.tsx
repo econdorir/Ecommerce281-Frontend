@@ -1,11 +1,26 @@
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaRegEyeSlash, FaRegEye } from "react-icons/fa";
 import { ChangePasswordService } from "@/services/ChangePasswordService"; // Asegúrate de crear este servicio
+import { useAppContext } from "@/context";
+import { useRouter } from "next/router"; // Importa useRouter
 
 export default function ChangePasswordForm() {
-  const [email, setEmail] = useState("");
+  const {
+    username,
+    setUsername,
+    email,
+    setEmail,
+    role,
+    setRole,
+    isLoggedIn,
+    setIsLoggedIn,
+  } = useAppContext();
+  const router = useRouter(); // Inicializa el router
+  const { query } = router; // Obtén la query de la ruta
+  const { token } = query; // Extrae el token de la query
+
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -22,15 +37,28 @@ export default function ChangePasswordForm() {
     setError(""); // Resetea el error antes de iniciar
 
     try {
-      const result = await ChangePasswordService(email, newPassword);
+      const result = await ChangePasswordService(
+        token,
+        email,
+        newPassword,
+        role
+      );
       console.log(result);
       // Maneja la respuesta como prefieras (redirección, mensaje, etc.)
+      router.push('/password-changed')
     } catch (error) {
       setError("Error al cambiar la contraseña. Inténtalo de nuevo.");
       console.error("Error during password change:", error);
     }
   };
 
+  useEffect(() => {
+    if (!token) {
+      setError(
+        "Token no encontrado. Asegúrate de que estás usando un enlace válido."
+      );
+    }
+  }, [token]);
   return (
     <div className="flex flex-col md:flex-row w-full max-w-screen-lg mx-auto bg-white rounded-lg overflow-hidden shadow-lg">
       {/* Left Side */}
@@ -116,6 +144,25 @@ export default function ChangePasswordForm() {
             onChange={(e) => setConfirmNewPassword(e.target.value)}
             className="p-3 border border-gray-300 rounded-lg text-sm"
           />
+
+          <label htmlFor="role" className="text-sm text-gray-700">
+            Rol
+          </label>
+          <select
+            id="role"
+            name="role"
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+            required
+            className="p-3 border border-gray-300 rounded-lg text-sm"
+          >
+            <option value="" disabled>
+              Selecciona tu rol
+            </option>
+            <option value="cliente">Cliente</option>
+            <option value="artesano">Artesano</option>
+            <option value="delivery">Delivery</option>
+          </select>
 
           <button
             type="submit"

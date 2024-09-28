@@ -1,10 +1,10 @@
+"use client";
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Navbar from "../components/Navbar";
-import Footer from "@/components/footer";
-import ProductCard from "../components/ProductCard"; // Asegúrate de que la ruta es correcta
+import Footer from "@/components/Footer";
+import ProductCard from "../components/ProductCard";
 
-// Definimos la interfaz para un producto
 interface Product {
   id: number;
   title: string;
@@ -18,7 +18,6 @@ const ProductPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [cart, setCart] = useState<Product[]>([]);
 
-  // Simulación de obtener productos desde una API
   useEffect(() => {
     const fetchProducts = async () => {
       const response = await fetch("https://fakestoreapi.com/products");
@@ -50,7 +49,6 @@ const ProductPage: React.FC = () => {
           className="p-2 border border-gray-300 rounded mb-4 w-full"
         />
 
-        {/* Grid responsive para las tarjetas de productos */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {filteredProducts.map((product) => (
             <ProductCard
@@ -58,8 +56,11 @@ const ProductPage: React.FC = () => {
               title={product.title}
               price={product.price}
               imageUrl={product.image}
+              description={product.description} // Agrega la descripción
               onAddToCart={() => handleAddToCart(product)}
-              onViewDetail={() => console.log(`View details for product with id ${product.id}`)} // Cambia esto según sea necesario
+              onViewDetail={() =>
+                console.log(`View details for product with id ${product.id}`)
+              }
             />
           ))}
         </div>
@@ -69,7 +70,7 @@ const ProductPage: React.FC = () => {
           <ul>
             {cart.map((item, index) => (
               <li key={index} className="text-gray-700">
-                {item.title} - ${item.price}
+                {item.title} - ${item.price.toFixed(2)}
               </li>
             ))}
           </ul>

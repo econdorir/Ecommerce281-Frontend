@@ -1,47 +1,42 @@
+// components/ProductCard.js
+"use client";
 import React from "react";
-import styles from "../styles/productCard.module.css";
+import Link from "next/link";
+import { Tilt } from "react-tilt";
 
-interface ProductCardProps {
-  title: string;
-  price: number;
-  imageUrl: string;
-  onAddToCart: () => void;
-  onViewDetail: () => void;
-}
-
-const ProductCard: React.FC<ProductCardProps> = ({
+const ProductCard = ({
   title,
   price,
   imageUrl,
+  description,
   onAddToCart,
   onViewDetail,
 }) => {
   return (
-    <div className={`relative h-96 w-full m-2 ${styles.card}`}>
-      <div
-        className={`${styles.cover} absolute h-full w-full`}
-        style={{ backgroundImage: `url(${imageUrl})` }}
-      >
-        <div className={`${styles.front} h-full w-full flex flex-col items-center justify-center`}>
-          <h1 className={`${styles.title} text-white text-xl font-semibold mb-2`}>{title}</h1>
-          <span className="text-white text-2xl font-light">${price}</span>
-        </div>
-        <div className={`${styles.cardBack} absolute h-full w-full flex items-center justify-center`}>
-          <div className="flex flex-col">
-            <button
-              onClick={onAddToCart}
-              className="bg-transparent border border-white text-white px-4 py-2 rounded transition duration-200 hover:bg-white hover:text-black"
-            >
-              Add to cart
-            </button>
-            <button
-              onClick={onViewDetail}
-              className="mt-2 bg-transparent border border-white text-white px-4 py-2 rounded transition duration-200 hover:bg-white hover:text-black"
-            >
-              View detail
-            </button>
-          </div>
-        </div>
+    <div className="tilt-card max-w-72 mx-auto bg-gray-800 rounded-lg p-6 mb-4 h-[400px] flex flex-col">
+      <Link href="/" className="relative block flex-shrink-0 mb-4">
+        <img
+          className="w-full h-32 object-cover rounded-lg"
+          src={imageUrl}
+          alt={title}
+        />
+        <div className="absolute inset-0 rounded-lg bg-cyan-500 bg-opacity-30 transition-opacity duration-300 opacity-0 hover:opacity-100"></div>
+      </Link>
+      <div className="flex-grow">
+        <h1 className="text-white text-xl font-semibold truncate">{title}</h1>
+        <p className="text-soft-blue mb-2">{`$${price.toFixed(2)}`}</p>
+        <p className="text-gray-400 mb-4 truncate">{description}</p>
+      </div>
+      <div className="flex justify-between">
+        <button
+          onClick={onAddToCart}
+          className="bg-cyan-500 text-white py-2 px-4 rounded"
+        >
+          Agregar al carrito
+        </button>
+        <button onClick={onViewDetail} className="text-soft-blue">
+          Ver detalles
+        </button>
       </div>
     </div>
   );

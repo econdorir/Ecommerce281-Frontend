@@ -1,2 +1,6 @@
-const nextConfig = {}
-module.exports = nextConfig
+const nextConfig = {
+  images: {
+    domains: ["fakestoreapi.com"],
+  },
+};
+module.exports = nextConfig;

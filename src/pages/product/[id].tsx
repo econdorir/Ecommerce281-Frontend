@@ -1,10 +1,10 @@
-// pages/product/[id].js
 import React from "react";
 import { useRouter } from "next/router";
 import { QuantitySelector } from "@/components/QuantitySelector";
 import { ProductSlideShow } from "@/components/ProductSlideShow";
 import { FaTimes } from "react-icons/fa";
 import { ProductMobileSlideShow } from "@/components/ProductMobileSlideShow";
+import { FaStar, FaStarHalfAlt } from "react-icons/fa";
 
 const ProductDetail = ({ product }) => {
   const router = useRouter();
@@ -25,29 +25,48 @@ const ProductDetail = ({ product }) => {
         </button>
 
         {/* Mobile slideshow */}
-        <ProductMobileSlideShow title={product.title} images={product.image} className="block md:hidden"/>
+        <ProductMobileSlideShow
+          title={product.title}
+          images={product.image}
+          className="block md:hidden"
+        />
 
         {/* Desktop slideshow */}
-        <ProductSlideShow title={product.title} images={product.image} className="hidden md:block" />
+        <ProductSlideShow
+          title={product.title}
+          images={product.image}
+          className="hidden md:block"
+        />
       </div>
 
       <div className="col-span-1 px-5 mx-5">
-        <h1 className="antialiased font-bold text-3xl my-2 ">{product.title}</h1>
+        <h1 className="antialiased font-bold text-4xl my-2">{product.title}</h1>
         <p className="text-lg my-3">Bs {product.price}</p>
         <QuantitySelector quantity={2}></QuantitySelector>
         <button className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-blue-600 transition duration-200 ease-in-out my-5">
           Agregar al carrito
         </button>
 
-        <h3 className="font-bold text-sm">Categoria</h3>
-        <p className="font-light">{product.category}</p>
+        <h3 className="font-bold text-xl">Categoria</h3>
+        <p className="font-light text-xl">{product.category}</p>
 
-        <h3 className="font-bold text-sm">Descripcion</h3>
+        <h3 className="font-bold text-xl">Descripcion</h3>
         <p className="font-light">{product.description}</p>
 
-        <h3 className="font-bold text-sm">Rating</h3>
-        <p className="font-light">{product.rating.rate}</p>
-        <p className="font-light">{product.rating.count}</p>
+        <h3 className="font-bold text-xl">Rating</h3>
+        <div className="flex items-center my-2">
+          {Array.from({ length: 5 }, (_, index) => {
+            if (index < product.rating.rate) {
+              return <FaStar key={index} className="text-blue-500" />;
+            } else if (index < product.rating.rate + 0.5) {
+              return <FaStarHalfAlt key={index} className="text-blue-500" />;
+            }
+            return <FaStar key={index} className="text-gray-400" />;
+          })}
+          <span className="ml-2 font-light">
+            ({product.rating.count} votos)
+          </span>
+        </div>
       </div>
     </div>
   );

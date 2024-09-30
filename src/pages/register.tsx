@@ -43,10 +43,6 @@ export default function SignupForm() {
         role,
         currentDate
       );
-      localStorage.setItem("username", username);
-      localStorage.setItem("email", email);
-      localStorage.setItem("password", password);
-      localStorage.setItem("role", role);
       setIsLoggedIn(true);
       setUsername(result.nombre_usuario);
       setEmail(result.email_usuario);

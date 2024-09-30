@@ -1,7 +1,7 @@
 // app/page.tsx
 "use client";
 
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "@/components/footer";
 import HeroSection from "../components/Hero";

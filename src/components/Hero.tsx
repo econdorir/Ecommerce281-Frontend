@@ -3,16 +3,17 @@ import styles from "../styles/hero.module.css"
 
 const HeroSection = () => {
   return (
-    <section className={`${styles.animatedBackground} bg-gray-100 h-screen flex flex-col items-center justify-center text-center pt-56 sm:pt-0`}>
+    <section className={`${styles.animatedBackground} bg-gray-100 h-screen flex flex-col items-center justify-center text-center pt-56 sm:pt-0 `}>
       <div className="container mx-auto px-4">
         {/* Large Text with Welcome Message */}
+        <div className="bg-[rgba(202,202,202,0.75)] py-10 border-4 border-black rounded-lg">
         <h1 className="text-4xl md:text-6xl font-extrabold text-gray-800 mb-4">
           Bienvenido a Nuestra Tienda de Productos Artesanales
         </h1>
 
         {/* Smaller Text with Description */}
-        <p className="text-lg md:text-xl text-gray-600 mb-8">
-          Descubre productos únicos y hechos a mano por comunidades locales. Apoya el comercio justo y encuentra piezas exclusivas que cuentan una historia.
+        <p className="text-lg md:text-xl text-gray-800 mb-8">
+          Descubre productos únicos y hechos a mano por comunidades locales.<br></br> Apoya el comercio justo y encuentra piezas exclusivas que cuentan una historia.
         </p>
 
         {/* Buttons */}
@@ -30,6 +31,7 @@ const HeroSection = () => {
               Mirar Productos
             </div>
           </Link>
+        </div>
         </div>
       </div>
     </section>

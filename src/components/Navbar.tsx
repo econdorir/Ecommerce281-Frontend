@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import React, { useState } from "react";
-import { FaBars, FaTimes } from "react-icons/fa";
+import { FaBars, FaTimes, FaShoppingCart } from "react-icons/fa";
 import { useAppContext } from "@/context";
 
 const Navbar = () => {
@@ -14,8 +14,9 @@ const Navbar = () => {
     setPassword,
     isLoggedIn,
     setIsLoggedIn,
+    numberOfProductsInCart,
+    setNumberOfProductsInCart,
   } = useAppContext();
-
 
   const handleLogout = () => {
     setIsLoggedIn(false);
@@ -88,6 +89,16 @@ const Navbar = () => {
         <div className="flex text-gray-600">
           {isLoggedIn ? (
             <>
+              {/* Icono del carrito */}
+              <Link href="/cart" className="relative">
+                <FaShoppingCart size={24} className="text-gray-100" />
+                {numberOfProductsInCart > 0 && (
+                  <span className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                    {numberOfProductsInCart}
+                  </span>
+                )}
+              </Link>
+
               <span>{username}</span>
               <button onClick={handleLogout}>Cerrar Sesión</button>
             </>
@@ -127,6 +138,14 @@ const Navbar = () => {
           <div className="flex">
             {isLoggedIn ? (
               <>
+                <Link href="/cart" className="relative">
+                  <FaShoppingCart size={24} className="text-gray-100" />
+                  {numberOfProductsInCart > 0 && (
+                    <span className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                      {numberOfProductsInCart}
+                    </span>
+                  )}
+                </Link>
                 <span>{username}</span>
                 <button onClick={handleLogout}>Cerrar Sesión</button>
               </>

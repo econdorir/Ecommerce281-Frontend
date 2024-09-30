@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
@@ -11,13 +10,8 @@ const VerifyAccount = () => {
   const [status, setStatus] = useState("");
   const [error, setError] = useState("");
 
-  const {
-    setUsername,
-    setEmail,
-    setRole,
-    setPassword,
-    setIsLoggedIn,
-  } = useAppContext();
+  const { setUsername, setEmail, setRole, setPassword, setIsLoggedIn } =
+    useAppContext();
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
@@ -25,15 +19,16 @@ const VerifyAccount = () => {
     setError(""); // Resetea el error antes de iniciar
 
     try {
-      let username = localStorage.getItem("username");
-      let email = localStorage.getItem("email");
-      let password = localStorage.getItem("password");
-      let role = localStorage.getItem("role");
+      let userDataString = localStorage.getItem("userData");
+      let userData = JSON.parse(userDataString); // Convierte la cadena JSON de nuevo a un objeto
 
+      let username = userData.nombre_usuario; // Accede a username
+      let email = userData.email_usuario; // Accede a email
+      let password = userData.password_usuario; // Accede a password
+      let role = userData.tipo_usuario; // Accede a role
 
       const result = await LoginService(email, password, role);
 
-      
       setUsername(result.nombre_usuario);
       setPassword(result.password_usuario);
       setRole(result.tipo_usuario);

@@ -3,9 +3,11 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { FaBars, FaTimes, FaShoppingCart } from "react-icons/fa";
 import { useAppContext } from "@/context";
+import CartSidebar from "./CartSideBar";
 
 const Navbar = () => {
   const [nav, setNav] = useState(false);
+  const [isCartOpen, setCartOpen] = useState(false);
   const {
     username,
     setUsername,
@@ -55,6 +57,10 @@ const Navbar = () => {
     },
   ];
 
+  const handleCartToggle = () => {
+    setCartOpen((prev) => !prev);
+  };
+
   return (
     <div className="flex justify-between items-center w-full h-20 px-4 text-white bg-black fixed nav z-10">
       <div>
@@ -90,15 +96,20 @@ const Navbar = () => {
           {isLoggedIn ? (
             <>
               {/* Icono del carrito */}
-              <Link href="/cart" className="relative">
-                <FaShoppingCart size={24} className="text-gray-100" />
+              <button onClick={handleCartToggle} className="relative">
+                <FaShoppingCart className="text-white" size={24} />{" "}
+                {/* Usa el ícono de carrito */}
                 {numberOfProductsInCart > 0 && (
-                  <span className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                  <span className="absolute top-0 right-0 bg-red-500 text-white rounded-full px-1 text-xs">
                     {numberOfProductsInCart}
                   </span>
                 )}
-              </Link>
-
+              </button>
+              {/* Carrito */}
+              <CartSidebar
+                isOpen={isCartOpen}
+                onClose={() => setCartOpen(false)}
+              />
               <span>{username}</span>
               <button onClick={handleLogout}>Cerrar Sesión</button>
             </>

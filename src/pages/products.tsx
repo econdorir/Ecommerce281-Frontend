@@ -1,8 +1,9 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "@/components/Footer";
 import ProductCard from "../components/ProductCard";
+import { useAppContext } from "@/context";
 
 interface Product {
   id_producto: number;
@@ -21,6 +22,10 @@ const ProductPage: React.FC = () => {
   const [cart, setCart] = useState<Product[]>([]);
   const [activeFilter, setActiveFilter] = useState<string>(""); // Estado para el filtro activo
   const [sortOrder, setSortOrder] = useState<string>("");
+  const {
+    numberOfProductsInCart,
+    setNumberOfProductsInCart,
+  } = useAppContext();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -34,6 +39,7 @@ const ProductPage: React.FC = () => {
 
   const handleAddToCart = (product: Product) => {
     setCart((prevCart) => [...prevCart, product]);
+    setNumberOfProductsInCart(numberOfProductsInCart+1);
   };
 
   const filteredProducts = products.filter((product) => {

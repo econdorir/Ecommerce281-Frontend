@@ -1,5 +1,17 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 
+interface Product {
+  id_producto: number;      // ID único del producto
+  id_artesano: number;      // ID del artesano que creó el producto
+  id_promocion: number;     // ID de la promoción (si aplica)
+  nombre_producto: string;   // Nombre del producto
+  precio_producto: string;   // Precio del producto como cadena
+  descripcion_producto: string; // Descripción del producto
+  stock_producto: string;    // Stock disponible como cadena
+  url_producto: string;      // URL de la imagen del producto
+}
+
+
 interface AppContextType {
   idUser: string;
   setIdUser: React.Dispatch<React.SetStateAction<string>>;
@@ -15,6 +27,8 @@ interface AppContextType {
   setPassword: React.Dispatch<React.SetStateAction<string>>;
   numberOfProductsInCart: number;
   setNumberOfProductsInCart: React.Dispatch<React.SetStateAction<number>>; 
+  cart: Product[];
+  setCart: React.Dispatch<React.SetStateAction<Product[]>>; 
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -27,6 +41,8 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [password, setPassword] = useState<string>('');
   const [numberOfProductsInCart, setNumberOfProductsInCart] = useState<number>(0);
+  const [cart, setCart] = useState<Product[]>([]); // Asegúrate de que Product esté importado
+
 
   useEffect(() => {
     const storedUserData = localStorage.getItem("userData");
@@ -57,7 +73,9 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         numberOfProductsInCart,
         setNumberOfProductsInCart, 
         idUser,
-        setIdUser
+        setIdUser,
+        cart,
+        setCart
       }}
     >
       {children}

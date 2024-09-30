@@ -3,7 +3,7 @@
 
 import { FC, useEffect } from "react";
 import Navbar from "../components/Navbar";
-import Footer from "@/components/footer";
+import Footer from "@/components/Footer";
 import HeroSection from "../components/Hero";
 import ProductCarousel from "@/components/ProductCarousel";
 import FAQSection from "@/components/FAQSection";

@@ -1,7 +1,7 @@
 import React from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import Navbar from "../components/Navbar";
-import Footer from "@/components/footer";
+import Footer from "@/components/Footer";
 import MapComponent from "@/components/MapComponent";
 import dynamic from 'next/dynamic';
 

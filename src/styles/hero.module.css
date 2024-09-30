@@ -1,11 +1,11 @@
 .animatedBackground {
   --s: 25vmin;
   --p: calc(var(--s) / 2);
-  --c1: #ffbe6994;
-  --c2: #2ec4b58c;
-  --c3: #ffffff67;
+  --c1: #FFBF69;
+  --c2: #2EC4B6;
+  --c3: #FFFFFF;
   --bg: var(--c3);
-  --d: 6000ms;
+  --d: 12000ms;
   --e: cubic-bezier(0.76, 0, 0.24, 1);
 
   background-color: var(--bg);

@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import styles from '../styles/usuario.module.css';
 
 export default function Perfil() {
   const [formData, setFormData] = useState({
@@ -30,123 +29,54 @@ export default function Perfil() {
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.profileHeader}>
-        <h2>Información de Perfil</h2>
+    <div className="flex flex-col md:flex-row max-w-4xl mx-auto bg-white rounded-lg shadow-md overflow-hidden">
+      <div className="w-full md:w-1/2 bg-teal-300 flex justify-center items-center relative p-6">
+        <div className="w-48 h-48 bg-orange-400 rounded-full flex justify-center items-center overflow-hidden">
+          <img
+            src="/path/to/image.jpg"
+            alt="Profile"
+            className="w-full h-full object-cover"
+          />
+        </div>
       </div>
-      <form className={styles.profileForm} onSubmit={handleSubmit}>
-        <div className={styles.formGroup}>
-          <label>Nombres</label>
-          <input
-            type="text"
-            name="firstName"
-            value={formData.firstName}
-            onChange={handleChange}
-            placeholder="Peter"
-          />
-        </div>
-        <div className={styles.formGroup}>
-          <label>Apellidos</label>
-          <input
-            type="text"
-            name="lastName"
-            value={formData.lastName}
-            onChange={handleChange}
-            placeholder="Griffin"
-          />
-        </div>
-        <div className={styles.formGroup}>
-          <label>Nombre de Usuario</label>
-          <input
-            type="text"
-            name="username"
-            value={formData.username}
-            onChange={handleChange}
-            placeholder="thepetergriffin"
-          />
-        </div>
-        <div className={styles.formGroup}>
-          <label>Correo</label>
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            placeholder="hello@designdrops.io"
-          />
-          <a href="#" className={styles.verifyEmail}>
-            Verificar Correo
-          </a>
-        </div>
-        <div className={styles.formGroup}>
-          <label>Fecha de Nacimiento</label>
-          <div className={styles.dobContainer}>
-            <input
-              type="text"
-              name="dobDay"
-              value={formData.dobDay}
-              onChange={handleChange}
-              placeholder="09"
-            />
-            <input
-              type="text"
-              name="dobMonth"
-              value={formData.dobMonth}
-              onChange={handleChange}
-              placeholder="22"
-            />
-            <input
-              type="text"
-              name="dobYear"
-              value={formData.dobYear}
-              onChange={handleChange}
-              placeholder="1975"
-            />
+
+      <div className="w-full md:w-1/2 p-6 flex flex-col justify-center">
+        <h2 className="text-2xl font-bold mb-6">Información de Perfil</h2>
+        <form className="flex flex-col" onSubmit={handleSubmit}>
+          {Object.entries(formData).map(([key, value]) => (
+            key !== 'userId' ? (
+              <div className="mb-4" key={key}>
+                <label className="block text-sm font-medium text-gray-700 mb-1">{key.replace(/([A-Z])/g, ' $1').toUpperCase()}</label>
+                <input
+                  type={key.includes('dob') ? 'text' : key === 'email' ? 'email' : 'text'}
+                  name={key}
+                  value={value}
+                  onChange={handleChange}
+                  className="border border-gray-300 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-teal-400 transition duration-200"
+                  placeholder={value}
+                />
+                {key === 'email' && <a href="#" className="text-teal-600 hover:underline mt-1">Verificar Correo</a>}
+              </div>
+            ) : (
+              <div className="mb-4" key={key}>
+                <label className="block text-sm font-medium text-gray-700 mb-1">ID de Usuario</label>
+                <input
+                  type="text"
+                  name={key}
+                  value={value}
+                  readOnly
+                  className="border border-gray-300 rounded-md p-2 w-full bg-gray-100"
+                />
+              </div>
+            )
+          ))}
+          <div>
+            <button type="submit" className="bg-orange-400 text-white py-2 rounded-md hover:bg-orange-500 transition duration-200">
+              Guardar Cambios
+            </button>
           </div>
-        </div>
-        <div className={styles.formGroup}>
-          <label>Departamento</label>
-          <input
-            type="text"
-            name="department"
-            value={formData.department}
-            onChange={handleChange}
-            placeholder="La Paz"
-          />
-        </div>
-        <div className={styles.formGroup}>
-          <label>Provincia</label>
-          <input
-            type="text"
-            name="province"
-            value={formData.province}
-            onChange={handleChange}
-          />
-        </div>
-        <div className={styles.formGroup}>
-          <label>Ciudad</label>
-          <input
-            type="text"
-            name="city"
-            value={formData.city}
-            onChange={handleChange}
-          />
-        </div>
-        <div className={styles.formGroup}>
-          <label>ID de Usuario</label>
-          <input
-            type="text"
-            name="userId"
-            value={formData.userId}
-            readOnly
-          />
-        </div>
-        <div className={styles.formGroup}>
-          <button type="submit" className={styles.saveBtn}>
-            Guardar Cambios
-          </button>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   );
 }

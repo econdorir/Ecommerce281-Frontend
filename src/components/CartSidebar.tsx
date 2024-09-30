@@ -1,9 +1,37 @@
-// components/CartSidebar.tsx
+// @ts-ignore
+
 import React from "react";
 import { useAppContext } from "@/context";
 
 const CartSidebar = ({ isOpen, onClose }) => {
-  const { cart } = useAppContext(); // Asegúrate de que el carrito esté en tu contexto
+  const { cart, setCart, setNumberOfProductsInCart } = useAppContext();
+
+  // Función para eliminar un producto del carrito
+  const handleRemoveFromCart = (id_producto) => {
+    setCart((prevCart) => {
+      const updatedCart = prevCart.filter(item => item.id_producto !== id_producto);
+      setNumberOfProductsInCart(updatedCart.length); // Actualiza el contador
+      return updatedCart;
+    });
+  };
+
+  // Función para manejar la compra (puedes personalizar esto)
+  const handleBuy = () => {
+    alert("Compra realizada con éxito");
+    setCart([]);
+    setNumberOfProductsInCart(0);
+  };
+
+  // Agrupa los productos por id y suma las cantidades
+  const groupedCart = cart.reduce((acc, item) => {
+    const existingItem = acc.find(i => i.id_producto === item.id_producto);
+    if (existingItem) {
+      existingItem.cantidad += 1; // Incrementa la cantidad si ya existe
+    } else {
+      acc.push({ ...item, cantidad: 1 }); // Agrega un nuevo producto
+    }
+    return acc;
+  }, []);
 
   return (
     <div
@@ -11,18 +39,42 @@ const CartSidebar = ({ isOpen, onClose }) => {
         isOpen ? "translate-x-0" : "translate-x-full"
       } h-full z-50`}
     >
-      <button onClick={onClose} className="p-2 text-gray-500">
-        Cerrar
+      <button onClick={onClose} className="p-2 pl-5 pt-5 text-red-500">
+        X
       </button>
       <h2 className="text-lg font-semibold p-4">Carrito</h2>
       <ul className="p-4">
-        {cart.map((item, index) => (
-          <li key={index} className="text-gray-700 mb-2">
-            {item.nombre_producto} - $
-            {parseFloat(item.precio_producto).toFixed(2)}
-          </li>
-        ))}
+        {groupedCart.length === 0 ? (
+          <li className="text-gray-700">Tu carrito está vacío.</li>
+        ) : (
+          groupedCart.map((item) => (
+            <li key={item.id_producto} className="flex items-center mb-2">
+              <img
+                src={item.imagen[0].url_imagen}
+                alt={item.nombre_producto}
+                className="w-16 h-16 object-cover mr-2"
+              />
+              <div className="flex-grow">
+                <p>{item.nombre_producto}</p>
+                <p>Cantidad: {item.cantidad}</p> {/* Muestra la cantidad */}
+                <p>Precio: ${(parseFloat(item.precio_producto) * item.cantidad).toFixed(2)}</p>
+              </div>
+              <button
+                onClick={() => handleRemoveFromCart(item.id_producto)}
+                className="bg-red-500 text-white p-1 rounded ml-2"
+              >
+                -
+              </button>
+            </li>
+          ))
+        )}
       </ul>
+      <button
+        onClick={handleBuy}
+        className="w-full bg-blue-500 text-white p-2 mt-4 rounded"
+      >
+        Comprar
+      </button>
     </div>
   );
 };

@@ -1,13 +1,15 @@
 import Link from "next/link";
 import Image from "next/image";
 import React, { useState } from "react";
-import { FaBars, FaTimes, FaShoppingCart } from "react-icons/fa";
+import { FaBars, FaTimes, FaShoppingCart, FaUserCircle } from "react-icons/fa";
 import { useAppContext } from "@/context";
-import CartSidebar from "./CartSideBar";
+import CartSidebar from "../components/CartSidebar";
 
 const Navbar = () => {
   const [nav, setNav] = useState(false);
   const [isCartOpen, setCartOpen] = useState(false);
+  const [isUserMenuOpen, setUserMenuOpen] = useState(false);
+
   const {
     username,
     setUsername,
@@ -17,7 +19,6 @@ const Navbar = () => {
     isLoggedIn,
     setIsLoggedIn,
     numberOfProductsInCart,
-    setNumberOfProductsInCart,
   } = useAppContext();
 
   const handleLogout = () => {
@@ -30,41 +31,29 @@ const Navbar = () => {
   };
 
   const links = [
-    {
-      id: 1,
-      text: "home",
-      link: "/",
-    },
-    {
-      id: 2,
-      text: "productos",
-      link: "products",
-    },
-    {
-      id: 3,
-      text: "comunidades",
-      link: "comunities",
-    },
-    {
-      id: 4,
-      text: "ofertas",
-      link: "offers",
-    },
-    {
-      id: 5,
-      text: "acerca de",
-      link: "about",
-    },
+    { id: 1, text: "home", link: "/" },
+    { id: 2, text: "productos", link: "products" },
+    { id: 3, text: "comunidades", link: "comunities" },
+    { id: 4, text: "ofertas", link: "offers" },
+    { id: 5, text: "acerca de", link: "about" },
   ];
 
   const handleCartToggle = () => {
     setCartOpen((prev) => !prev);
   };
 
+  const toggleUserMenu = () => {
+    setUserMenuOpen((prev) => !prev);
+  };
+
+  const closeNav = () => {
+    setNav(false);
+    setUserMenuOpen(false);
+  };
+
   return (
     <div className="flex justify-between items-center w-full h-20 px-4 text-white bg-black fixed nav z-10">
       <div>
-        {/* <h1 className="text-5xl font-signature ml-2"><a className="link-underline hover:transition ease-in-out delay-150 hover:underline hover:decoration-solid" href="">Logo</a></h1> */}
         <h1 className="text-5xl font-signature ml-2">
           <Link href="/" passHref>
             <div className="flex items-center space-x-2">
@@ -92,26 +81,48 @@ const Navbar = () => {
             <Link href={link}>{text}</Link>
           </li>
         ))}
-        <div className="flex text-gray-600">
+        <div className="flex items-center text-gray-600">
           {isLoggedIn ? (
             <>
               {/* Icono del carrito */}
               <button onClick={handleCartToggle} className="relative">
-                <FaShoppingCart className="text-white" size={24} />{" "}
-                {/* Usa el ícono de carrito */}
+                <FaShoppingCart className="text-white" size={24} />
                 {numberOfProductsInCart > 0 && (
                   <span className="absolute top-0 right-0 bg-red-500 text-white rounded-full px-1 text-xs">
                     {numberOfProductsInCart}
                   </span>
                 )}
               </button>
+
+              {/* Botón de usuario */}
+              <button onClick={toggleUserMenu} className="relative ml-4">
+                <FaUserCircle className="text-white rounded-full" size={36} />
+              </button>
+
+              {/* Menú desplegable de usuario */}
+              {(
+                <div
+                  className={`fixed top-16 right-0 mt-2 bg-white text-black rounded shadow-md p-2 transition-transform transform ${
+                    isUserMenuOpen ? "translate-x-0" : "translate-x-full"
+                  }`}
+                >
+                  <span className="block font-bold">{username}</span>
+                  <Link href="/profile">
+                    <p className="block w-full text-left mt-1">Perfil</p>
+                  </Link>
+                  <button
+                    className="block w-full text-left mt-1"
+                    onClick={handleLogout}
+                  >
+                    Cerrar Sesión
+                  </button>
+                </div>
+              )}
               {/* Carrito */}
               <CartSidebar
                 isOpen={isCartOpen}
                 onClose={() => setCartOpen(false)}
               />
-              <span>{username}</span>
-              <button onClick={handleLogout}>Cerrar Sesión</button>
             </>
           ) : (
             <>
@@ -141,15 +152,15 @@ const Navbar = () => {
               key={id}
               className="px-4 cursor-pointer capitalize py-6 text-2xl"
             >
-              <Link onClick={() => setNav(!nav)} href={link}>
+              <Link onClick={closeNav} href={link}>
                 {text}
               </Link>
             </li>
           ))}
-          <div className="flex">
+          <div className="flex flex-col items-center">
             {isLoggedIn ? (
               <>
-                <Link href="/cart" className="relative">
+                <Link href="/cart" className="relative" onClick={closeNav}>
                   <FaShoppingCart size={24} className="text-gray-100" />
                   {numberOfProductsInCart > 0 && (
                     <span className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
@@ -157,14 +168,29 @@ const Navbar = () => {
                     </span>
                   )}
                 </Link>
-                <span>{username}</span>
-                <button onClick={handleLogout}>Cerrar Sesión</button>
+                <span className="mt-2">{username}</span>
+                <Link href="/profile">
+                  <p className="block w-full text-left mt-1">Perfil</p>
+                </Link>
+                <button
+                  className="mt-2"
+                  onClick={() => {
+                    handleLogout();
+                    closeNav();
+                  }}
+                >
+                  Cerrar Sesión
+                </button>
               </>
             ) : (
               <>
-                <Link href={"register"}>Registrarse</Link>
+                <Link href={"register"} onClick={closeNav}>
+                  Registrarse
+                </Link>
                 <p>&nbsp;|&nbsp;</p>
-                <Link href={"login"}>Iniciar Sesión</Link>
+                <Link href={"login"} onClick={closeNav}>
+                  Iniciar Sesión
+                </Link>
               </>
             )}
           </div>

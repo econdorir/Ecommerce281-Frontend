@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect, useContext } from "react";
 import Navbar from "../components/Navbar";
-import Footer from "@/components/Footer";
+import Footer from "../components/Footer";
 import ProductCard from "../components/ProductCard";
 import { useAppContext } from "@/context";
 
@@ -19,7 +19,7 @@ interface Product {
   precio_producto: string;
   descripcion_producto: string;
   stock_producto: string;
-  imagen: Image;
+  imagen: Image[];
 }
 
 const ProductPage: React.FC = () => {
@@ -27,7 +27,7 @@ const ProductPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [activeFilter, setActiveFilter] = useState<string>(""); // Estado para el filtro activo
   const [sortOrder, setSortOrder] = useState<string>("");
-  const { numberOfProductsInCart, setNumberOfProductsInCart, cart, setCart } =
+  const { numberOfProductsInCart, setNumberOfProductsInCart, caxrt, setCart } =
     useAppContext();
 
   useEffect(() => {
@@ -41,9 +41,10 @@ const ProductPage: React.FC = () => {
   }, []);
 
   const handleAddToCart = (product: Product) => {
-    // setCart((prevCart) => [...prevCart, product]);
-    setNumberOfProductsInCart(numberOfProductsInCart + 1);
+    setCart((prevCart: Product[]) => [...prevCart, product]);
+    setNumberOfProductsInCart((prevCount) => prevCount + 1);
   };
+  
 
   const filteredProducts = products.filter((product) => {
     const matchesSearchTerm = product.nombre_producto
@@ -154,11 +155,7 @@ const ProductPage: React.FC = () => {
               stock={product.stock_producto}
               description={product.descripcion_producto}
               onAddToCart={() => handleAddToCart(product)}
-              onViewDetail={() =>
-                console.log(
-                  `View details for product with id ${product.id_producto}`
-                )
-              }
+              id={product.id_producto}
             />
           ))}
         </div>

@@ -1,21 +1,34 @@
-// pages/cart.js
-
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CartItem from "@/components/CartItem";
 import Navbar from "@/components/Navbar";
 import PaymentForm from "@/components/PaymentForm";
 
 const Cart = () => {
   const [showPaymentForm, setShowPaymentForm] = useState(false);
+  const [cartItems, setCartItems] = useState([]); // Inicializa el estado para los productos del carrito
+  const [loading, setLoading] = useState(true); // Estado para la carga
 
-  const cartItems = [
-    { id: 1, name: "Producto 1", price: 20, quantity: 2 },
-    { id: 2, name: "Producto 2", price: 15, quantity: 1 },
-    { id: 3, name: "Producto 3", price: 10, quantity: 3 },
-  ];
+  useEffect(() => {
+    const fetchCartItems = async () => {
+      try {
+        const response = await fetch('/api/carrito'); // Asegúrate de que esta ruta sea correcta
+        if (!response.ok) {
+          throw new Error('Error al cargar los productos del carrito');
+        }
+        const data = await response.json();
+        setCartItems(data); // Establece los productos del carrito
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false); // Cambia el estado de carga
+      }
+    };
+
+    fetchCartItems();
+  }, []); // Se ejecuta solo una vez al montar el componente
 
   const totalPrice = cartItems.reduce(
-    (total, item) => total + item.price * item.quantity,
+    (total, item) => total + item.precio_producto * (item.cantidad || 1),
     0
   );
 
@@ -25,14 +38,16 @@ const Cart = () => {
       <div className="max-w-2xl w-3/4 mx-auto mt-10 p-4 pt-28">
         <h1 className="text-2xl font-bold mb-4">Carrito de Compras</h1>
         <div className="bg-white shadow-md rounded-lg p-4">
-          {cartItems.length === 0 ? (
+          {loading ? (
+            <p className="text-center text-gray-600">Cargando...</p>
+          ) : cartItems.length === 0 ? (
             <p className="text-center text-gray-600">Tu carrito está vacío</p>
           ) : (
-            cartItems.map((item) => <CartItem key={item.id} item={item} />)
+            cartItems.map((item) => <CartItem key={item.id_producto} item={item} />)
           )}
           <div className="mt-4 flex justify-between font-semibold">
             <span>Total:</span>
-            <span>${totalPrice}</span>
+            <span>${totalPrice.toFixed(2)}</span>
           </div>
           <button 
             onClick={() => setShowPaymentForm(true)} 

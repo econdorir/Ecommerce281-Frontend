@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import Link from "next/link";
 
 const ProductCard = ({
   title,
@@ -8,7 +9,7 @@ const ProductCard = ({
   description,
   stock,
   onAddToCart,
-  onViewDetail,
+  id,
 }) => {
   return (
     <div className="tilt-card max-w-72 mx-auto bg-gray-800 rounded-lg p-6 mb-4 h-[400px] flex flex-col sm:mx-1 md:mx-1 lg:mx-auto">
@@ -33,12 +34,11 @@ const ProductCard = ({
         >
           Agregar al carrito
         </button>
-        <button
-          onClick={onViewDetail}
-          className="bg-cyan-500 text-white py-2 px-1 rounded transition-colors duration-300 hover:bg-cyan-600"
-        >
-          Ver detalles
-        </button>
+        <Link href={`/product/${id}`}>
+          <button className="bg-cyan-500 text-white py-2 px-1 rounded transition-colors duration-300 hover:bg-cyan-600">
+            Ver detalles
+          </button>
+        </Link>
       </div>
     </div>
   );

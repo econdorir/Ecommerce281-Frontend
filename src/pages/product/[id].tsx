@@ -29,36 +29,46 @@ const ProductDetail = ({ product }) => {
 
           {/* Mobile slideshow */}
           <ProductMobileSlideShow
-            title={product.title}
-            images={product.image}
+            title={product.nombre_producto}
+            images={product.imagen[0].url_imagen}
             className="block md:hidden"
           />
 
           {/* Desktop slideshow */}
           <ProductSlideShow
-            title={product.title}
-            images={product.image}
+            title={product.nombre_producto}
+            images={product.imagen[0].url_imagen}
             className="hidden md:block max-w-lg mx-auto"
           />
         </div>
 
         <div className="col-span-1 px-5 mx-5">
           <h1 className="antialiased font-bold text-4xl my-2">
-            {product.title}
+            {product.nombre_producto}
           </h1>
-          <p className="text-lg my-3">Bs {product.price}</p>
+          <p className="text-lg my-3">Bs {product.precio_producto}</p>
           <QuantitySelector quantity={2}></QuantitySelector>
           <button className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-blue-600 transition duration-200 ease-in-out my-5">
             Agregar al carrito
           </button>
-
-          <h3 className="font-bold text-xl">Categoria</h3>
-          <p className="font-light text-xl">{product.category}</p>
-
           <h3 className="font-bold text-xl">Descripcion</h3>
-          <p className="font-light">{product.description}</p>
+          <p className="font-light">{product.descripcion_producto}</p>
+          <h3 className="font-bold text-xl">Stock</h3>
+          <p className="font-light text-xl">{product.stock_producto}</p>
+          <h3 className="font-bold text-xl">Categoria</h3>
+          <p className="font-light text-xl">{product.categoria_producto}</p>
 
-          <h3 className="font-bold text-xl">Rating</h3>
+          <div className="flex items-center my-2">
+          <span className="mx-1 my-1 font-light"><h3 className="font-bold text-xl">Peso</h3>
+          <p className="font-light text-xl">{product.peso_producto}</p>
+          <h3 className="font-bold text-xl">Largo</h3>
+          <p className="font-light text-xl">{product.largo_producto}</p></span>
+          <span className="mx-1 my-1 font-light"><h3 className="font-bold text-xl">Ancho</h3>
+          <p className="font-light text-xl">{product.ancho_producto}</p>
+          <h3 className="font-bold text-xl">Alto</h3>
+          <p className="font-light text-xl">{product.alto_producto}</p></span>
+          </div>
+          {/*<h3 className="font-bold text-xl">Rating</h3>
           <div className="flex items-center my-2">
             {Array.from({ length: 5 }, (_, index) => {
               if (index < product.rating.rate) {
@@ -71,7 +81,7 @@ const ProductDetail = ({ product }) => {
             <span className="ml-2 font-light">
               ({product.rating.count} votos)
             </span>
-          </div>
+          </div>*/}
         </div>
       </div>
     </>
@@ -80,7 +90,7 @@ const ProductDetail = ({ product }) => {
 
 export const getServerSideProps = async (context) => {
   const { id } = context.params;
-  const response = await fetch(`https://fakestoreapi.com/products/${id}`);
+  const response = await fetch(`http://localhost:5000/api/v1/producto/${id}`);
   const product = await response.json();
 
   return {

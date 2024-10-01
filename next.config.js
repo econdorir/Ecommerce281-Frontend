@@ -1,6 +1,6 @@
 const nextConfig = {
   images: {
-    domains: ["fakestoreapi.com"],
+    domains: ["artecampo.com.bo"], 
   },
 };
 module.exports = nextConfig;

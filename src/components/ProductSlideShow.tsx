@@ -12,6 +12,7 @@ import "swiper/css/thumbs";
 
 import "../../src/styles/slideshow.css";
 
+
 interface Props {
   images: string;
   title: string;
@@ -106,6 +107,7 @@ export const ProductSlideShow = ({ images, title, className }: Props) => {
             className="rounded-lg  object-fill"
           />
         </SwiperSlide>
+        
       </Swiper>
     </div>
   );

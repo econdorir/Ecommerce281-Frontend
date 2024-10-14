@@ -56,7 +56,7 @@ export default function ProductForm() {
           value={formData.description}
           onChange={handleChange}
           className="w-full mt-1 p-2 border border-gray-300 rounded-md"
-          rows="4"
+          rows={4}
           required
         ></textarea>
       </div>

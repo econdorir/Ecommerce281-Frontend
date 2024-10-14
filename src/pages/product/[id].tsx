@@ -8,7 +8,7 @@ import { FaStar, FaStarHalfAlt } from "react-icons/fa";
 import Review from "@/components/Review";
 import Navbar from "@/components/Navbar";
 
-const ProductDetail = ({ product }) => {
+const ProductDetail = ({ product, resenia, clientes }) => {
   const router = useRouter();
   const [reseniasData, setReseniasData] = useState([]);
 
@@ -71,7 +71,9 @@ const ProductDetail = ({ product }) => {
             Agregar al carrito
           </button>
           <h3 className="font-bold text-xl">Descripcion</h3>
-          <p className="font-light">{product.descripcion_producto}</p>
+          <p className="font-light text-justify">
+            {product.descripcion_producto}
+          </p>
           <h3 className="font-bold text-xl">Stock</h3>
           <p className="font-light text-xl">{product.stock_producto}</p>
           <h3 className="font-bold text-xl">Categoria</h3>
@@ -91,6 +93,7 @@ const ProductDetail = ({ product }) => {
               <p className="font-light text-xl">{product.alto_producto}</p>
             </span>
           </div>
+
           {/*<h3 className="font-bold text-xl">Rating</h3>
           <div className="flex items-center my-2">
             {Array.from({ length: 5 }, (_, index) => {
@@ -107,21 +110,63 @@ const ProductDetail = ({ product }) => {
           </div>*/}
         </div>
       </div>
+      <h3 className="font-bold text-4xl text-center my-5">Reseñas</h3>
+      <div className="mb-20 grid grid-cols-1 md:grid-cols-3 gap-3 mx-5 px-36">
+        {
+          // Filtrar reseñas por producto
+          resenia.filter((item) => item.id_producto === product.id_producto)
+            .length > 0 ? (
+            resenia
+              .filter((item) => item.id_producto === product.id_producto)
+              .map((item) => {
+                const cliente = clientes
+                  .map((c) => ({
+                    id_usuario: c.id_usuario,
+                    nombre_usuario: c.nombre_usuario,
+                    nro_compras: c.nro_compras,
+                  }))
+                  .find((c) => c.id_usuario === item.id_usuario);
 
-      <div className="px-32">
-        {reseniasData.map((resenia: any, i) => {
-          console.log(resenia);
-
-          return (
-            <Review
-              key={i}
-              id_resenia={resenia.id_resenia}
-              id_usuario={resenia.id_usuario}
-              descripcion_resenia={resenia.descripcion_resenia}
-              fecha_resenia={resenia.fecha_resenia}
-            />
-          );
-        })}
+                return (
+                  <div
+                    key={item.id_resenia}
+                    className="mb-6 p-6 border border-gray-300 rounded-lg shadow-lg bg-gradient-to-br from-white to-gray-100 hover:shadow-2xl transition-shadow duration-300"
+                  >
+                    <p className="font-light text-justify text-gray-800">
+                      <span className="font-semibold text-xl">
+                        {item.fecha_resenia}
+                      </span>
+                      <br />
+                      <span className="text-gray-700">
+                        {item.descripcion_resenia}
+                      </span>
+                    </p>
+                    <div className="mt-4 border-t border-gray-300 pt-3">
+                      {cliente ? (
+                        <p className="font-light text-gray-600">
+                          <span className="font-semibold text-gray-800">
+                            {cliente.nombre_usuario}
+                          </span>
+                          <br />
+                          <span className="text-sm italic">
+                            {cliente.nro_compras} compras
+                          </span>
+                        </p>
+                      ) : (
+                        <p className="font-light text-gray-600 italic">
+                          Cliente desconocido
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                );
+              })
+          ) : (
+            <p className=" col-span-3 font-light text-center text-gray-500 text-lg">
+              No hay reseñas disponibles para este producto.
+            </p>
+          )
+        }
       </div>
     </>
   );
@@ -129,11 +174,19 @@ const ProductDetail = ({ product }) => {
 
 export const getServerSideProps = async (context) => {
   const { id } = context.params;
-  const response = await fetch(`http://localhost:5000/api/v1/producto/${id}`);
-  const product = await response.json();
+  const productResponse = await fetch(
+    `http://localhost:5000/api/v1/producto/${id}`
+  );
+  const product = await productResponse.json();
+
+  const reseniaResponse = await fetch(`http://localhost:5000/api/v1/resenia`);
+  const resenia = await reseniaResponse.json();
+
+  const clienteResponse = await fetch(`http://localhost:5000/api/v1/cliente`);
+  const clientes = await clienteResponse.json();
 
   return {
-    props: { product },
+    props: { product, resenia, clientes },
   };
 };
 

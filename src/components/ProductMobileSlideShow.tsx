@@ -21,8 +21,7 @@ export const ProductMobileSlideShow = ({ images, title, className }: Props) => {
     <div className={className}>
       <Swiper
         style={{
-          width: '100vw',
-          height: '100vh'
+          
         }}
         pagination
         autoplay={{
@@ -33,8 +32,8 @@ export const ProductMobileSlideShow = ({ images, title, className }: Props) => {
       >
         <SwiperSlide>
           <Image
-            width={600}
-            height={500}
+            width={1024}
+            height={800}
             src={images}
             alt={title}
             className="  object-fill"
@@ -42,8 +41,8 @@ export const ProductMobileSlideShow = ({ images, title, className }: Props) => {
         </SwiperSlide>
         <SwiperSlide>
           <Image
-            width={600}
-            height={500}
+            width={1024}
+            height={800}
             src={images}
             alt={title}
             className="  object-fill"
@@ -51,8 +50,8 @@ export const ProductMobileSlideShow = ({ images, title, className }: Props) => {
         </SwiperSlide>
         <SwiperSlide>
           <Image
-            width={600}
-            height={500}
+            width={1024}
+            height={800}
             src={images}
             alt={title}
             className="  object-fill"

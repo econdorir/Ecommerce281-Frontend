@@ -1,21 +1,23 @@
-// app/page.tsx
 "use client";
 
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import Navbar from "../components/Navbar";
-import Footer from "@/components/Footer";
+import Footer from "@/components/footer";
 import HeroSection from "../components/Hero";
 import ProductCarousel from "@/components/ProductCarousel";
 import FAQSection from "@/components/FAQSection";
+import AddProduct from '../pages/addProduct'; 
+import ProductForm from '../components/ProductForm'; // Corregido el nombre del componente
 
 const HomePage: FC = () => {
   return (
     <>
-      <Navbar/>
+      <Navbar />
       <main className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
         <HeroSection />
         <ProductCarousel />
-        <FAQSection/>
+        <ProductForm /> 
+        <FAQSection />
       </main>
       <Footer />
     </>

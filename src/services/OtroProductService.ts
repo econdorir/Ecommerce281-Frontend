@@ -1,37 +1,26 @@
-const API_URL = "http://localhost:9090/api/products"; 
+import axios from 'axios';
+const API_URL = "http://localhost:5000/api/products";
 
-// Función para crear un producto
-export const createProduct = async (productData) => {
+export const createProduct = async (formData: FormData) => {
     try {
-        const response = await fetch(API_URL, {
-            method: "POST",
+        const response = await axios.post('http://localhost:5000/api/products', formData, {
             headers: {
-                "Content-Type": "application/json",
+                'Content-Type': 'multipart/form-data', // Opcional: axios maneja esto automáticamente
             },
-            body: JSON.stringify(productData),
         });
 
-        if (!response.ok) {
-            throw new Error("Error al crear el producto");
-        }
-
-        const data = await response.json();
-        return data; // Puedes devolver la respuesta si es necesario
+        return response.data;
     } catch (error) {
-        console.error("Error en createProduct:", error);
-        throw error; // Lanza el error para manejarlo en el componente
+        console.error('Error en createProduct:', error);
+        throw error;
     }
 };
-
 // Función para actualizar un producto
-export const updateProduct = async (productId, productData) => {
+export const updateProduct = async (productId: string, formData: FormData) => {
     try {
-        const response = await fetch(`${"http://localhost:9090/api/products"}/${productId}`, {
+        const response = await fetch(`${'http://localhost:5000/api/products'}/${productId}`, {
             method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(productData),
+            body: formData, // Usar formData directamente sin cabecera de Content-Type
         });
 
         if (!response.ok) {

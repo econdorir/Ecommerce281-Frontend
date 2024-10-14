@@ -1,14 +1,33 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { QuantitySelector } from "@/components/QuantitySelector";
 import { ProductSlideShow } from "@/components/ProductSlideShow";
 import { FaTimes } from "react-icons/fa";
 import { ProductMobileSlideShow } from "@/components/ProductMobileSlideShow";
 import { FaStar, FaStarHalfAlt } from "react-icons/fa";
+import Review from "@/components/Review";
 import Navbar from "@/components/Navbar";
 
 const ProductDetail = ({ product }) => {
   const router = useRouter();
+  const [reseniasData, setReseniasData] = useState([]);
+
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/api/v1/resenia");
+        if (!response.ok) {
+          throw new Error("Error al cargar las resenias");
+        }
+        const data = await response.json();
+        setReseniasData(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchReviews();
+  }, []);
 
   const handleClose = () => {
     router.push("/products");
@@ -59,14 +78,18 @@ const ProductDetail = ({ product }) => {
           <p className="font-light text-xl">{product.categoria_producto}</p>
 
           <div className="flex items-center my-2">
-          <span className="mx-1 my-1 font-light"><h3 className="font-bold text-xl">Peso</h3>
-          <p className="font-light text-xl">{product.peso_producto}</p>
-          <h3 className="font-bold text-xl">Largo</h3>
-          <p className="font-light text-xl">{product.largo_producto}</p></span>
-          <span className="mx-1 my-1 font-light"><h3 className="font-bold text-xl">Ancho</h3>
-          <p className="font-light text-xl">{product.ancho_producto}</p>
-          <h3 className="font-bold text-xl">Alto</h3>
-          <p className="font-light text-xl">{product.alto_producto}</p></span>
+            <span className="mx-1 my-1 font-light">
+              <h3 className="font-bold text-xl">Peso</h3>
+              <p className="font-light text-xl">{product.peso_producto}</p>
+              <h3 className="font-bold text-xl">Largo</h3>
+              <p className="font-light text-xl">{product.largo_producto}</p>
+            </span>
+            <span className="mx-1 my-1 font-light">
+              <h3 className="font-bold text-xl">Ancho</h3>
+              <p className="font-light text-xl">{product.ancho_producto}</p>
+              <h3 className="font-bold text-xl">Alto</h3>
+              <p className="font-light text-xl">{product.alto_producto}</p>
+            </span>
           </div>
           {/*<h3 className="font-bold text-xl">Rating</h3>
           <div className="flex items-center my-2">
@@ -83,6 +106,22 @@ const ProductDetail = ({ product }) => {
             </span>
           </div>*/}
         </div>
+      </div>
+
+      <div className="px-32">
+        {reseniasData.map((resenia: any, i) => {
+          console.log(resenia);
+
+          return (
+            <Review
+              key={i}
+              id_resenia={resenia.id_resenia}
+              id_usuario={resenia.id_usuario}
+              descripcion_resenia={resenia.descripcion_resenia}
+              fecha_resenia={resenia.fecha_resenia}
+            />
+          );
+        })}
       </div>
     </>
   );

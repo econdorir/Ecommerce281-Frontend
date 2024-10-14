@@ -4,6 +4,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import ProductCard from "../components/ProductCard";
 import { useAppContext } from "@/context";
+import Chatbot from "@/components/Chatbot";
 
 interface Image {
   id_imagen: number;
@@ -27,7 +28,7 @@ const ProductPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [activeFilter, setActiveFilter] = useState<string>(""); // Estado para el filtro activo
   const [sortOrder, setSortOrder] = useState<string>("");
-  const { numberOfProductsInCart, setNumberOfProductsInCart, caxrt, setCart } =
+  const { numberOfProductsInCart, setNumberOfProductsInCart, cart, setCart } =
     useAppContext();
 
   useEffect(() => {
@@ -40,11 +41,31 @@ const ProductPage: React.FC = () => {
     fetchProducts();
   }, []);
 
-  const handleAddToCart = (product: Product) => {
+  const handleAddToCart = async (product: Product) => {
+    // Añadir el producto al estado local
     setCart((prevCart: Product[]) => [...prevCart, product]);
     setNumberOfProductsInCart((prevCount) => prevCount + 1);
+
+    // Realizar la llamada a la API para añadir el producto al carrito
+    try {
+      const response = await fetch("http://localhost:5000/api/v1/carrito", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(product),
+      });
+
+      if (!response.ok) {
+        throw new Error("Error al añadir el producto al carrito");
+      }
+
+      const data = await response.json();
+      console.log(data.message);
+    } catch (error) {
+      console.error("Error al añadir al carrito:", error);
+    }
   };
-  
 
   const filteredProducts = products.filter((product) => {
     const matchesSearchTerm = product.nombre_producto
@@ -160,6 +181,7 @@ const ProductPage: React.FC = () => {
           ))}
         </div>
       </div>
+      <Chatbot/>
       <Footer />
     </>
   );

@@ -2,9 +2,12 @@
 
 import React from "react";
 import { useAppContext } from "@/context";
+import { useRouter } from "next/router";
+
 
 const CartSidebar = ({ isOpen, onClose }) => {
   const { cart, setCart, setNumberOfProductsInCart } = useAppContext();
+  // const router = useRouter();
 
   // Función para eliminar un producto del carrito
   const handleRemoveFromCart = (id_producto) => {
@@ -17,14 +20,14 @@ const CartSidebar = ({ isOpen, onClose }) => {
 
   // Función para manejar la compra (puedes personalizar esto)
   const handleBuy = () => {
-    alert("Compra realizada con éxito");
     setCart([]);
     setNumberOfProductsInCart(0);
+    // router.push("/cart"); TODO FIX THIS THING
   };
 
   // Agrupa los productos por id y suma las cantidades
-  const groupedCart = cart.reduce((acc, item) => {
-    const existingItem = acc.find(i => i.id_producto === item.id_producto);
+  const groupedCart = cart.reduce((acc: any, item : any) => {
+    const existingItem : any = acc.find((i : any) => i.id_producto === item.id_producto);
     if (existingItem) {
       existingItem.cantidad += 1; // Incrementa la cantidad si ya existe
     } else {

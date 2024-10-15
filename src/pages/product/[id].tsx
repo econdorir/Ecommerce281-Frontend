@@ -10,7 +10,6 @@ import Navbar from "@/components/Navbar";
 import { useAppContext } from "@/context";
 import { AddToCartService } from "../../services/AddToCartService";
 
-
 interface Image {
   id_imagen: number;
   url_imagen: string;
@@ -27,10 +26,9 @@ interface Product {
   imagen: Image[];
 }
 
-
 const ProductDetail = ({ product, resenia, clientes }) => {
   const router = useRouter();
-  const [ reseniasData, setReseniasData ] = useState([]);
+  const [reseniasData, setReseniasData] = useState([]);
   const { numberOfProductsInCart, setNumberOfProductsInCart, cart, setCart } =
     useAppContext();
 
@@ -56,9 +54,14 @@ const ProductDetail = ({ product, resenia, clientes }) => {
     setCart((prevCart: Product[]) => [...prevCart, product]);
     setNumberOfProductsInCart((prevCount) => prevCount + 1);
 
-    const userId = localStorage.getItem("");
+    const storedUserData: any = localStorage.getItem("userData");
+    const userData = JSON.parse(storedUserData);
     try {
-      const result = await AddToCartService(cart);
+      const result = await AddToCartService(
+        product.id_producto,
+        userData.id_carrito,
+        1
+      );
     } catch (error) {
       console.error("Error during login:", error);
     }
@@ -103,7 +106,10 @@ const ProductDetail = ({ product, resenia, clientes }) => {
           </h1>
           <p className="text-lg my-3">Bs {product.precio_producto}</p>
           <QuantitySelector quantity={2}></QuantitySelector>
-          <button onClick={() => handleAddToCart(product)} className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-blue-600 transition duration-200 ease-in-out my-5">
+          <button
+            onClick={() => handleAddToCart(product)}
+            className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-blue-600 transition duration-200 ease-in-out my-5"
+          >
             Agregar al carrito
           </button>
           <h3 className="font-bold text-xl">Descripcion</h3>

@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { useAppContext } from "@/context";
 import { useRouter } from "next/router";
-import RemoveProductFromCartService from "../services/RemoveProductFromCartService";
+import { RemoveProductFromCartService } from "../services/RemoveProductFromCartService";
 
 const CartSidebar = ({ isOpen, onClose }) => {
   const { cart, setCart, setNumberOfProductsInCart } = useAppContext();

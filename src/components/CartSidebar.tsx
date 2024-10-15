@@ -2,7 +2,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useAppContext } from "@/context";
-import { useRouter } from "next/router";
+import { useRouter } from 'next/navigation';
 import { RemoveProductFromCartService } from "../services/RemoveProductFromCartService";
 
 const CartSidebar = ({ isOpen, onClose }) => {

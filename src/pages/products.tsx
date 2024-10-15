@@ -54,8 +54,6 @@ const ProductPage: React.FC = () => {
     } catch (error) {
       console.error("Error during login:", error);
     }
-    // Realizar la llamada a la API para añadir el producto al carrito
-    
   };
 
   const filteredProducts = products.filter((product) => {

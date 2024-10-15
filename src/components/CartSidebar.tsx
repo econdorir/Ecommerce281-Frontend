@@ -30,7 +30,10 @@ const CartSidebar = ({ isOpen, onClose }) => {
     };
 
     fetchProducts();
+  console.log(cart);
+
   }, []);
+  console.log(cart);
 
   // Función para eliminar un producto del carrito
   const handleRemoveFromCart = async (id_producto) => {
@@ -60,19 +63,25 @@ const CartSidebar = ({ isOpen, onClose }) => {
     router.push("/cart");
   };
 
+
+  
   // Agrupa los productos por id y suma las cantidades
-  const groupedCart = cart.reduce((acc: any, item: any) => {
+  const groupedCart = cart.reduce((acc:any, item:any) => {
+    const existingItem = acc.find(i => i.id_producto === item.id_producto);
     
-    const existingItem: any = acc.find(
-      (i: any) => i.id_producto === item.id_producto
-    );
     if (existingItem) {
-      existingItem.cantidad += 1; // Incrementa la cantidad si ya existe
+      // Si el producto ya existe, incrementa la cantidad
+      existingItem.cantidad += 1; // Asegúrate de que `item` tiene la propiedad `cantidad`
+
+      
     } else {
-      acc.push({ ...item, cantidad: 1 }); // Agrega un nuevo producto
+      // Si es un nuevo producto, lo agrega al acumulador
+      acc.push({ ...item, cantidad: item.cantidad }); // Usar `item.cantidad` directamente
     }
+    
     return acc;
   }, []);
+  
   
 
   return (
@@ -87,11 +96,11 @@ const CartSidebar = ({ isOpen, onClose }) => {
       <h2 className="text-lg font-semibold p-4">Carrito</h2>
       <div className="h-4/6 overflow-y-scroll">
         <ul className="p-4">
-          {cart.length === 0 ? (
+          {groupedCart.length === 0 ? (
             <li className="text-gray-700">Tu carrito está vacío.</li>
           ) : (
-            cart.map((item) => (
-              <li key={item.id_producto} className="flex items-center mb-2">
+            groupedCart.map((item, index) => (
+              <li key={index} className="flex items-center mb-2">
                 <img
                   src={item.imagen[0].url_imagen}
                   alt={item.nombre_producto}

@@ -38,7 +38,7 @@ const CartSidebar = ({ isOpen, onClose }) => {
   // Función para eliminar un producto del carrito
   // Función para eliminar un producto del carrito
 const handleRemoveFromCart = async (id_producto) => {
-  const storedUserData = localStorage.getItem("userData");
+  const storedUserData:any = localStorage.getItem("userData");
   const userData = JSON.parse(storedUserData);
 
   try {

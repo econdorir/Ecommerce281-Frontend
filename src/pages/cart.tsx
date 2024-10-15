@@ -28,12 +28,16 @@ const Cart = () => {
       setCart(productsList);
       setLoading(false);
     };
-    
+
     fetchProducts();
   }, []);
-  
-  const totalPrice = cart.length
-  
+
+  console.log(cart);
+
+  const totalPrice = cart.reduce((acumulador, producto) => {
+    return acumulador + parseFloat(producto.precio_producto) * producto.cantidad;
+  }, 0);
+
   return (
     <>
       <Navbar />
@@ -45,9 +49,7 @@ const Cart = () => {
           ) : cart.length === 0 ? (
             <p className="text-center text-gray-600">Tu carrito está vacío</p>
           ) : (
-            cart.map((item, index) => (
-              <CartItem key={index} item={item} />
-            ))
+            cart.map((item, index) => <CartItem key={index} item={item} />)
           )}
           <div className="mt-4 flex justify-between font-semibold">
             <span>Total:</span>

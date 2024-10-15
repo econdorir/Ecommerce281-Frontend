@@ -8,6 +8,8 @@ import { useRouter } from "next/router";
 const CartSidebar = ({ isOpen, onClose }) => {
   const { cart, setCart, setNumberOfProductsInCart } = useAppContext();
   const router = useRouter();
+  
+
   useEffect(() => {
     const fetchProducts = async () => {
       const storedUserData:any = localStorage.getItem("userData");
@@ -41,8 +43,6 @@ const CartSidebar = ({ isOpen, onClose }) => {
 
   // Función para manejar la compra (puedes personalizar esto)
   const handleBuy = () => {
-    setCart([]);
-    setNumberOfProductsInCart(0);
     router.push("/cart");
   };
 

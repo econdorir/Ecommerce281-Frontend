@@ -7,10 +7,32 @@ import { ProductMobileSlideShow } from "@/components/ProductMobileSlideShow";
 import { FaStar, FaStarHalfAlt } from "react-icons/fa";
 import Review from "@/components/Review";
 import Navbar from "@/components/Navbar";
+import { useAppContext } from "@/context";
+import { AddToCartService } from "../../services/AddToCartService";
+
+
+interface Image {
+  id_imagen: number;
+  url_imagen: string;
+  id_producto: number;
+}
+interface Product {
+  id_producto: number;
+  id_artesano: number;
+  id_promocion: number;
+  nombre_producto: string;
+  precio_producto: string;
+  descripcion_producto: string;
+  stock_producto: string;
+  imagen: Image[];
+}
+
 
 const ProductDetail = ({ product, resenia, clientes }) => {
   const router = useRouter();
-  const [reseniasData, setReseniasData] = useState([]);
+  const [ reseniasData, setReseniasData ] = useState([]);
+  const { numberOfProductsInCart, setNumberOfProductsInCart, cart, setCart } =
+    useAppContext();
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -28,6 +50,20 @@ const ProductDetail = ({ product, resenia, clientes }) => {
 
     fetchReviews();
   }, []);
+
+  const handleAddToCart = async (product: Product) => {
+    // Añadir el producto al estado local
+    setCart((prevCart: Product[]) => [...prevCart, product]);
+    setNumberOfProductsInCart((prevCount) => prevCount + 1);
+
+    const userId = localStorage.getItem("");
+    try {
+      const result = await AddToCartService(cart);
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
+    // Realizar la llamada a la API para añadir el producto al carrito
+  };
 
   const handleClose = () => {
     router.push("/products");
@@ -67,7 +103,7 @@ const ProductDetail = ({ product, resenia, clientes }) => {
           </h1>
           <p className="text-lg my-3">Bs {product.precio_producto}</p>
           <QuantitySelector quantity={2}></QuantitySelector>
-          <button className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-blue-600 transition duration-200 ease-in-out my-5">
+          <button onClick={() => handleAddToCart(product)} className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-blue-600 transition duration-200 ease-in-out my-5">
             Agregar al carrito
           </button>
           <h3 className="font-bold text-xl">Descripcion</h3>

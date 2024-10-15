@@ -1,4 +1,4 @@
-const API_URL = "https://tu-api.com/pedidos";
+import { API_URL } from '../libs/constants';
 
 export const createOrder = async (orderData) => {
   try {

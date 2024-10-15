@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { GoogleGenerativeAI, SchemaType } from "@google/generative-ai"; // Import the necessary modules
 
-const genAI = new GoogleGenerativeAI("AIzaSyDFbyuvbBT0SU8Vy4o2MvYFp0Z9HGJHw1U");
+const genAI = new GoogleGenerativeAI("");
 
 const schema = {
   description: "List of messages",

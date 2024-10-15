@@ -70,3 +70,38 @@ select {
 main {
   padding: 1em;
 }
+
+
+
+/* globals.css */
+
+/* Estilos para el scrollbar */
+::-webkit-scrollbar {
+  width: 12px; /* Ancho del scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: linear-gradient(180deg, #f0f0f0, #d9d9d9); /* Fondo del track con gradiente */
+  border-radius: 10px; /* Esquinas redondeadas del track */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #4f46e5; /* Color del thumb */
+  border-radius: 10px; /* Esquinas redondeadas del thumb */
+}
+
+/* Para mejorar la apariencia del thumb al pasar el mouse */
+::-webkit-scrollbar-thumb:hover {
+  background: #3b36c9; /* Color más oscuro al hover */
+}
+
+/* Opciones para Firefox */
+.scrollbar {
+  scrollbar-width: thin; /* Estilo del scrollbar */
+  scrollbar-color: #4f46e5 #f0f0f0; /* Color del thumb y del track */
+}
+
+/* Aplicar los estilos a toda la app */
+html {
+  scrollbar-width: thin; /* Para Firefox */
+}

@@ -1,23 +1,25 @@
+import { API_URL } from '../libs/constants';
 const axios = require("axios");
 
 export const LoginService = async (email, password, role) => {
   try {
     const response = await axios.post(
-      `http://localhost:5000/api/v1/auth/login`,
+      `${API_URL}/auth/login`,
       {
         email_usuario: email,
         password_usuario: password,
         tipo_usuario: role,
       }
     );
-
+    
     // Almacenar información del usuario en localStorage
     const userData = {
-      id_usuario: response.data.id_usuario,
-      nombre_usuario: response.data.user.nombre_usuario,
-      password_usuario: response.data.user.password_usuario,
-      email_usuario: response.data.user.email_usuario,
-      tipo_usuario: response.data.user.tipo_usuario,
+      id_usuario: response.data.token.user.id_usuario,
+      nombre_usuario: response.data.token.user.nombre_usuario,
+      password_usuario: response.data.token.user.password_usuario,
+      email_usuario: response.data.token.user.email_usuario,
+      tipo_usuario: response.data.token.user.id_usuario,
+      id_carrito: response.data.carrito.id_carrito
     };
 
     localStorage.setItem("userData", JSON.stringify(userData));

@@ -29,12 +29,15 @@ interface AppContextType {
   setNumberOfProductsInCart: React.Dispatch<React.SetStateAction<number>>; 
   cart: Product[];
   setCart: React.Dispatch<React.SetStateAction<Product[]>>; 
+  idCarrito: string;
+  setIdCarrito: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [idUser, setIdUser] = useState<string>('');
+  const [idCarrito, setIdCarrito] = useState<string>('');
   const [username, setUsername] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [role, setRole] = useState<string>('');
@@ -75,7 +78,9 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         idUser,
         setIdUser,
         cart,
-        setCart
+        setCart,
+        idCarrito,
+        setIdCarrito
       }}
     >
       {children}

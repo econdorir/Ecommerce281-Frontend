@@ -1,13 +1,34 @@
 // @ts-ignore
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useAppContext } from "@/context";
 import { useRouter } from "next/router";
 
 
 const CartSidebar = ({ isOpen, onClose }) => {
   const { cart, setCart, setNumberOfProductsInCart } = useAppContext();
-  // const router = useRouter();
+  const router = useRouter();
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const storedUserData:any = localStorage.getItem("userData");
+      const userData = JSON.parse(storedUserData);
+
+      //TODO hacer get del carrito del cliente con data de localstorage
+      const response = await fetch(`http://localhost:5000/api/v1/carrito/cliente/${userData.id_usuario}`);
+      const data = await response.json();
+      const productsList= data.producto.map(item => {
+        return {
+          ...item.producto,
+          cantidad: item.cantidad
+        };
+      });
+      setNumberOfProductsInCart(productsList.length)
+      console.log(productsList);
+      setCart(productsList);
+    };
+
+    fetchProducts();
+  }, []);
 
   // Función para eliminar un producto del carrito
   const handleRemoveFromCart = (id_producto) => {
@@ -22,7 +43,7 @@ const CartSidebar = ({ isOpen, onClose }) => {
   const handleBuy = () => {
     setCart([]);
     setNumberOfProductsInCart(0);
-    // router.push("/cart"); TODO FIX THIS THING
+    router.push("/cart");
   };
 
   // Agrupa los productos por id y suma las cantidades
@@ -46,6 +67,9 @@ const CartSidebar = ({ isOpen, onClose }) => {
         X
       </button>
       <h2 className="text-lg font-semibold p-4">Carrito</h2>
+      <div className="h-4/6 overflow-y-scroll">
+
+
       <ul className="p-4">
         {groupedCart.length === 0 ? (
           <li className="text-gray-700">Tu carrito está vacío.</li>
@@ -75,9 +99,10 @@ const CartSidebar = ({ isOpen, onClose }) => {
       <button
         onClick={handleBuy}
         className="w-full bg-blue-500 text-white p-2 mt-4 rounded"
-      >
+        >
         Comprar
       </button>
+        </div>
     </div>
   );
 };

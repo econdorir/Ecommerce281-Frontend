@@ -1,3 +1,4 @@
+import { API_URL } from '../libs/constants';
 const axios = require("axios");
 
 export const RegisterService = async (
@@ -8,7 +9,7 @@ export const RegisterService = async (
   currentDate
 ) => {
   try {
-    const response = await axios.post(`http://localhost:5000/api/v1/${role}`, {
+    const response = await axios.post(`${API_URL}/${role}`, {
       nombre_usuario: username,
       email_usuario: email,
       password_usuario: password,

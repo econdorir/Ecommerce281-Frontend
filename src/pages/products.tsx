@@ -5,6 +5,7 @@ import Footer from "../components/Footer";
 import ProductCard from "../components/ProductCard";
 import { useAppContext } from "@/context";
 import Chatbot from "@/components/Chatbot";
+import { AddToCartService } from "../services/AddToCartService";
 
 interface Image {
   id_imagen: number;
@@ -45,26 +46,16 @@ const ProductPage: React.FC = () => {
     // Añadir el producto al estado local
     setCart((prevCart: Product[]) => [...prevCart, product]);
     setNumberOfProductsInCart((prevCount) => prevCount + 1);
-
-    // Realizar la llamada a la API para añadir el producto al carrito
+    
+    const storedUserData:any = localStorage.getItem("userData");
+      const userData = JSON.parse(storedUserData);
     try {
-      const response = await fetch("http://localhost:5000/api/v1/carrito", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(product),
-      });
-
-      if (!response.ok) {
-        throw new Error("Error al añadir el producto al carrito");
-      }
-
-      const data = await response.json();
-      console.log(data.message);
+      const result = await AddToCartService(product.id_producto, userData.id_carrito, 1);
     } catch (error) {
-      console.error("Error al añadir al carrito:", error);
+      console.error("Error during login:", error);
     }
+    // Realizar la llamada a la API para añadir el producto al carrito
+    
   };
 
   const filteredProducts = products.filter((product) => {

@@ -1,5 +1,5 @@
 import axios from 'axios';
-const API_URL = "http://localhost:5000/api/products";
+import { API_URL } from '../libs/constants';
 
 export const createProduct = async (formData: FormData) => {
     try {

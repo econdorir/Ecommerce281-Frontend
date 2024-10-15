@@ -1,13 +1,8 @@
 // services/ChangePasswordService.js
 import axios from "axios";
-
-const API_URL = "http://localhost:5000/api/v1"; // Reemplaza con la URL de tu API
+import { API_URL } from '../libs/constants';
 
 export const ChangePasswordService = async (recovery_token, email, newPassword, role) => {
-  console.log(recovery_token);
-  console.log(email);
-  console.log(newPassword);
-  console.log(role);
   
   try {
     const response = await axios.post(`${API_URL}/auth/change-password`, {

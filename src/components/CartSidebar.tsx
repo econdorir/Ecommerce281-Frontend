@@ -36,19 +36,28 @@ const CartSidebar = ({ isOpen, onClose }) => {
   console.log(cart);
 
   // Función para eliminar un producto del carrito
-  const handleRemoveFromCart = async (id_producto) => {
-    const storedUserData: any = localStorage.getItem("userData");
-    const userData = JSON.parse(storedUserData);
+  // Función para eliminar un producto del carrito
+const handleRemoveFromCart = async (id_producto) => {
+  const storedUserData = localStorage.getItem("userData");
+  const userData = JSON.parse(storedUserData);
 
-    // try {
-    //   const result = await RemoveProductFromCartService(
-    //     userData.id_carrito,
-    //     id_producto
-    //   );
-    // } catch (error) {
-    //   console.error("Error during login:", error);
-    // }
+  try {
+    const response = await fetch(
+      `http://localhost:5000/api/v1/carrito/producto/${userData.id_carrito}/${id_producto}`,
+      {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          // Agrega más encabezados si es necesario, como tokens de autorización
+        },
+      }
+    );
 
+    if (!response.ok) {
+      throw new Error('Error al eliminar el producto');
+    }
+
+    // Actualiza el carrito en el contexto después de eliminar el producto
     setCart((prevCart) => {
       const updatedCart = prevCart.filter(
         (item) => item.id_producto !== id_producto
@@ -56,7 +65,10 @@ const CartSidebar = ({ isOpen, onClose }) => {
       setNumberOfProductsInCart(updatedCart.length); // Actualiza el contador
       return updatedCart;
     });
-  };
+  } catch (error) {
+    console.error("Error al eliminar el producto:", error);
+  }
+};
 
   // Función para manejar la compra (puedes personalizar esto)
   const handleBuy = () => {

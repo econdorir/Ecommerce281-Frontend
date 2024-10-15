@@ -18,7 +18,7 @@ export const LoginService = async (email, password, role) => {
       nombre_usuario: response.data.token.user.nombre_usuario,
       password_usuario: response.data.token.user.password_usuario,
       email_usuario: response.data.token.user.email_usuario,
-      tipo_usuario: response.data.token.user.id_usuario,
+      tipo_usuario: response.data.token.user.tipo_usuario,
       id_carrito: response.data.carrito.id_carrito
     };
 

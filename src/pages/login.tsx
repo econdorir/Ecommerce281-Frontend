@@ -28,7 +28,12 @@ export default function LoginForm() {
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
+    console.log("push lol");
+
     setError(""); // Resetea el error antes de iniciar
+    console.log(email);
+    console.log(password);
+    console.log(role);
 
     try {
       const result = await LoginService(email, password, role);

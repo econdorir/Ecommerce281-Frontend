@@ -45,7 +45,10 @@ const ProductPage: React.FC = () => {
   const handleAddToCart = async (product: Product) => {
     // Añadir el producto al estado local
     setCart((prevCart: Product[]) => [...prevCart, product]);
-    setNumberOfProductsInCart((prevCount) => prevCount + 1);
+    setNumberOfProductsInCart((prevCount) => {
+      return prevCount + 1
+    }
+    );
     
     const storedUserData:any = localStorage.getItem("userData");
       const userData = JSON.parse(storedUserData);

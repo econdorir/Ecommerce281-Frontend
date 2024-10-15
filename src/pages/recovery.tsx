@@ -27,7 +27,6 @@ export default function RecoveryForm() {
     try {
       const result = await RecoveryService(email, role);
       setSuccessMessage("Se ha enviado un enlace de recuperación a tu correo.");
-      console.log(result);
     } catch (error) {
       setError("Error en la recuperación. Verifica tu correo.");
       console.error("Error during recovery:", error);

@@ -30,10 +30,8 @@ const CartSidebar = ({ isOpen, onClose }) => {
     };
 
     fetchProducts();
-  console.log(cart);
 
   }, []);
-  console.log(cart);
 
   // Función para eliminar un producto del carrito
   // Función para eliminar un producto del carrito
@@ -83,8 +81,9 @@ const handleRemoveFromCart = async (id_producto) => {
     
     if (existingItem) {
       // Si el producto ya existe, incrementa la cantidad
-      existingItem.cantidad += 1; // Asegúrate de que `item` tiene la propiedad `cantidad`
+      existingItem.cantidad ?  existingItem.cantidad += 1 : existingItem.cantidad = 2; // Asegúrate de que `item` tiene la propiedad `cantidad`
 
+      console.log(existingItem);
       
     } else {
       // Si es un nuevo producto, lo agrega al acumulador

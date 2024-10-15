@@ -2,7 +2,7 @@ import { API_URL } from '../libs/constants';
 
 export const createOrder = async (orderData) => {
   try {
-    const response = await fetch(API_URL, {
+    const response = await fetch(`${API_URL}/pedido`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

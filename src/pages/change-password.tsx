@@ -43,7 +43,6 @@ export default function ChangePasswordForm() {
         newPassword,
         role
       );
-      console.log(result);
       // Maneja la respuesta como prefieras (redirección, mensaje, etc.)
       router.push('/password-changed')
     } catch (error) {

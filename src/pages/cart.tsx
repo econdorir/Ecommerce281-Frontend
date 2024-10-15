@@ -32,7 +32,6 @@ const Cart = () => {
     fetchProducts();
   }, []);
 
-  console.log(cart);
 
   const totalPrice = cart.reduce((acumulador, producto) => {
     return acumulador + parseFloat(producto.precio_producto) * producto.cantidad;
@@ -68,6 +67,7 @@ const Cart = () => {
         <PaymentForm
           onClose={() => setShowPaymentForm(false)}
           cartItems={cart}
+          totalPrice={totalPrice}
         />
       )}
     </>

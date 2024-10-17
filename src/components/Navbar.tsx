@@ -32,10 +32,10 @@ const Navbar = () => {
 
   const links = [
     { id: 1, text: "home", link: "/" },
-    { id: 2, text: "productos", link: "products" },
-    { id: 3, text: "comunidades", link: "comunities" },
-    { id: 4, text: "ofertas", link: "offers" },
-    { id: 5, text: "acerca de", link: "about" },
+    { id: 2, text: "productos", link: "/products" },
+    { id: 3, text: "comunidades", link: "/comunities" },
+    { id: 4, text: "ofertas", link: "/offers" },
+    { id: 5, text: "acerca de", link: "/about" },
   ];
 
   const handleCartToggle = () => {
@@ -126,11 +126,11 @@ const Navbar = () => {
             </>
           ) : (
             <>
-              <Link href={"register"} className="text-gray-100">
+              <Link href={"/register"} className="text-gray-100">
                 Registrarse
               </Link>
               <p>&nbsp;|&nbsp;</p>
-              <Link href={"login"} className="text-gray-100">
+              <Link href={"/login"} className="text-gray-100">
                 Iniciar Sesión
               </Link>
             </>
@@ -184,11 +184,11 @@ const Navbar = () => {
               </>
             ) : (
               <>
-                <Link href={"register"} onClick={closeNav}>
+                <Link href={"/register"} onClick={closeNav}>
                   Registrarse
                 </Link>
                 <p>&nbsp;|&nbsp;</p>
-                <Link href={"login"} onClick={closeNav}>
+                <Link href={"/login"} onClick={closeNav}>
                   Iniciar Sesión
                 </Link>
               </>

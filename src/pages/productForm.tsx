@@ -1,9 +1,13 @@
-import ProductForm from '@/components/ProductForm';
+import ProductForm from "@/components/ProductForm";
+import Navbar from "@/components/Navbar";
 
 export default function ProductFormPage() {
   return (
-    <div className="min-h-screen bg-gray-100 py-10">
-      <ProductForm />
-    </div>
+    <>
+      <Navbar />
+      <div className="min-h-screen bg-gray-100 mt-28 py-10">
+        <ProductForm />
+      </div>
+    </>
   );
 }

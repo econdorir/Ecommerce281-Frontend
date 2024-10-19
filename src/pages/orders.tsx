@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import OrderItem from "@/components/OrderItem";
 import Navbar from "@/components/Navbar";
+import { API_URL } from "@/libs/constants";
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
@@ -12,7 +13,7 @@ const Orders = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/v1/pedido");
+        const response = await fetch(`${API_URL}/pedido`);
         if (!response.ok) {
           throw new Error("Error al obtener los pedidos");
         }

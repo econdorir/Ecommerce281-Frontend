@@ -1,19 +1,51 @@
+"use client";
+
 import { useState } from "react";
+import { CldUploadWidget } from "next-cloudinary";
+import { CreateProductService } from "@/services/CreateProductService";
+
+interface ProductFormData {
+  id_artesano: number;
+  nombre_producto: string;
+  precio_producto: number;
+  categoria_producto: string;
+  descripcion_producto: string;
+  ancho_producto: number;
+  peso_producto: number;
+  largo_producto: number;
+  alto_producto: number;
+  envio_gratuito: number;
+  stock_producto: number;
+  images: {
+    image1?: string; // Opcional
+    image2?: string; // Opcional
+    image3?: string; // Opcional
+  };
+}
 
 export default function ProductForm() {
-  const [formData, setFormData] = useState({
+  const [imageUrls, setImageUrls] = useState<string[]>([]);
+  const [imageFiles, setImageFiles] = useState<File[]>([]); // Guardar archivos de imagen
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [errorMaxImage, setErrorMaxImage] = useState<string | null>(null);
+  const [freeShipping, setFreeShipping] = useState(false);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [uploadedImageUrls, setUploadedImageUrls] = useState<string[]>([]);
+
+  const [formData, setFormData] = useState<ProductFormData>({
     id_artesano: 1,
-    id_promocion: 1,
     nombre_producto: "",
-    precio_producto: "",
+    precio_producto: 0,
     descripcion_producto: "",
-    stock_producto: "",
+    stock_producto: 0,
     categoria_producto: "",
-    peso_producto: "",
-    largo_producto: "",
-    ancho_producto: "",
-    alto_producto: "",
-    envio_gratuito: -1,
+    peso_producto: 0,
+    largo_producto: 0,
+    ancho_producto: 0,
+    alto_producto: 0,
+    envio_gratuito: 0,
+    images: {},
   });
 
   const handleChange = (e) => {
@@ -24,57 +56,90 @@ export default function ProductForm() {
     });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log("Product Data:", formData);
-    const numericFormData = {
-      ...formData,
-      precio_producto: Number(formData.precio_producto),
-      stock_producto: Number(formData.stock_producto),
-      peso_producto: Number(formData.peso_producto),
-      largo_producto: Number(formData.largo_producto),
-      ancho_producto: Number(formData.ancho_producto),
-      alto_producto: Number(formData.alto_producto),
-    };
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(event.target.files as FileList);
+    if (files.length + selectedFiles.length > 3) {
+      setErrorMaxImage("Puedes subir un máximo de 3 imágenes.");
+      return;
+    }
+    setErrorMaxImage(null);
+    setSelectedFiles((prevFiles) => [...prevFiles, ...files]);
+  };
 
-    console.log("Datos del formulario:", numericFormData);
+  const handleRemoveFile = (index, event) => {
+    event.preventDefault();
+    setSelectedFiles((prevFiles) =>
+      prevFiles.filter((_, fileIndex) => fileIndex !== index)
+    );
+  };
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:5000/api/v1/producto/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(numericFormData),
-      });
+      const urls: string[] = []; // Arreglo temporal para almacenar URLs
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(
-          `Error ${response.status}: ${errorData.message || response.statusText}`
-        );
+      // Subir imágenes y obtener URLs
+      for (const file of selectedFiles) {
+        const imageFormData = new FormData();
+        imageFormData.append("image", file);
+
+        const response = await fetch("/api/upload", {
+          method: "POST",
+          body: imageFormData,
+        });
+
+        if (!response.ok) {
+          const errorMessage = await response.text();
+          throw new Error(`Error: ${response.status} ${errorMessage}`);
+        }
+
+        const data = await response.json();
+        urls.push(data.url);
       }
 
-      const data = await response.json();
-      console.log("Producto agregado:", data);
-      alert("Producto agregado con éxito!");
-      setFormData({
-        id_artesano: 1,
-        id_promocion: 1,
-        nombre_producto: "",
-        precio_producto: "",
-        descripcion_producto: "",
-        stock_producto: "",
-        categoria_producto: "",
-        peso_producto: "",
-        largo_producto: "",
-        ancho_producto: "",
-        alto_producto: "",
-        envio_gratuito: -1,
-      });
+      // Actualizar formData con las nuevas imágenes
+      const updatedFormData = {
+        ...formData,
+        images: {
+          image1: urls[0] || undefined,
+          image2: urls[1] || undefined,
+          image3: urls[2] || undefined,
+        },
+        envio_gratuito: freeShipping ? 1 : 0,
+      };
+
+      // Enviar el producto
+      const productResponse = await CreateProductService(updatedFormData);
+
+      if (productResponse) {
+        setSuccessMessage("El producto ha sido subido exitosamente.");
+        setErrorMessage(null);
+      } else {
+        setErrorMessage("Ha ocurrido un error al subir el producto.");
+        setSuccessMessage(null);
+      }
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Error durante la subida:", error);
+      setErrorMessage("Error de servidor. Inténtalo de nuevo más tarde.");
+      setSuccessMessage(null);
     }
+
+    // Reiniciar formulario
+    setFormData({
+      id_artesano: 1,
+      nombre_producto: "",
+      precio_producto: 0,
+      descripcion_producto: "",
+      stock_producto: 0,
+      categoria_producto: "",
+      peso_producto: 0,
+      largo_producto: 0,
+      ancho_producto: 0,
+      alto_producto: 0,
+      envio_gratuito: 0,
+      images: {},
+    });
+    setSelectedFiles([]);
   };
 
   return (
@@ -82,11 +147,15 @@ export default function ProductForm() {
       className="max-w-4xl mx-auto p-8 bg-gradient-to-r from-blue-100 to-white shadow-lg rounded-lg space-y-6"
       onSubmit={handleSubmit}
     >
-      <h2 className="text-3xl font-semibold text-center text-gray-800">Añadir Producto</h2>
+      <h2 className="text-3xl font-semibold text-center text-gray-800">
+        Añadir Producto
+      </h2>
 
       {/* Nombre */}
       <div>
-        <label className="block text-gray-700 font-medium">Nombre del Producto</label>
+        <label className="block text-gray-700 font-medium">
+          Nombre del Producto
+        </label>
         <input
           type="text"
           name="nombre_producto"
@@ -95,7 +164,6 @@ export default function ProductForm() {
           className="w-full mt-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
           minLength={2}
           maxLength={50}
-          required
         />
       </div>
 
@@ -109,7 +177,6 @@ export default function ProductForm() {
           onChange={handleChange}
           className="w-full mt-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
           min={1}
-          required
         />
       </div>
 
@@ -124,7 +191,6 @@ export default function ProductForm() {
           rows={4}
           minLength={10}
           maxLength={100}
-          required
         ></textarea>
       </div>
 
@@ -137,7 +203,6 @@ export default function ProductForm() {
           value={formData.stock_producto}
           onChange={handleChange}
           className="w-full mt-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
-          required
         />
       </div>
 
@@ -152,7 +217,6 @@ export default function ProductForm() {
           className="w-full mt-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
           minLength={2}
           maxLength={50}
-          required
         />
       </div>
 
@@ -206,17 +270,56 @@ export default function ProductForm() {
         </div>
       </div>
 
-      {/* Input para imágenes */}
-      {/* <div className="mb-4">
+      <div className="mb-4">
         <label className="block text-gray-700">Imágenes</label>
         <input
           type="file"
-          name="images"
           accept="image/*"
           multiple
+          onChange={handleFileChange}
           className="w-full mt-1 p-2 border border-gray-300 rounded-md"
         />
-      </div> */}
+        {errorMaxImage && <p className="text-red-500 mt-2">{errorMaxImage}</p>}{" "}
+        {selectedFiles.length > 0 && (
+          <div className="mt-4">
+            <h3 className="text-gray-700">Selected Images:</h3>
+            <div className="flex flex-wrap mt-2">
+              {selectedFiles.map((file, index) => (
+                <div key={index} className="relative w-24 h-24 m-2">
+                  <img
+                    src={URL.createObjectURL(file)}
+                    alt={file.name}
+                    className="w-full h-full object-cover rounded-md"
+                  />
+                  <button
+                    onClick={(event) => handleRemoveFile(index, event)}
+                    className="w-9 absolute -top-3 -right-3 bg-red-500 text-white rounded-full p-1 shadow-md hover:bg-red-700 "
+                  >
+                    X
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* <CldUploadWidget
+        options={{ sources: ["local", "url", "camera"] }}
+        uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_PRESET_NAME}
+        onSuccess={handleUpload}
+      >
+        {({ open }) => {
+          return (
+            <button
+              className="bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 transition duration-200"
+              onClick={() => open()}
+            >
+              Elegir Archivos
+            </button>
+          );
+        }}
+      </CldUploadWidget> */}
 
       {/* Etiquetas */}
       {/* <div className="mb-4">
@@ -231,18 +334,17 @@ export default function ProductForm() {
       </div> */}
 
       {/* Envío gratuito */}
-      {/* <div className="mb-4">
+      <div className="mb-4">
         <label className="inline-flex items-center">
           <input
             type="checkbox"
             name="freeShipping"
-            checked={formData.freeShipping}
             onChange={handleChange}
             className="mr-2"
           />
           Envío gratuito
         </label>
-      </div> */}
+      </div>
 
       {/* A partir de qué cantidad se habilita el envío gratuito */}
       {/* {formData.freeShipping && (
@@ -269,7 +371,10 @@ export default function ProductForm() {
           className="w-full mt-1 p-2 border border-gray-300 rounded-md"
         />
       </div> */}
-
+      {successMessage && (
+        <div className="text-green-600 mb-4">{successMessage}</div>
+      )}
+      {errorMessage && <div className="text-red-600 mb-4">{errorMessage}</div>}
       <button
         type="submit"
         className="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 transition duration-200"

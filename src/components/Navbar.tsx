@@ -19,6 +19,7 @@ const Navbar = () => {
     isLoggedIn,
     setIsLoggedIn,
     numberOfProductsInCart,
+    role,
   } = useAppContext();
 
   const handleLogout = () => {
@@ -50,6 +51,89 @@ const Navbar = () => {
     setNav(false);
     setUserMenuOpen(false);
   };
+
+  // Nuevo: función para renderizar el menú basado en el rol
+  const renderUserMenu = () => {
+    switch (role) {
+      case "cliente":
+        return (
+          <>
+            <div>
+              <Link href="/profile">Perfil</Link>
+            </div>
+            <div>
+              <Link href="/orders">Mis Pedidos</Link>
+            </div>
+            <div>
+              <Link href="/settings">Configuración</Link>
+            </div>
+            <div>
+              <button onClick={handleLogout}>Cerrar Sesión</button>
+            </div>
+          </>
+        );
+      case "artesano":
+        return (
+          <>
+            <div>
+              <Link href="/profile">Perfil (Mis productos)</Link>
+            </div>
+            <div>
+              <Link href="/add-product">Añadir Producto</Link>
+            </div>
+            <div>
+              <Link href="/settings">Configuración</Link>
+            </div>
+            <div>
+              <button onClick={handleLogout}>Cerrar Sesión</button>
+            </div>
+          </>
+        );
+      case "delivery":
+        return (
+          <>
+            <div>
+              <Link href="/profile">Perfil</Link>
+            </div>
+            <div>
+              <Link href="/deliveries">Mis Entregas</Link>
+            </div>
+            <div>
+              <Link href="/settings">Configuración</Link>
+            </div>
+            <div>
+              <button onClick={handleLogout}>Cerrar Sesión</button>
+            </div>
+          </>
+        );
+      case "admin":
+        return (
+          <>
+            <div>
+              <Link href="/dashboard">Administrar</Link>
+            </div>
+            <div>
+              <Link href="/settings">Configuración</Link>
+            </div>
+            <div>
+              <button onClick={handleLogout}>Cerrar Sesión</button>
+            </div>
+          </>
+        );
+      default:
+        return (
+          <>
+            <div>
+              <Link href="/profile">Perfil</Link>
+            </div>
+            <div>
+              <button onClick={handleLogout}>Cerrar Sesión</button>
+            </div>
+          </>
+        );
+    }
+  };
+  
 
   return (
     <div className="flex justify-between items-center w-full h-20 px-4 text-white bg-black fixed nav z-10">
@@ -107,15 +191,7 @@ const Navbar = () => {
                   }`}
                 >
                   <span className="block font-bold">{username}</span>
-                  <Link href="/profile">
-                    <p className="block w-full text-left mt-1">Perfil</p>
-                  </Link>
-                  <button
-                    className="block w-full text-left mt-1"
-                    onClick={handleLogout}
-                  >
-                    Cerrar Sesión
-                  </button>
+                  {renderUserMenu()} {/* Nuevo: Renderiza el menú basado en el rol */}
                 </div>
               )}
               {/* Carrito */}
@@ -169,18 +245,7 @@ const Navbar = () => {
                   )}
                 </Link>
                 <span className="mt-2">{username}</span>
-                <Link href="/profile">
-                  <p className="block w-full text-left mt-1">Perfil</p>
-                </Link>
-                <button
-                  className="mt-2"
-                  onClick={() => {
-                    handleLogout();
-                    closeNav();
-                  }}
-                >
-                  Cerrar Sesión
-                </button>
+                {renderUserMenu()} {/* Nuevo: Renderiza el menú basado en el rol */}
               </>
             ) : (
               <>

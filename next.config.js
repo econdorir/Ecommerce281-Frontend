@@ -23,7 +23,11 @@ module.exports = withPWA({
       'f.fcdn.app', 
       'pbs.twimg.com',
       'media.sketchfab.com', 
-      'm.media-amazon.com'
+      'm.media-amazon.com',
+      'http2.mlstatic.com',
+      'www.vajillassantis.com',
+      'www.boliviamall.com',
+      'www.artesanum.com'
     ],
   },
 });

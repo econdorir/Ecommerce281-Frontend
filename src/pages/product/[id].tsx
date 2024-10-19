@@ -95,7 +95,7 @@ const ProductDetail = ({ product, resenia, clientes }) => {
           {/* Desktop slideshow */}
           <ProductSlideShow
             title={product.nombre_producto}
-            images={product.imagen[0].url_imagen}
+            images={product.imagen}
             className="hidden md:block max-w-lg mx-auto"
           />
         </div>

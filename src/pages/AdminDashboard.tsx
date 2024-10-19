@@ -20,11 +20,11 @@ const endpoints = {
 
 const idAccessors = {
   clientes: "id_usuario",
-  artesanos: "id_usuario", // Adjust as necessary
+  artesanos: "id_artesano", // Adjust as necessary
   productos: "id_producto",
   reseñas: "id_resenia", // Adjust as necessary
   comunidades: "id_comunidad", // Adjust as necessary
-  deliverys: "id_usuario", // Adjust as necessary
+  deliverys: "id_delivery", // Adjust as necessary
 };
 
 const AdminDashboard = () => {
@@ -32,6 +32,7 @@ const AdminDashboard = () => {
   const [data, setData] = useState<Item[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -55,6 +56,7 @@ const AdminDashboard = () => {
 
   const handleButtonClick = (endpoint) => {
     setActiveEndpoint(endpoint);
+    setSearchTerm(""); // Reset search term when changing endpoint
   };
 
   const handleDelete = async (id) => {
@@ -65,24 +67,25 @@ const AdminDashboard = () => {
       if (!response.ok) {
         throw new Error("Failed to delete item");
       }
-      setData((prevData) =>
-        prevData.filter((d) => d[idAccessors[activeEndpoint]] !== id)
-      );
+      setData((prevData) => prevData.filter((d) => d[idAccessors[activeEndpoint]] !== id));
     } catch (error) {
       setError(error.message);
     }
   };
 
+  const filteredData = data.filter((item) => {
+    return Object.values(item).some((val) =>
+      String(val).toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  });
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
-  const columns =
-    data.length > 0
-      ? Object.keys(data[0]).map((key) => ({
-          accessor: key,
-          header: key.charAt(0).toUpperCase() + key.slice(1),
-        }))
-      : [];
+  const columns = filteredData.length > 0 ? Object.keys(filteredData[0]).map((key) => ({
+    accessor: key,
+    header: key.charAt(0).toUpperCase() + key.slice(1),
+  })) : [];
 
   return (
     <SidebarProvider>
@@ -90,25 +93,28 @@ const AdminDashboard = () => {
       <div className="flex flex-col p-4">
         <h1 className="text-2xl font-bold mb-4">Dashboard de Administración</h1>
         <div className="mb-4">
+          <input
+            type="text"
+            placeholder="Search..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="p-2 border rounded mb-4"
+          />
           {Object.keys(endpoints).map((key) => (
-            <button
+            <button 
               key={key}
               onClick={() => handleButtonClick(key)}
-              className={`mr-2 p-2 border rounded ${
-                activeEndpoint === key
-                  ? "bg-blue-500 text-white"
-                  : "bg-gray-200"
-              }`}
+              className={`mr-2 p-2 border rounded ${activeEndpoint === key ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
             >
               {key.charAt(0).toUpperCase() + key.slice(1)}
             </button>
           ))}
         </div>
-        <DataTable
-          data={data}
-          columns={columns}
-          onDelete={handleDelete}
-          idAccessor={idAccessors[activeEndpoint]} // Pass the appropriate ID accessor
+        <DataTable 
+          data={filteredData} 
+          columns={columns} 
+          onDelete={handleDelete} 
+          idAccessor={idAccessors[activeEndpoint]} 
         />
       </div>
     </SidebarProvider>

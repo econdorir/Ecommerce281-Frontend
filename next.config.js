@@ -29,6 +29,7 @@ module.exports = withPWA({
       "www.boliviamall.com",
       "www.artesanum.com",
       "res.cloudinary.com",
+      "img.freepik.com",
     ],
   },
 });

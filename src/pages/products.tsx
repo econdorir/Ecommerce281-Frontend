@@ -203,7 +203,10 @@ const ProductPage: React.FC = () => {
               key={product.id_producto}
               title={product.nombre_producto}
               price={parseFloat(product.precio_producto)}
-              imageUrl={product.imagen[0].url_imagen}
+              imageUrl={
+                product.imagen[0]?.url_imagen ||
+                "https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg"
+              }
               stock={product.stock_producto}
               description={product.descripcion_producto}
               onAddToCart={() => handleAddToCart(product)}

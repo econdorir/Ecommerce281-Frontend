@@ -19,7 +19,7 @@ const Cart = () => {
       );
       const data = await response.json();
       
-      const productsList = data.producto.map((item) => {
+      const productsList = data.producto.map((item:any) => {
         return {
           ...item.producto,
           cantidad: item.cantidad, // Aquí usamos item.cantidad

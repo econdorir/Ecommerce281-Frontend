@@ -29,25 +29,44 @@ const ProductPage: React.FC = () => {
   }, []);
 
   const handleAddToCart = async (product: Product) => {
-    // Añadir el producto al estado local
-    
-    setCart((prevCart: Product[]) => [...prevCart, product]);
-    setNumberOfProductsInCart((prevCount) => {
-      return prevCount + 1;
+    setCart((prevCart: Product[]) => {
+      // Verificar si el producto ya está en el carrito
+      const existingProduct = prevCart.find(
+        (item) => item.id_producto === product.id_producto
+      );
+  
+      if (existingProduct) {
+        // Si el producto ya existe, actualizamos su cantidad
+        return prevCart.map((item) =>
+          item.id_producto === product.id_producto
+            ? { ...item, cantidad: item.cantidad + 1 } // Aumentamos la cantidad
+            : item
+        );
+      } else {
+        // Si no existe, lo agregamos al carrito
+        return [...prevCart, { ...product, cantidad: 1 }];
+      }
     });
-
+  
+    // Actualizamos el número de productos en el carrito
+    setNumberOfProductsInCart((prevCount) => prevCount + 1);
+  
+    // Guardamos la información del usuario en el localStorage
     const storedUserData: any = localStorage.getItem("userData");
     const userData = JSON.parse(storedUserData);
+  
     try {
+      // Llamada al servicio para agregar el producto al carrito en el backend
       const result = await AddToCartService(
         product.id_producto,
         userData.id_carrito,
-        1
+        1 // Aumentamos la cantidad en 1
       );
     } catch (error) {
-      console.error("Error during login:", error);
+      console.error("Error during adding to cart:", error);
     }
   };
+  
 
   const filteredProducts = products.filter((product) => {
     const matchesSearchTerm = product.nombre_producto

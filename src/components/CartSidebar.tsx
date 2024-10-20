@@ -75,7 +75,7 @@ const handleRemoveFromCart = async (id_producto) => {
 
 
   const groupedCart = cart.reduce((acc:any, item:any) => {
-    const existingItem = acc.find(i => i.id_producto === item.id_producto);
+    const existingItem = acc.find((i:any) => i.id_producto === item.id_producto);
   
     if (existingItem) {
       // Incrementa la cantidad si el producto ya existe en el acumulador

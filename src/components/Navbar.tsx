@@ -110,7 +110,7 @@ const Navbar = () => {
         return (
           <>
             <div>
-              <Link href="/dashboard">Administrar</Link>
+              <Link href="/AdminDashboard">Administrar</Link>
             </div>
             <div>
               <Link href="/settings">Configuración</Link>

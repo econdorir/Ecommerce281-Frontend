@@ -18,23 +18,27 @@ const Cart = () => {
         `http://localhost:5000/api/v1/carrito/cliente/${userData.id_usuario}`
       );
       const data = await response.json();
+      
       const productsList = data.producto.map((item) => {
         return {
           ...item.producto,
-          cantidad: item.cantidad,
+          cantidad: item.cantidad, // Aquí usamos item.cantidad
         };
       });
+
       setNumberOfProductsInCart(productsList.length);
       setCart(productsList);
       setLoading(false);
     };
 
     fetchProducts();
-  }, []);
+  }, [setCart, setNumberOfProductsInCart]);
 
 
   const totalPrice = cart.reduce((acumulador, producto) => {
-    return acumulador + parseFloat(producto.precio_producto) * producto.cantidad;
+    const precio = parseFloat(producto.precio_producto); // Asegúrate de convertirlo a un número
+    const cantidad = producto.cantidad || 1; // Asegúrate de que cantidad tenga un valor
+    return acumulador + (precio * cantidad);
   }, 0);
 
   return (

@@ -9,22 +9,7 @@ import Review from "@/components/Review";
 import Navbar from "@/components/Navbar";
 import { useAppContext } from "@/context";
 import { AddToCartService } from "../../services/AddToCartService";
-
-interface Image {
-  id_imagen: number;
-  url_imagen: string;
-  id_producto: number;
-}
-interface Product {
-  id_producto: number;
-  id_artesano: number;
-  id_promocion: number;
-  nombre_producto: string;
-  precio_producto: string;
-  descripcion_producto: string;
-  stock_producto: string;
-  imagen: Image[];
-}
+import { Image, Product } from "../../types/types";
 
 const ProductDetail = ({ product, resenia, clientes }) => {
   const router = useRouter();

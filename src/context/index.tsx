@@ -1,15 +1,28 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 
-interface Product {
-  id_producto: number;      // ID único del producto
-  id_artesano: number;      // ID del artesano que creó el producto
-  id_promocion: number;     // ID de la promoción (si aplica)
-  nombre_producto: string;   // Nombre del producto
-  precio_producto: string;   // Precio del producto como cadena
-  descripcion_producto: string; // Descripción del producto
-  stock_producto: string;    // Stock disponible como cadena
-  url_producto: string;      // URL de la imagen del producto
+export interface Image {
+  id_imagen: number;
+  url_imagen: string;
+  id_producto: number;
 }
+
+export interface Product {
+  id_producto: number;
+  id_artesano: number;
+  id_promocion: number | null;
+  nombre_producto: string;
+  precio_producto: string; // Este es un string en tu JSON
+  descripcion_producto: string;
+  stock_producto: number; // Este es un number en tu JSON
+  imagen: Image[]; // Correcto
+  alto_producto: string; // Este es un string en tu JSON
+  ancho_producto: string; // Este es un string en tu JSON
+  largo_producto: string; // Este es un string en tu JSON
+  peso_producto: string; // Este es un string en tu JSON
+  categoria_producto: string; // Este es un string en tu JSON
+  envio_gratuito: number; // Este es un number en tu JSON
+}
+
 
 
 interface AppContextType {
@@ -51,7 +64,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     const storedUserData = localStorage.getItem("userData");
     if (storedUserData) {
       const userData = JSON.parse(storedUserData);
-      setUsername(userData.id_usuario);
+      setIdUser(userData.id_usuario);
       setUsername(userData.nombre_usuario);
       setEmail(userData.email);
       setRole(userData.tipo_usuario);

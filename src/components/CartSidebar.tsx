@@ -74,22 +74,17 @@ const handleRemoveFromCart = async (id_producto) => {
   };
 
 
-  
-  // Agrupa los productos por id y suma las cantidades
   const groupedCart = cart.reduce((acc:any, item:any) => {
     const existingItem = acc.find(i => i.id_producto === item.id_producto);
-    
+  
     if (existingItem) {
-      // Si el producto ya existe, incrementa la cantidad
-      existingItem.cantidad ?  existingItem.cantidad += 1 : existingItem.cantidad = 2; // Asegúrate de que `item` tiene la propiedad `cantidad`
-
-      console.log(existingItem);
-      
+      // Incrementa la cantidad si el producto ya existe en el acumulador
+      existingItem.cantidad += item.cantidad; // Asegúrate de que `item.cantidad` es la cantidad correcta
     } else {
-      // Si es un nuevo producto, lo agrega al acumulador
-      acc.push({ ...item, cantidad: item.cantidad }); // Usar `item.cantidad` directamente
+      // Agrega el nuevo producto al acumulador
+      acc.push({ ...item });
     }
-    
+  
     return acc;
   }, []);
   

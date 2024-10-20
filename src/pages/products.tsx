@@ -30,57 +30,8 @@ const ProductPage: React.FC = () => {
 
   const handleAddToCart = async (product: Product) => {
     // Añadir el producto al estado local
+    
     setCart((prevCart: Product[]) => [...prevCart, product]);
-    setCart([
-      {
-        id_producto: 1,
-        id_artesano: 1,
-        id_promocion: null,
-        nombre_producto: "Canasta Palma Sunkha Mediano",
-        precio_producto: "25.00",
-        descripcion_producto:
-          "Este quiboro es una pieza única tejida a mano por artesanas de Vallegrande, utilizando fibra natural de palma zunjka. Su diseño artesanal y su material natural lo convierten en un objeto decorativo y funcional. Con medidas de 36 cm x 5 cm, es perfecto para llevar pequeños objetos o como elemento decorativo.",
-        stock_producto: 10,
-        categoria_producto: "Decoración",
-        peso_producto: "0.50",
-        largo_producto: "36.00",
-        ancho_producto: "5.00",
-        alto_producto: "10.00",
-        envio_gratuito: -1,
-        imagen: [
-          {
-            id_imagen: 1,
-            url_imagen:
-              "https://artecampo.com.bo/wp-content/uploads/2024/03/261002A.webp",
-            id_producto: 1,
-          },
-          {
-            id_imagen: 2,
-            url_imagen:
-              "https://i.etsystatic.com/18136424/r/il/f33b95/3470754681/il_1588xN.3470754681_62kj.jpg",
-            id_producto: 1,
-          },
-          {
-            id_imagen: 3,
-            url_imagen:
-              "https://i.etsystatic.com/18136424/r/il/940302/3391814663/il_1588xN.3391814663_tr11.jpg",
-            id_producto: 1,
-          },
-          {
-            id_imagen: 4,
-            url_imagen:
-              "https://i.etsystatic.com/21923614/r/il/bb33c1/5315175793/il_1588xN.5315175793_fpvd.jpg",
-            id_producto: 1,
-          },
-          {
-            id_imagen: 5,
-            url_imagen:
-              "https://m.media-amazon.com/images/I/91MZAP8uCsL._SL1500_.jpg",
-            id_producto: 1,
-          },
-        ],
-      },
-    ]);
     setNumberOfProductsInCart((prevCount) => {
       return prevCount + 1;
     });

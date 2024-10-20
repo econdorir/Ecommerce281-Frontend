@@ -35,23 +35,44 @@ const ProductDetail = ({ product, resenia, clientes }) => {
   }, []);
 
   const handleAddToCart = async (product: Product) => {
-    // Añadir el producto al estado local
-    setCart((prevCart: Product[]) => [...prevCart, product]);
+    setCart((prevCart: Product[]) => {
+      // Verificar si el producto ya existe en el carrito
+      const existingProduct = prevCart.find((item) => item.id_producto === product.id_producto);
+      console.log(product)
+      if (existingProduct) {
+        // Si el producto ya existe, incrementar su cantidad
+        return prevCart.map((item) =>
+          item.id_producto === product.id_producto
+            ? { ...item, cantidad: item.cantidad + 1
+             } // Aumentar cantidad
+            : item
+        );
+      } else {
+        // Si no existe, agregar el producto con cantidad inicial de 1
+        return [...prevCart, { ...product, cantidad: 1 }];
+      }
+    });
+  
+    // Actualizar el número de productos en el carrito
     setNumberOfProductsInCart((prevCount) => prevCount + 1);
-
+  
     const storedUserData: any = localStorage.getItem("userData");
     const userData = JSON.parse(storedUserData);
+  
     try {
+      // Realizar la llamada a la API para añadir el producto al carrito
       const result = await AddToCartService(
         product.id_producto,
         userData.id_carrito,
         1
       );
+  
+      // Puedes realizar alguna acción adicional aquí si el resultado es satisfactorio
     } catch (error) {
-      console.error("Error during login:", error);
+      console.error("Error al agregar el producto al carrito:", error);
     }
-    // Realizar la llamada a la API para añadir el producto al carrito
   };
+  
 
   const handleClose = () => {
     router.push("/products");
@@ -93,7 +114,7 @@ const ProductDetail = ({ product, resenia, clientes }) => {
             {product.nombre_producto}
           </h1>
           <p className="text-lg my-3">Bs {product.precio_producto}</p>
-          <QuantitySelector quantity={2}></QuantitySelector>
+          <QuantitySelector quantity={1}></QuantitySelector>
           <button
             onClick={() => handleAddToCart(product)}
             className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-blue-600 transition duration-200 ease-in-out my-5"

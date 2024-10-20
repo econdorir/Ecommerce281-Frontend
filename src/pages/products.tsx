@@ -60,7 +60,7 @@ const ProductPage: React.FC = () => {
       const result = await AddToCartService(
         product.id_producto,
         userData.id_carrito,
-        1 // Aumentamos la cantidad en 1
+        1 
       );
     } catch (error) {
       console.error("Error during adding to cart:", error);

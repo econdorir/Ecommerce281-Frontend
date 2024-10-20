@@ -21,6 +21,8 @@ export interface Product {
   peso_producto: string; // Este es un string en tu JSON
   categoria_producto: string; // Este es un string en tu JSON
   envio_gratuito: number; // Este es un number en tu JSON
+
+  cantidad:number // arreglar errores tambien xd
 }
 
 

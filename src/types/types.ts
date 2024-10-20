@@ -19,5 +19,7 @@ export interface Product {
   peso_producto: string; // Include based on your response
   categoria_producto: string; // Include based on your response
   envio_gratuito: number; // Keeping it as number based on your response
+
+  cantidad:number //para arreglar los errores XD
 }
 

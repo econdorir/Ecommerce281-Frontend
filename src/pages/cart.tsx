@@ -4,6 +4,36 @@ import Navbar from "@/components/Navbar";
 import PaymentForm from "@/components/PaymentForm";
 import { useAppContext } from "@/context";
 
+const calculateShippingCost = (cart) => {
+  // Calcula el peso total del carrito
+  const totalWeight = cart.reduce((total, item) => {
+    const weight = parseFloat(item.peso_producto); // Peso real
+    const cantidad = item.cantidad || 1;
+    return total + (weight * cantidad);
+  }, 0);
+
+  // Calcula el peso volumétrico
+  const totalVolume = cart.reduce((total, item) => {
+    const largo = parseFloat(item.largo_producto); // Largo en cm
+    const ancho = parseFloat(item.ancho_producto); // Ancho en cm
+    const alto = parseFloat(item.alto_producto); // Alto en cm
+    const cantidad = item.cantidad || 1;
+
+    const volumetricWeight = (largo * ancho * alto) / 5000; // Asumiendo 5000 cm³/kg
+    return total + (volumetricWeight * cantidad);
+  }, 0);
+
+  // Usar el mayor entre peso total y peso volumétrico
+  const finalWeight = Math.max(totalWeight, totalVolume);
+
+  // Definir tarifas de envío
+  const baseShippingCost = 5.00; // Tarifa base
+  const costPerKg = 2.00; // Costo por kg adicional
+
+  // Cálculo del costo de envío
+  return baseShippingCost + (costPerKg * finalWeight);
+};
+
 const Cart = () => {
   const [showPaymentForm, setShowPaymentForm] = useState(false);
   const [loading, setLoading] = useState(true); // Estado para la carga
@@ -41,6 +71,9 @@ const Cart = () => {
     return acumulador + (precio * cantidad);
   }, 0);
 
+  const shippingCost = calculateShippingCost(cart);
+  const finalTotal = totalPrice + shippingCost;
+
   return (
     <>
       <Navbar />
@@ -55,8 +88,16 @@ const Cart = () => {
             cart.map((item, index) => <CartItem key={index} item={item} />)
           )}
           <div className="mt-4 flex justify-between font-semibold">
-            <span>Total:</span>
+            <span>Total Productos:</span>
             <span>${totalPrice.toFixed(2)}</span>
+          </div>
+          <div className="mt-2 flex justify-between font-semibold">
+            <span>Costo de Envío:</span>
+            <span>${shippingCost.toFixed(2)}</span>
+          </div>
+          <div className="mt-4 flex justify-between font-semibold">
+            <span>Total Final:</span>
+            <span>${finalTotal.toFixed(2)}</span>
           </div>
           <button
             onClick={() => setShowPaymentForm(true)}
@@ -71,7 +112,7 @@ const Cart = () => {
         <PaymentForm
           onClose={() => setShowPaymentForm(false)}
           cartItems={cart}
-          totalPrice={totalPrice}
+          totalPrice={finalTotal}
         />
       )}
     </>

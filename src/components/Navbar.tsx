@@ -138,17 +138,16 @@ const Navbar = () => {
       <div>
         <h1 className="text-5xl font-signature ml-2">
           <Link href="/" passHref>
-            <div className="flex items-center space-x-2">
-              <div className="relative w-12 h-12 sm:w-16 sm:h-16">
-                <Image
-                  src="/images/Logo281.png"
-                  alt="logo"
-                  layout="fill"
-                  objectFit="cover"
-                  className="rounded-full"
-                />
-              </div>
-              <span className="text-sm font-medium text-white">Artiisninc</span>
+            <div className="flex items-center space-x-2"><div className="relative w-20 h-20 sm:w-24 sm:h-24">
+              <Image
+                src="/images/Logo281.png"
+                alt="logo"
+                layout="fill"
+                objectFit="cover"
+                className="rounded-full"
+              />
+            </div>
+            <div className="text-lg font-normal text-white " style={{ fontFamily: 'Dancing-Script, cursive',letterSpacing: '0.15em' }}>ARTIISNINC</div>
             </div>
           </Link>
         </h1>
@@ -160,7 +159,7 @@ const Navbar = () => {
             key={id}
             className="nav-links px-4 cursor-pointer capitalize font-medium text-gray-500 hover:scale-105 hover:text-white duration-200 link-underline"
           >
-            <Link href={link}>{text}</Link>
+            <Link href={link} className="text-[#FF9F1C]">{text}</Link>
           </li>
         ))}
   

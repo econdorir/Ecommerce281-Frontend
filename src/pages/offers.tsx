@@ -89,7 +89,6 @@ const Offers: React.FC = () => {
     });
   };
 
-
   if (loading) return <div className="text-center">Cargando...</div>;
   if (error) return <div className="text-red-500">Error al cargar los productos: {error}</div>;
 
@@ -100,24 +99,23 @@ const Offers: React.FC = () => {
         
         {currentOffers.length > 0 ? (
           currentOffers.map((offer) => (
-            <div key={offer.id_promocion} className="bg-black text-white text-center p-10 rounded-lg shadow-md mb-6 font-mono">
-              <h1 className="text-3xl font-bold my-8">Ofertas Especiales</h1>
-              <h1 className="text-3xl font-bold text-red-500 my-5">{offer.nombre_promocion}</h1>
-              <h1 className="text-3xl font-bold text-yellow-300 my-5">{offer.descuento_promocion}% DE DESCUENTO EN PRODUCTOS SELECCIONADOS</h1>
-              <p className="my-5 text-green-400"> Válido Del {formatDate(offer.fecha_ini)} Al {formatDate(offer.fecha_fin)}</p>
+            <div key={offer.id_promocion} className="bg-[#000] text-[#2EC4B6] text-center p-10 rounded-lg shadow-lg mb-6 font-mono border border-[#CBF3F0]">
+              <h1 className="text-3xl font-bold my-4">Ofertas Especiales</h1>
+              <h1 className="text-2xl font-bold text-[#FF9F1C] my-3">{offer.nombre_promocion}</h1>
+              <h1 className="text-2xl font-bold text-[#FFBF69] my-3">{offer.descuento_promocion}% DE DESCUENTO EN PRODUCTOS SELECCIONADOS</h1>
+              <p className="my-4 text-[#2EC4B6]"> Válido Del {formatDate(offer.fecha_ini)} Al {formatDate(offer.fecha_fin)}</p>
             </div>
           ))
         ) : (
-          <h1 className="bg-black text-white text-center p-10 rounded-lg shadow-md mb-6 font-mono">No hay ofertas disponibles en este momento.</h1>
+          <h1 className="bg-[#000] text-[#2EC4B6] text-center p-10 rounded-lg shadow-lg mb-6 font-mono border border-[#CBF3F0]">No hay ofertas disponibles en este momento.</h1>
         )}
         {filteredProducts.length > 0 ? (
-          
           <OfferSlideShow
             products={filteredProducts}
             className="block max-w-lg mx-auto"
           />
         ) : (
-          <h2 className="bg-black text-white text-center p-10 rounded-lg shadow-md mb-6 font-mono">No hay productos relacionados con las ofertas actuales.</h2>
+          <h2 className="bg-[#FFFFFF] text-[#2EC4B6] text-center p-10 rounded-lg shadow-lg mb-6 font-mono border border-[#CBF3F0]">No hay productos relacionados con las ofertas actuales.</h2>
         )}
       </div>
       <Footer />

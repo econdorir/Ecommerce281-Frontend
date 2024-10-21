@@ -12,14 +12,18 @@ export const LoginService = async (email, password, role) => {
       }
     );
     
-    // Almacenar información del usuario en localStorage
+    // Almacenar información del usuario, token, carrito y pedidos en localStorage
     const userData = {
       id_usuario: response.data.token.user.id_usuario,
       nombre_usuario: response.data.token.user.nombre_usuario,
-      password_usuario: response.data.token.user.password_usuario,
       email_usuario: response.data.token.user.email_usuario,
+      password_usuario: response.data.token.user.password_usuario,
       tipo_usuario: response.data.token.user.tipo_usuario,
-      id_carrito: response.data.carrito.id_carrito
+      estado_delivery: response.data.token.user.estado_delivery,
+      celular: response.data.token.user.celular,
+      token: response.data.token.token,
+      id_carrito: response.data.carrito ? response.data.carrito.id_carrito : null,  // Maneja carrito nulo
+      pedidos: response.data.pedidos ? response.data.pedidos : []  // Si pedidos es null, asigna un array vacío
     };
 
     localStorage.setItem("userData", JSON.stringify(userData));

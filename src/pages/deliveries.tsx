@@ -30,7 +30,7 @@ const Deliveries = () => {
 
       try {
         // Obtener todas las entregas
-        const deliveryResponse = await fetch("http://localhost:5000/api/v1/entrega");
+        const deliveryResponse = await fetch(`http://localhost:5000/api/v1/entrega/{id_entrega}`);
         if (!deliveryResponse.ok) {
           throw new Error("Error al obtener las entregas");
         }

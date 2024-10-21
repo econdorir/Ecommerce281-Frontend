@@ -12,7 +12,7 @@ import { Product } from "../../types/types";
 const ProductDetail = ({ product, resenia, clientes }) => {
   const router = useRouter();
   const [reseniasData, setReseniasData] = useState([]);
-  const { numberOfProductsInCart, setNumberOfProductsInCart, cart, setCart } = useAppContext();
+  const { numberOfProductsInCart, setNumberOfProductsInCart, cart, setCart, role, isLoggedIn } = useAppContext(); // Desestructurar role y isLoggedIn
   const [selectedQuantity, setSelectedQuantity] = useState(1); // State to store selected quantity
 
   useEffect(() => {
@@ -99,18 +99,22 @@ const ProductDetail = ({ product, resenia, clientes }) => {
           </h1>
           <p className="text-lg my-3">Bs {product.precio_producto}</p>
 
-          {/* Pass the selected quantity to QuantitySelector */}
-          <QuantitySelector
-            quantity={selectedQuantity}
-            onQuantityChange={setSelectedQuantity} // Update selected quantity
-          />
+          {/* Only show QuantitySelector and Add to Cart button if user is logged in and is a customer */}
+          {isLoggedIn && role === "cliente" && (
+            <>
+              <QuantitySelector
+                quantity={selectedQuantity}
+                onQuantityChange={setSelectedQuantity} // Update selected quantity
+              />
 
-          <button
-            onClick={() => handleAddToCart(product)}
-            className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-blue-600 transition duration-200 ease-in-out my-5"
-          >
-            Agregar al carrito
-          </button>
+              <button
+                onClick={() => handleAddToCart(product)}
+                className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-blue-600 transition duration-200 ease-in-out my-5"
+              >
+                Agregar al carrito
+              </button>
+            </>
+          )}
 
           <h3 className="font-bold text-xl">Descripcion</h3>
           <p className="font-light text-justify">

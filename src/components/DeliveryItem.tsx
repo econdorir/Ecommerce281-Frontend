@@ -11,9 +11,6 @@ const DeliveryItem = ({ delivery, deliveryNumber }) => {
                 <div className="text-gray-600 mb-1">
                     <span className="font-medium">Estado:</span> <span className='capitalize'>{delivery.estado}</span>
                 </div>
-                <div className="text-gray-600 mb-1">
-                    <span className="font-medium">Dirección:</span> {delivery.direccion}
-                </div>
             </div>
             <Link 
                 href={`/deliveries/${delivery.id}`} 

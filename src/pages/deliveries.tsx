@@ -5,10 +5,10 @@ import Navbar from "@/components/Navbar";
 // Define la interfaz para las entregas
 interface Delivery {
   id_entrega: number;
+  id_delivery: number;
   id_pedido: number;
   estado_entrega: string;
   fecha_entrega: Date;
-  direccion: string;
 }
 
 const Deliveries = () => {
@@ -71,7 +71,6 @@ const Deliveries = () => {
                 delivery={{
                   id: delivery.id_entrega,
                   estado: delivery.estado_entrega,
-                  direccion: delivery.direccion,
                   fecha_entrega: new Date(delivery.fecha_entrega).toLocaleString(),
                 }}
                 deliveryNumber={index + 1} // Pasar el número de entrega (índice + 1)

@@ -8,7 +8,7 @@ interface Delivery {
   id_delivery: number;
   id_pedido: number;
   estado_entrega: string;
-  fecha_entrega: Date;
+  fecha_entrega: string; // Cambié a string para facilitar el parseo de fechas
 }
 
 const Deliveries = () => {
@@ -20,8 +20,9 @@ const Deliveries = () => {
     const fetchDeliveries = async () => {
       // Obtener datos del usuario de localStorage (en este caso, el repartidor)
       const userData = localStorage.getItem("userData");
-      const deliveryId = userData ? JSON.parse(userData).id_delivery : null;
+      const deliveryId = userData ? JSON.parse(userData).id_usuario : null;
 
+      // Comprobar si el id_delivery existe
       if (!deliveryId) {
         setError("No se pudo encontrar el repartidor.");
         setLoading(false);
@@ -30,20 +31,22 @@ const Deliveries = () => {
 
       try {
         // Obtener todas las entregas
-        const deliveryResponse = await fetch(`http://localhost:5000/api/v1/entrega/{id_entrega}`);
+        const deliveryResponse = await fetch("http://localhost:5000/api/v1/entrega/");
         if (!deliveryResponse.ok) {
           throw new Error("Error al obtener las entregas");
         }
+
         const deliveriesData: Delivery[] = await deliveryResponse.json();
 
         // Filtrar las entregas que pertenecen al repartidor logueado
         const userDeliveries = deliveriesData.filter(
-          delivery => delivery.id_delivery === deliveryId
+          (delivery) => delivery.id_delivery === deliveryId
         );
 
         setDeliveries(userDeliveries);
-      } catch (error) {
-        setError(error.message);
+      } catch (error: any) {
+        // Asegúrate de manejar el error correctamente
+        setError(error.message || "Hubo un error inesperado.");
       } finally {
         setLoading(false);
       }

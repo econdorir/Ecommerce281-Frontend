@@ -14,7 +14,7 @@ const DeliveryItem = ({ delivery, deliveryNumber }) => {
             </div>
             <Link 
                 href={`/deliveries/${delivery.id}`} 
-                className="mt-2 md:mt-0 inline-block bg-green-600 text-white px-4 py-2 rounded-md shadow-md hover:bg-green-700 transition-colors duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-500"
+                className="mt-2 md:mt-0 inline-block bg-blue-600 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-700 transition-colors duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 aria-label={`Ver detalles de la entrega ${deliveryNumber}`}
             >
                 Ver Entrega

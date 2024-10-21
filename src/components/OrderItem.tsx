@@ -16,7 +16,7 @@ const OrderItem = ({ order, orderNumber }) => {
 
     const fetchDeliveryContacts = async () => {
         try {
-            const response = await fetch(`http://localhost:5000/api/v1/entrega/pedido/${order.id}`);
+            const response = await fetch(`http://localhost:5000/api/v1/pedido/${order.id}`);
             if (!response.ok) {
                 throw new Error('Error al obtener contactos del delivery');
             }
@@ -24,8 +24,12 @@ const OrderItem = ({ order, orderNumber }) => {
             const data = await response.json();
             console.log(data); // Para verificar la respuesta
 
-            // Asumimos que `data.delivery` tiene la estructura correcta
-            setDeliveryContacts(data.delivery);
+            // Accediendo a la información de delivery desde el primer elemento de entrega
+            if (data.entrega.length > 0) {
+                setDeliveryContacts(data.entrega[0].delivery); // Acceder a la información de delivery
+            } else {
+                setDeliveryContacts(null); // No hay entregas
+            }
         } catch (error) {
             console.error('Error fetching delivery contacts:', error);
         }
@@ -48,7 +52,7 @@ const OrderItem = ({ order, orderNumber }) => {
                     <span className="font-medium">Fecha - Hora:</span> {order.fecha_pedido}
                 </div>
                 <div className="text-gray-600 mb-1">
-                    <span className="font-medium">Estado:</span> <span className='capitalize'>{order.status}</span>
+                    <span className="font-medium">Estado:</span> <span className='capitalize'>{order.estado_pedido}</span>
                 </div>
                 <div className="text-gray-600 mb-1">
                     <span className="font-medium">Total:</span> <span className="font-semibold">{order.monto_pago} Bs</span>

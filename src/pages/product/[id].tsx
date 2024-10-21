@@ -9,11 +9,19 @@ import { useAppContext } from "@/context";
 import { AddToCartService } from "../../services/AddToCartService";
 import { Product } from "../../types/types";
 
-const ProductDetail = ({ product, resenia, clientes }) => {
+const ProductDetail = ({ product, resenia, clientes, promociones }) => {
   const router = useRouter();
   const [reseniasData, setReseniasData] = useState([]);
-  const { numberOfProductsInCart, setNumberOfProductsInCart, cart, setCart, role, isLoggedIn } = useAppContext(); // Desestructurar role y isLoggedIn
+  const {
+    numberOfProductsInCart,
+    setNumberOfProductsInCart,
+    cart,
+    setCart,
+    role,
+    isLoggedIn,
+  } = useAppContext(); // Desestructurar role y isLoggedIn
   const [selectedQuantity, setSelectedQuantity] = useState(1); // State to store selected quantity
+  const [finalPrice, setFinalPrice] = useState(product.precio_producto);
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -32,9 +40,39 @@ const ProductDetail = ({ product, resenia, clientes }) => {
     fetchReviews();
   }, []);
 
+  useEffect(() => {
+    // Función para calcular el precio final
+    const calculateFinalPrice = () => {
+      let price = product.precio_producto;
+
+      // Filtrar promociones aplicables
+      const currentDate = new Date();
+      const applicablePromotion = promociones.find(
+        (promo) =>
+          promo.id_promocion === product.id_promocion &&
+          new Date(promo.fecha_ini) <= currentDate &&
+          new Date(promo.fecha_fin) >= currentDate
+      );
+
+      // Si hay una promoción aplicable, calcular el precio final
+      if (applicablePromotion) {
+        const discount = applicablePromotion.descuento_promocion; // Suponiendo que `descuento` es un porcentaje
+        price *= 1 - discount / 100;
+      } else {
+        console.log("no hay promnociones");
+      }
+
+      setFinalPrice(price);
+    };
+
+    calculateFinalPrice();
+  }, [product, promociones]);
+
   const handleAddToCart = async (product: Product) => {
     setCart((prevCart: Product[]) => {
-      const existingProduct = prevCart.find((item) => item.id_producto === product.id_producto);
+      const existingProduct = prevCart.find(
+        (item) => item.id_producto === product.id_producto
+      );
       if (existingProduct) {
         // Update product quantity based on selectedQuantity
         return prevCart.map((item) =>
@@ -43,7 +81,14 @@ const ProductDetail = ({ product, resenia, clientes }) => {
             : item
         );
       } else {
-        return [...prevCart, { ...product, cantidad: selectedQuantity }];
+        return [
+          ...prevCart,
+          {
+            ...product,
+            cantidad: selectedQuantity,
+            precio_producto: finalPrice,
+          },
+        ];
       }
     });
 
@@ -53,7 +98,11 @@ const ProductDetail = ({ product, resenia, clientes }) => {
     const userData = JSON.parse(storedUserData);
 
     try {
-      await AddToCartService(product.id_producto, userData.id_carrito, selectedQuantity);
+      await AddToCartService(
+        product.id_producto,
+        userData.id_carrito,
+        selectedQuantity
+      );
     } catch (error) {
       console.error("Error al agregar el producto al carrito:", error);
     }
@@ -97,7 +146,17 @@ const ProductDetail = ({ product, resenia, clientes }) => {
           <h1 className="antialiased font-bold text-4xl my-2">
             {product.nombre_producto}
           </h1>
-          <p className="text-lg my-3">Bs {product.precio_producto}</p>
+
+          {finalPrice < product.precio_producto ? (
+            <>
+              <p className="my-3 line-through text-lg">Bs {product.precio_producto}</p>
+              <p className="text-xl my-3 font-bold">Bs {finalPrice}</p>
+            </>
+          ) : (
+            <p className="text-lg my-3">
+              Bs {product.precio_producto}
+            </p>
+          )}
 
           {/* Only show QuantitySelector and Add to Cart button if user is logged in and is a customer */}
           {isLoggedIn && role === "cliente" && (
@@ -144,7 +203,8 @@ const ProductDetail = ({ product, resenia, clientes }) => {
 
       <h3 className="font-bold text-4xl text-center my-5">Reseñas</h3>
       <div className="mb-20 grid grid-cols-1 md:grid-cols-3 gap-3 mx-5 px-36">
-        {resenia.filter((item) => item.id_producto === product.id_producto).length > 0 ? (
+        {resenia.filter((item) => item.id_producto === product.id_producto)
+          .length > 0 ? (
           resenia
             .filter((item) => item.id_producto === product.id_producto)
             .map((item) => {
@@ -162,19 +222,29 @@ const ProductDetail = ({ product, resenia, clientes }) => {
                   className="mb-6 p-6 border border-gray-300 rounded-lg shadow-lg bg-gradient-to-br from-white to-gray-100 hover:shadow-2xl transition-shadow duration-300"
                 >
                   <p className="font-light text-justify text-gray-800">
-                    <span className="font-semibold text-xl">{item.fecha_resenia}</span>
+                    <span className="font-semibold text-xl">
+                      {item.fecha_resenia}
+                    </span>
                     <br />
-                    <span className="text-gray-700">{item.descripcion_resenia}</span>
+                    <span className="text-gray-700">
+                      {item.descripcion_resenia}
+                    </span>
                   </p>
                   <div className="mt-4 border-t border-gray-300 pt-3">
                     {cliente ? (
                       <p className="font-light text-gray-600">
-                        <span className="font-semibold text-gray-800">{cliente.nombre_usuario}</span>
+                        <span className="font-semibold text-gray-800">
+                          {cliente.nombre_usuario}
+                        </span>
                         <br />
-                        <span className="text-sm italic">{cliente.nro_compras} compras</span>
+                        <span className="text-sm italic">
+                          {cliente.nro_compras} compras
+                        </span>
                       </p>
                     ) : (
-                      <p className="font-light text-gray-600 italic">Cliente desconocido</p>
+                      <p className="font-light text-gray-600 italic">
+                        Cliente desconocido
+                      </p>
                     )}
                   </div>
                 </div>
@@ -192,7 +262,9 @@ const ProductDetail = ({ product, resenia, clientes }) => {
 
 export const getServerSideProps = async (context) => {
   const { id } = context.params;
-  const productResponse = await fetch(`http://localhost:5000/api/v1/producto/${id}`);
+  const productResponse = await fetch(
+    `http://localhost:5000/api/v1/producto/${id}`
+  );
   const product = await productResponse.json();
 
   const reseniaResponse = await fetch(`http://localhost:5000/api/v1/resenia`);
@@ -201,8 +273,13 @@ export const getServerSideProps = async (context) => {
   const clienteResponse = await fetch(`http://localhost:5000/api/v1/cliente`);
   const clientes = await clienteResponse.json();
 
+  const promocionResponse = await fetch(
+    `http://localhost:5000/api/v1/promocion`
+  );
+  const promociones = await promocionResponse.json();
+
   return {
-    props: { product, resenia, clientes },
+    props: { product, resenia, clientes, promociones },
   };
 };
 

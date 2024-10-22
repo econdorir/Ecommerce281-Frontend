@@ -69,7 +69,7 @@ const Profile = () => {
               type="tel"
               value={userData.celular}
               onChange={(e) =>
-                setUserData({ ...userData, celular: e.target.value })
+                setUserData({ ...userData, celular: parseInt(e.target.value) })
               }
               className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
             />

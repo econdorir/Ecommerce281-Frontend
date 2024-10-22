@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import { GoogleGenerativeAI, SchemaType } from "@google/generative-ai"; // Import the necessary modules
 
+interface Message {
+  text: string;
+  sender: string;
+}
+
 const genAI = new GoogleGenerativeAI("");
 
 const schema = {
@@ -28,7 +33,7 @@ const model = genAI.getGenerativeModel({
 });
 
 const Chatbot = () => {
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isOpen, setIsOpen] = useState(false);
 

@@ -6,7 +6,8 @@ export const RegisterService = async (
   email,
   password,
   role,
-  currentDate
+  currentDate,
+  cellphone
 ) => {
   try {
     const response = await axios.post(`${API_URL}/${role}`, {
@@ -15,14 +16,17 @@ export const RegisterService = async (
       password_usuario: password,
       tipo_usuario: role,
       fecha_registro: currentDate,
+      celular: cellphone
     });
-
+    console.log(response);
+    console.log(response.data);
+    console.log(response.data.nombre_usuario)
     const userData = {
       id_usuario: response.data.id_usuario,
-      nombre_usuario: response.data.user.nombre_usuario,
-      password_usuario: response.data.user.password_usuario,
-      email_usuario: response.data.user.email_usuario,
-      tipo_usuario: response.data.user.tipo_usuario,
+      nombre_usuario: response.data.nombre_usuario,
+      password_usuario: response.data.password_usuario,
+      email_usuario: response.data.email_usuario,
+      tipo_usuario: response.data.tipo_usuario,
     };
     localStorage.setItem("userData", JSON.stringify(userData));
     return response.data; // Maneja la respuesta como prefieras

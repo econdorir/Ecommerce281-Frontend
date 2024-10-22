@@ -8,7 +8,7 @@ const Footer = () => {
           {/* Logo */}
           <div className="flex-shrink-0 mb-4 md:mb-0">
             <Link href="/">
-              <span className="text-2xl font-bold hover:text-gray-400 cursor-pointer">
+              <span className="text-[#FFFFFF] text-2xl font-bold hover:text-gray-400 cursor-pointer">
                 Artiisninc
               </span>
             </Link>
@@ -17,17 +17,17 @@ const Footer = () => {
           {/* Navigation Links */}
           <nav className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4">
             <Link href="/about">
-              <span className="hover:text-gray-400 cursor-pointer">
+              <span className="text-[#FF9F1C] hover:text-blue-400 cursor-pointer">
                 Acerca de
               </span>
             </Link>
             <Link href="/services">
-              <span className="hover:text-gray-400 cursor-pointer">
+              <span className="text-[#FF9F1C] hover:text-blue-400 cursor-pointer">
                 Servicios
               </span>
             </Link>
             <Link href="/contact">
-              <span className="hover:text-gray-400 cursor-pointer">
+              <span className="text-[#FF9F1C] hover:text-gray-400 cursor-pointer">
                 Contacto
               </span>
             </Link>

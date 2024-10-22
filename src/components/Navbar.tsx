@@ -147,7 +147,7 @@ const Navbar = () => {
                 className="rounded-full"
               />
             </div>
-            <div className="text-lg font-normal text-white " style={{ fontFamily: 'Dancing-Script, cursive',letterSpacing: '0.15em' }}>ARTIISNINC</div>
+            <span className="text-lg font-normal text-white " style={{ fontFamily: 'Dancing-Script, cursive',letterSpacing: '0.em' }}>ARTIISNINC</span>
             </div>
           </Link>
         </h1>

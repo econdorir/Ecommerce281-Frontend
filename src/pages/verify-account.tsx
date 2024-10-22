@@ -20,7 +20,8 @@ const VerifyAccount = () => {
 
     try {
       let userDataString = localStorage.getItem("userData");
-      let userData = JSON.parse(userDataString); // Convierte la cadena JSON de nuevo a un objeto
+      let userData = userDataString ? JSON.parse(userDataString) : {};
+
 
       let username = userData.nombre_usuario; // Accede a username
       let email = userData.email_usuario; // Accede a email

@@ -22,6 +22,7 @@ export default function SignupForm() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState(""); // Estado para el mensaje de error
   const [showPassword, setShowPassword] = useState(false);
+  const [cellphone,setCellphone] = useState("");
   const router = useRouter();
   const currentDate = new Date();
 
@@ -41,13 +42,17 @@ export default function SignupForm() {
         email,
         password,
         role,
-        currentDate
+        currentDate,
+        cellphone
       );
       setIsLoggedIn(true);
       setUsername(result.nombre_usuario);
       setEmail(result.email_usuario);
       setPassword(result.password_usuario);
+      setCellphone(result.cellphone);
+      console.log(result)
       router.push("/verification-sent");
+
     } catch (error) {
       console.error("Error during registration:", error);
     }
@@ -199,7 +204,19 @@ export default function SignupForm() {
               {showPassword ? <FaRegEye /> : <FaRegEyeSlash />}
             </button>
           </div>
-
+          <label htmlFor="username" className="text-sm text-gray-700">
+            Celular
+          </label>
+          <input
+            type="text"
+            id="cellphone"
+            name="cellphone"
+            value={cellphone}
+            onChange={(e) => setCellphone(e.target.value)}
+            placeholder="Enter your Cellphone here"
+            required
+            className="p-3 border border-gray-300 rounded-lg text-sm"
+          />
           <label htmlFor="role" className="text-sm text-gray-700">
             Rol
           </label>

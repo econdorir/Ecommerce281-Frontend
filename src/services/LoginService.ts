@@ -8,9 +8,11 @@ export const LoginService = async (email, password, role) => {
       {
         email_usuario: email,
         password_usuario: password,
-        tipo_usuario: role,
+        tipo_usuario: role
       }
     );
+    console.log(response)
+    console.log(response.data)
     
     // Almacenar información del usuario, token, carrito y pedidos en localStorage
     const userData = {

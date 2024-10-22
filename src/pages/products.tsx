@@ -1,13 +1,12 @@
 "use client";
 import React, { useState, useEffect, useContext } from "react";
 import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
 import ProductCard from "../components/ProductCard";
 import { useAppContext } from "@/context";
 import Chatbot from "@/components/Chatbot";
 import { AddToCartService } from "../services/AddToCartService";
-
 import { Image, Product } from "../types/types";
+import Footer from "@/components/Footer";
 
 const ProductPage: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);

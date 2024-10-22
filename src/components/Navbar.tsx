@@ -34,7 +34,7 @@ const Navbar = () => {
   const links = [
     { id: 1, text: "home", link: "/" },
     { id: 2, text: "productos", link: "/products" },
-    { id: 3, text: "comunidades", link: "/comunities" },
+    { id: 3, text: "comunidades", link: "/communities" },
     { id: 4, text: "ofertas", link: "/offers" },
     { id: 5, text: "acerca de", link: "/about" },
   ];

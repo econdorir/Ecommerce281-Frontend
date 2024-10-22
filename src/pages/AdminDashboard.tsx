@@ -67,7 +67,9 @@ const AdminDashboard = () => {
       if (!response.ok) {
         throw new Error("Failed to delete item");
       }
-      setData((prevData) => prevData.filter((d) => d[idAccessors[activeEndpoint]] !== id));
+      setData((prevData) =>
+        prevData.filter((d) => d[idAccessors[activeEndpoint]] !== id)
+      );
     } catch (error) {
       setError(error.message);
     }
@@ -82,16 +84,19 @@ const AdminDashboard = () => {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
-  const columns = filteredData.length > 0 ? Object.keys(filteredData[0]).map((key) => ({
-    accessor: key,
-    header: key.charAt(0).toUpperCase() + key.slice(1),
-  })) : [];
+  const columns =
+    filteredData.length > 0
+      ? Object.keys(filteredData[0]).map((key) => ({
+          accessor: key,
+          header: key.charAt(0).toUpperCase() + key.slice(1),
+        }))
+      : [];
 
   return (
     <SidebarProvider>
       <AdminSidebar />
-      <div className="flex flex-col p-4">
-        <h1 className="text-2xl font-bold mb-4">Dashboard de Administración</h1>
+      <div className="flex flex-col p-10">
+        <h1 className="text-2xl font-bold mb-4">Panel de Administración</h1>
         <div className="mb-4">
           <input
             type="text"
@@ -101,21 +106,27 @@ const AdminDashboard = () => {
             className="p-2 border rounded mb-4"
           />
           {Object.keys(endpoints).map((key) => (
-            <button 
+            <button
               key={key}
               onClick={() => handleButtonClick(key)}
-              className={`mr-2 p-2 border rounded ${activeEndpoint === key ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+              className={`mr-2 p-2 border rounded ${
+                activeEndpoint === key
+                  ? "bg-blue-500 text-white"
+                  : "bg-gray-200"
+              }`}
             >
               {key.charAt(0).toUpperCase() + key.slice(1)}
             </button>
           ))}
         </div>
-        <DataTable 
-          data={filteredData} 
-          columns={columns} 
-          onDelete={handleDelete} 
-          idAccessor={idAccessors[activeEndpoint]} 
-        />
+        <div className="overflow-x-auto">
+          <DataTable
+            data={filteredData}
+            columns={columns}
+            onDelete={handleDelete}
+            idAccessor={idAccessors[activeEndpoint]}
+          />
+        </div>
       </div>
     </SidebarProvider>
   );

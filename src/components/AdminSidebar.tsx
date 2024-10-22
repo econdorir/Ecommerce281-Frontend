@@ -15,7 +15,7 @@ import {
 const items = [
   {
     title: "Home",
-    url: "#",
+    url: "/",
     icon: Home,
   },
   {
@@ -25,12 +25,12 @@ const items = [
   },
   {
     title: "Calendario",
-    url: "#",
+    url: "/adminCalendar",
     icon: Calendar,
   },
   {
     title: "Buscar",
-    url: "#",
+    url: "/AdminDashboard",
     icon: Search,
   },
   {

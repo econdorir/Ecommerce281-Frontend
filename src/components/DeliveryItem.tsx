@@ -8,7 +8,7 @@ const DeliveryItem = ({ delivery, deliveryNumber }) => {
         <p>Estado: {delivery.estado}</p>
         <p>Fecha: {delivery.fecha_entrega}</p>
       </div>
-      <Link href={`/deliveries/${delivery.id}`}>
+      <Link href={`/deliveriesDelivery/${delivery.id}`}>
         <button className="bg-green-500 text-white px-3 py-1 rounded">Ver Entrega</button>
       </Link>
     </div>

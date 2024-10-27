@@ -6,26 +6,62 @@ interface Message {
   sender: string;
 }
 
-const genAI = new GoogleGenerativeAI("");
+if (!process.env.NEXT_PUBLIC_APIKEY_GEMINI_AI) {
+  console.log(
+    "API HERE :DDDDDDDDDDDDDDDDDDDDDDDDd",
+    process.env.NEXT_PUBLIC_APIKEY_GEMINI_AI
+  );
+  throw new Error("API key is not defined in the environment variables.");
+}
+
+console.log(
+  ":OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO"
+);
+console.log(
+  "API HERE :DDDDDDDDDDDDDDDDDDDDDDDDd",
+  process.env.NEXT_PUBLIC_APIKEY_GEMINI_AI
+);
+
+const genAI = new GoogleGenerativeAI("AIzaSyDFbyuvbBT0SU8Vy4o2MvYFp0Z9HGJHw1U");
 
 const schema = {
-  description: "List of messages",
+  description: "Product",
   type: SchemaType.ARRAY,
   items: {
     type: SchemaType.OBJECT,
     properties: {
-      text: {
+      nombre_producto: {
         type: SchemaType.STRING,
-        description: "Message content",
+        description: "Nombre del producto",
+        nullable: false,
+      },
+      precio: {
+        type: SchemaType.STRING,
+        description: "Precio del producto",
+        nullable: false,
+      },
+      stock: {
+        type: SchemaType.STRING,
+        description: "Stock del producto",
+        nullable: false,
+      },
+      descripcion: {
+        type: SchemaType.STRING,
+        description: "Descripcion del producto",
+        nullable: false,
+      },
+      url_image: {
+        type: SchemaType.STRING,
+        description: "URL de la imagen del producto",
         nullable: false,
       },
     },
-    required: ["text"],
+    required: ["recipeName"],
   },
 };
 
 const model = genAI.getGenerativeModel({
-  model: "gemini-1.5-pro",
+  model: "gemini-1.5-flash-001",
   generationConfig: {
     responseMimeType: "application/json",
     responseSchema: schema,
@@ -36,27 +72,35 @@ const Chatbot = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+  const [loading, setLoading] = useState(false); // Nuevo estado para carga
 
   const handleSend = async () => {
     if (!input.trim()) return;
 
     const newMessage = { text: input, sender: "user" };
     setMessages((prev) => [...prev, newMessage]);
+    setInput("");
+    setLoading(true); // Activar carga
 
-    // Define a message variable to add extra context to the prompt
-    const message = "Tengo Canasta Palma Sunkha Median ste quiboro es una pieza única tejida a mano por artesanas de Vallegrande, utilizando fibra natural de palma zunjka. Su diseño artesanal y su material natural lo convierten en un objeto decorativo y funcional. Con medidas de 36 cm x 5 cm, es perfecto para llevar pequeños objetos o como elemento decorativo. Bandeja Tallada con alas Misiona ";
-    const fullPrompt = message + input; // Combine the extra context with user input
+    const message =
+      "Dame una lista de productos con los atributos de nombre, precio, descripcion, stock e una url de imagen de producto sacada de una free api, el rpdocuto que pido es el siguiente";
+    const fullPrompt = message + input;
 
     try {
       const response = await model.generateContent(fullPrompt);
-      const botMessage = { text: response.response.text(), sender: "bot" };
-      setMessages((prev) => [...prev, botMessage]);
+      const botMessage = response.response.text();
+      console.log(botMessage);
+
+      setMessages((prev: any) => [...prev, botMessage]);
     } catch (error) {
       console.error("Error fetching response:", error);
-      setMessages((prev) => [...prev, { text: "Sorry, something went wrong.", sender: "bot" }]);
+      setMessages((prev) => [
+        ...prev,
+        { text: "Lo siento, algo salió mal.", sender: "bot" },
+      ]);
+    } finally {
+      setLoading(false); // Desactivar carga
     }
-
-    setInput("");
   };
 
   return (
@@ -72,12 +116,25 @@ const Chatbot = () => {
         <div className="flex flex-col w-80 p-4 border rounded-lg shadow-lg bg-white mt-2">
           <div className="flex-1 overflow-y-auto mb-4 max-h-60">
             {messages.map((message, index) => (
-              <div key={index} className={`my-2 ${message.sender === "user" ? "text-right" : "text-left"}`}>
-                <span className={`inline-block p-2 rounded-lg ${message.sender === "user" ? "bg-blue-500 text-white" : "bg-gray-300"}`}>
+              <div
+                key={index}
+                className={`my-2 ${
+                  message.sender === "user" ? "text-right" : "text-left"
+                }`}
+              >
+                <span
+                  className={`inline-block p-2 rounded-lg ${
+                    message.sender === "user"
+                      ? "bg-blue-500 text-white"
+                      : "bg-gray-300"
+                  }`}
+                >
                   {message.text}
                 </span>
               </div>
             ))}
+            {loading && <div className="text-center">Cargando...</div>}{" "}
+            {/* Indicador de carga */}
           </div>
           <div className="flex">
             <input
@@ -85,13 +142,13 @@ const Chatbot = () => {
               className="flex-1 p-2 border rounded-l-lg focus:outline-none"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Type your message..."
+              placeholder="Escribe tu mensaje..."
             />
             <button
               onClick={handleSend}
               className="p-2 bg-blue-500 text-white rounded-r-lg hover:bg-blue-600"
             >
-              Send
+              Enviar
             </button>
           </div>
         </div>

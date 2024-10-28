@@ -4,11 +4,15 @@ import React, { useState } from "react";
 import { FaBars, FaTimes, FaShoppingCart, FaUserCircle } from "react-icons/fa";
 import { useAppContext } from "@/context";
 import CartSidebar from "../components/CartSidebar";
+import styles from '../styles/navbar.module.css';
+import { toggleDeliveryStatus } from '../services/ChangeDeliveryStatusService'; // Asegúrate de tener la ruta correcta a tu archivo de servicio
+
 
 const Navbar = () => {
   const [nav, setNav] = useState(false);
   const [isCartOpen, setCartOpen] = useState(false);
   const [isUserMenuOpen, setUserMenuOpen] = useState(false);
+  const [isActive, setIsActive] = useState(false);
 
   const {
     username,
@@ -20,6 +24,8 @@ const Navbar = () => {
     setIsLoggedIn,
     numberOfProductsInCart,
     role,
+    idUser,
+    setIdUser
   } = useAppContext();
 
   const handleLogout = () => {
@@ -52,6 +58,17 @@ const Navbar = () => {
     setUserMenuOpen(false);
   };
 
+
+  const toggleActive = async () => {
+    const newState = !isActive; // Invertir el estado actual
+    setIsActive(newState);
+    try {
+      await toggleDeliveryStatus(idUser, newState);
+      console.log('Estado actualizado correctamente');
+    } catch (error) {
+      console.error('Error al actualizar el estado:', error);
+    }
+  };
   // Nuevo: función para renderizar el menú basado en el rol
   const renderUserMenu = () => {
     switch (role) {
@@ -162,7 +179,15 @@ const Navbar = () => {
             <Link href={link} className="text-[#FF9F1C]">{text}</Link>
           </li>
         ))}
-  
+    {isLoggedIn && role === "delivery" && (
+            <div className={styles.switchContainer}>
+              <span>Estado: </span>
+              <label className={styles.switch}>
+                <input type="checkbox" checked={isActive} onChange={toggleActive} />
+                <span className={`${styles.slider} ${isActive ? styles.active : ''}`} />
+              </label>
+            </div>
+          )}
         {/* Icono del carrito y usuario */}
         <div className="flex items-center text-gray-600">
           {isLoggedIn ? (

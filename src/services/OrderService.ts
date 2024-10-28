@@ -9,7 +9,6 @@ export const createOrder = async (orderData) => {
       },
       body: JSON.stringify(orderData),
     });
-
     console.log(response)
     if (!response.ok) {
       throw new Error("Error al crear el pedido");

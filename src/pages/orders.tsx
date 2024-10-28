@@ -2,11 +2,10 @@ import { useEffect, useState } from "react";
 import OrderItem from "@/components/OrderItem";
 import Navbar from "@/components/Navbar";
 
-// Define la interfaz para los pedidos y carritos
 interface Order {
   id_pedido: number;
   id_carrito: number;
-  fecha_pedido: Date;
+  fecha_pedido: string; // Cambiado a string para manejar el formato ISO
   estado_pedido: string;
   monto_pago: number;
   tipo_de_pedido: string;
@@ -24,7 +23,6 @@ const Orders = () => {
 
   useEffect(() => {
     const fetchOrdersAndCarts = async () => {
-      // Obtener datos del usuario de localStorage
       const userData = localStorage.getItem("userData");
       const userId = userData ? JSON.parse(userData).id_usuario : null;
 
@@ -35,24 +33,15 @@ const Orders = () => {
       }
 
       try {
-        // Obtener todos los carritos
         const cartResponse = await fetch("http://localhost:5000/api/v1/carrito");
-        if (!cartResponse.ok) {
-          throw new Error("Error al obtener los carritos");
-        }
+        if (!cartResponse.ok) throw new Error("Error al obtener los carritos");
         const carts: Cart[] = await cartResponse.json();
-
-        // Filtrar carritos del usuario logueado
         const userCarts = carts.filter(cart => cart.id_usuario === userId);
 
-        // Obtener todos los pedidos
         const orderResponse = await fetch("http://localhost:5000/api/v1/pedido");
-        if (!orderResponse.ok) {
-          throw new Error("Error al obtener los pedidos");
-        }
+        if (!orderResponse.ok) throw new Error("Error al obtener los pedidos");
         const ordersData: Order[] = await orderResponse.json();
 
-        // Filtrar los pedidos que pertenecen a los carritos del usuario
         const userOrders = ordersData.filter(order =>
           userCarts.some(cart => cart.id_carrito === order.id_carrito)
         );
@@ -81,7 +70,7 @@ const Orders = () => {
           ) : orders.length === 0 ? (
             <p className="text-center text-gray-600">No tienes pedidos realizados</p>
           ) : (
-            orders.map((order,index) => (
+            orders.map((order, index) => (
               <OrderItem
                 key={order.id_pedido}
                 order={{
@@ -102,5 +91,4 @@ const Orders = () => {
     </>
   );
 };
-
 export default Orders;

@@ -1,5 +1,3 @@
-// components/OrderItem.js
-
 import Link from 'next/link';
 import React, { useState } from 'react';
 
@@ -25,7 +23,7 @@ const OrderItem = ({ order, orderNumber }) => {
             console.log(data); // Para verificar la respuesta
 
             // Accediendo a la información de delivery desde el primer elemento de entrega
-            if (data.entrega.length > 0) {
+            if (data.entrega && data.entrega.length > 0) {
                 setDeliveryContacts(data.entrega[0].delivery); // Acceder a la información de delivery
             } else {
                 setDeliveryContacts(null); // No hay entregas
@@ -52,7 +50,7 @@ const OrderItem = ({ order, orderNumber }) => {
                     <span className="font-medium">Fecha - Hora:</span> {order.fecha_pedido}
                 </div>
                 <div className="text-gray-600 mb-1">
-                    <span className="font-medium">Estado:</span> <span className='capitalize'>{order.estado_pedido}</span>
+                    <span className="font-medium">Estado:</span> <span className='capitalize'>{order.status}</span> {/* Cambiado de `estado_pedido` a `status` */}
                 </div>
                 <div className="text-gray-600 mb-1">
                     <span className="font-medium">Total:</span> <span className="font-semibold">{order.monto_pago} Bs</span>

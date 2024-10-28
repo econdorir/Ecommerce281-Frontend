@@ -9,8 +9,23 @@ interface Order {
   estado_pedido: string;
   monto_pago: number;
   tipo_de_pedido: string;
+  carrito: {
+      id_carrito: number;
+      id_usuario: number | null;
+  };
+  entrega: entregas[];
 }
 
+interface entregas {
+  id_entrega: number;
+  id_pedido: number;
+  id_cliente: number;
+  id_delivery: number | null;
+  estado_entrega: string;
+  fecha_entrega: Date | null;
+  cliente_confirm: boolean;
+  delivery_confirm: boolean;
+}
 interface Cart {
   id_carrito: number;
   id_usuario: number;
@@ -36,14 +51,13 @@ const Orders = () => {
         const cartResponse = await fetch("http://localhost:5000/api/v1/carrito");
         if (!cartResponse.ok) throw new Error("Error al obtener los carritos");
         const carts: Cart[] = await cartResponse.json();
-        const userCarts = carts.filter(cart => cart.id_usuario === userId);
+        const userCarts = carts.filter(cart => cart.id_usuario === userId); // Aquí no se necesita modificar
 
         const orderResponse = await fetch("http://localhost:5000/api/v1/pedido");
         if (!orderResponse.ok) throw new Error("Error al obtener los pedidos");
         const ordersData: Order[] = await orderResponse.json();
-
         const userOrders = ordersData.filter(order =>
-          userCarts.some(cart => cart.id_carrito === order.id_carrito)
+            order.entrega.some(delivery => delivery.id_cliente === userId)
         );
 
         setOrders(userOrders);

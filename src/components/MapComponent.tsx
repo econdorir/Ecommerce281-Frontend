@@ -1,21 +1,75 @@
-import React from 'react';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import React, { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
+import L from "leaflet";
+import "leaflet/dist/leaflet.css";
 
-const MapComponent: React.FC = () => {
-  const position: [number, number] = [-16.5, -68.1193]; // Coordenadas de La Paz, Bolivia
+// Dynamically import components to avoid SSR issues
+const MapContainer = dynamic(
+  () => import("react-leaflet").then((mod) => mod.MapContainer),
+  { ssr: false }
+);
+const TileLayer = dynamic(
+  () => import("react-leaflet").then((mod) => mod.TileLayer),
+  { ssr: false }
+);
+const Marker = dynamic(
+  () => import("react-leaflet").then((mod) => mod.Marker),
+  { ssr: false }
+);
+const Polyline = dynamic(
+  () => import("react-leaflet").then((mod) => mod.Polyline),
+  { ssr: false }
+);
+const Popup = dynamic(() => import("react-leaflet").then((mod) => mod.Popup), {
+  ssr: false,
+});
+
+interface MyMapComponentProps {
+  source: L.LatLngExpression | null;
+  target: L.LatLngExpression | null;
+}
+
+const MyMapComponent: React.FC<MyMapComponentProps> = ({ source, target }) => {
+  if (!source || !target) {
+    return <div>Cargando mapa...</div>; // Show loading until everything is ready
+  }
+
+  const polylinePositions = [source, target];
+
+  const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2: number): number => {
+    const R = 6371; // Radius of the Earth in km
+    const dLat = (lat2 - lat1) * (Math.PI / 180);
+    const dLon = (lon2 - lon1) * (Math.PI / 180);
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(lat1 * (Math.PI / 180)) *
+      Math.cos(lat2 * (Math.PI / 180)) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c; // Distance in km
+  };
+
+  const distance = calculateDistance(source[0], source[1], target[0], target[1]);
 
   return (
-    <div className="h-96 z-0">
-          <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d64369.05248255918!2d-68.1192935!3d-16.5002934!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x93e36820f2985861%3A0x6ae78e4e8efc94d1!2sUMSA%20Universidad%20Mayor%20de%20San%20Andr%C3%A9s!5e0!3m2!1ses-419!2sbo!4v1697798232878!5m2!1ses-419!2sbo"
-            width="100%"
-            height="300"
-            style={{ border: 0 }}
-            allowFullScreen
-            loading="lazy"
-          ></iframe>
-    </div>
+    <MapContainer center={source} zoom={10} style={{ height: "400px", width: "100%" ,border:"2px solid black", zIndex: "0" }}>
+      <TileLayer
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      />
+      <Marker position={source}>
+        <Popup>Source Location</Popup>
+      </Marker>
+      <Marker position={target}>
+        <Popup>Target Location</Popup>
+      </Marker>
+      <Polyline positions={polylinePositions} color="blue" />
+      <div style={{ position: "absolute", top: "10px", left: "10px", background: "white", padding: "5px", borderRadius: "5px" }}>
+        {distance && <p>Distance: {distance.toFixed(2)} km</p>}
+      </div>
+    </MapContainer>
   );
 };
 
-export default MapComponent;
+export default MyMapComponent;

@@ -48,10 +48,10 @@ const Orders = () => {
       }
 
       try {
-        const cartResponse = await fetch("http://localhost:5000/api/v1/carrito");
-        if (!cartResponse.ok) throw new Error("Error al obtener los carritos");
-        const carts: Cart[] = await cartResponse.json();
-        const userCarts = carts.filter(cart => cart.id_usuario === userId); // Aquí no se necesita modificar
+        // const cartResponse = await fetch("http://localhost:5000/api/v1/carrito");
+        // if (!cartResponse.ok) throw new Error("Error al obtener los carritos");
+        // const carts: Cart[] = await cartResponse.json();
+        // const userCarts = carts.filter(cart => cart.id_usuario === userId); // Aquí no se necesita modificar
 
         const orderResponse = await fetch("http://localhost:5000/api/v1/pedido");
         if (!orderResponse.ok) throw new Error("Error al obtener los pedidos");

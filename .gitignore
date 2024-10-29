@@ -1,4 +1,6 @@
 # Logs
+sw.js.map
+
 logs
 *.log
 npm-debug.log*

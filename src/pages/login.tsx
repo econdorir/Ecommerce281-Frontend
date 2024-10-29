@@ -37,7 +37,9 @@ export default function LoginForm() {
       setPassword(result.password_usuario);
       setRole(result.tipo_usuario);
       setIsLoggedIn(true);
+      localStorage.setItem('isLoggedIn', 'true');
       router.push("/products");
+
       // Aquí puedes manejar la respuesta, como redirigir al usuario o almacenar el token
     } catch (error) {
       setError("Error en el inicio de sesión. Verifica tus credenciales.");

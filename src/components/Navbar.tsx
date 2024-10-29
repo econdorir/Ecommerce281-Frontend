@@ -5,8 +5,8 @@ import React, { useEffect, useState } from "react";
 import { FaBars, FaTimes, FaShoppingCart, FaUserCircle } from "react-icons/fa";
 import { useAppContext } from "@/context";
 import CartSidebar from "../components/CartSidebar";
-import styles from '../styles/navbar.module.css';
-import { toggleDeliveryStatus } from '../services/ChangeDeliveryStatusService'; // Asegúrate de tener la ruta correcta a tu archivo de servicio
+import styles from "../styles/navbar.module.css";
+import { toggleDeliveryStatus } from "../services/ChangeDeliveryStatusService"; // Asegúrate de tener la ruta correcta a tu archivo de servicio
 
 import { useRouter } from "next/compat/router";
 
@@ -17,6 +17,16 @@ const Navbar = () => {
   const [isActive, setIsActive] = useState(false);
   const router = useRouter();
 
+  useEffect(() => {
+    const storedIsLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+    setIsLoggedIn(storedIsLoggedIn);
+    if (storedIsLoggedIn) {
+      const storedUserData: any = localStorage.getItem("userData");
+      const userData = JSON.parse(storedUserData);
+      setUsername(userData.nombre_usuario);
+      setRole(userData.tipo_usuario);
+    }
+  }, []);
   const {
     username,
     setUsername,
@@ -28,7 +38,7 @@ const Navbar = () => {
     numberOfProductsInCart,
     role,
     idUser,
-    setIdUser
+    setIdUser,
   } = useAppContext();
 
   const handleLogout = () => {
@@ -51,8 +61,6 @@ const Navbar = () => {
     { id: 5, text: "acerca de", link: "/about" },
   ];
 
- 
-  
   const handleCartToggle = () => {
     setCartOpen((prev) => !prev);
   };
@@ -66,15 +74,14 @@ const Navbar = () => {
     setUserMenuOpen(false);
   };
 
-
   const toggleActive = async () => {
     const newState = !isActive; // Invertir el estado actual
     setIsActive(newState);
     try {
       await toggleDeliveryStatus(idUser, newState);
-      console.log('Estado actualizado correctamente');
+      console.log("Estado actualizado correctamente");
     } catch (error) {
-      console.error('Error al actualizar el estado:', error);
+      console.error("Error al actualizar el estado:", error);
     }
   };
   // Nuevo: función para renderizar el menú basado en el rol
@@ -198,15 +205,21 @@ const Navbar = () => {
             </Link>
           </li>
         ))}
-    {isLoggedIn && role === "delivery" && (
-            <div className={styles.switchContainer}>
-              <span>Estado: </span>
-              <label className={styles.switch}>
-                <input type="checkbox" checked={isActive} onChange={toggleActive} />
-                <span className={`${styles.slider} ${isActive ? styles.active : ''}`} />
-              </label>
-            </div>
-          )}
+        {isLoggedIn && role === "delivery" && (
+          <div className={styles.switchContainer}>
+            <span>Estado: </span>
+            <label className={styles.switch}>
+              <input
+                type="checkbox"
+                checked={isActive}
+                onChange={toggleActive}
+              />
+              <span
+                className={`${styles.slider} ${isActive ? styles.active : ""}`}
+              />
+            </label>
+          </div>
+        )}
         {/* Icono del carrito y usuario */}
         <div className="flex items-center text-gray-600">
           {isLoggedIn ? (
@@ -232,7 +245,68 @@ const Navbar = () => {
               {isUserMenuOpen && (
                 <div className="absolute top-16 right-0 mt-2 bg-white text-black rounded shadow-md p-2">
                   <span className="block font-bold">{username}</span>
-                  {renderUserMenu()} {/* Renderiza el menú basado en el rol */}
+                  {/* {renderUserMenu()} Renderiza el menú basado en el rol */}
+                  {role === "cliente" && (
+                    <>
+                      <div>
+                        <Link href="/profile">Perfil</Link>
+                      </div>
+                      <div>
+                        <Link href="/orders">Mis Pedidos</Link>
+                      </div>
+                      <div>
+                        <Link href="/settings">Configuración</Link>
+                      </div>
+                      <div>
+                        <button onClick={handleLogout}>Cerrar Sesión</button>
+                      </div>
+                    </>
+                  )}
+                  {role === "artesano" && (
+                    <>
+                      <div>
+                        <Link href="/profile">Perfil (Mis productos)</Link>
+                      </div>
+                      <div>
+                        <Link href="/add-product">Añadir Producto</Link>
+                      </div>
+                      <div>
+                        <Link href="/settings">Configuración</Link>
+                      </div>
+                      <div>
+                        <button onClick={handleLogout}>Cerrar Sesión</button>
+                      </div>
+                    </>
+                  )}
+                  {role === "delivery" && (
+                    <>
+                      <div>
+                        <Link href="/profile">Perfil</Link>
+                      </div>
+                      <div>
+                        <Link href="/deliveries">Mis Entregas</Link>
+                      </div>
+                      <div>
+                        <Link href="/settings">Configuración</Link>
+                      </div>
+                      <div>
+                        <button onClick={handleLogout}>Cerrar Sesión</button>
+                      </div>
+                    </>
+                  )}
+                  {role === "admin" && (
+                    <>
+                      <div>
+                        <Link href="/AdminDashboard">Administrar</Link>
+                      </div>
+                      <div>
+                        <Link href="/settings">Configuración</Link>
+                      </div>
+                      <div>
+                        <button onClick={handleLogout}>Cerrar Sesión</button>
+                      </div>
+                    </>
+                  )}
                 </div>
               )}
 

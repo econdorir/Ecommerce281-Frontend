@@ -1,14 +1,17 @@
+"use client";
 import Link from "next/link";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaBars, FaTimes, FaShoppingCart, FaUserCircle } from "react-icons/fa";
 import { useAppContext } from "@/context";
 import CartSidebar from "../components/CartSidebar";
+import { useRouter } from "next/compat/router";
 
 const Navbar = () => {
   const [nav, setNav] = useState(false);
   const [isCartOpen, setCartOpen] = useState(false);
   const [isUserMenuOpen, setUserMenuOpen] = useState(false);
+  const router = useRouter();
 
   const {
     username,
@@ -29,6 +32,9 @@ const Navbar = () => {
     setRole("");
     setPassword("");
     localStorage.clear();
+    if (router) {
+      router.push("/");
+    }
   };
 
   const links = [
@@ -39,6 +45,8 @@ const Navbar = () => {
     { id: 5, text: "acerca de", link: "/about" },
   ];
 
+ 
+  
   const handleCartToggle = () => {
     setCartOpen((prev) => !prev);
   };
@@ -132,37 +140,48 @@ const Navbar = () => {
           </>
         );
     }
-  };  
+  };
   return (
     <div className="flex justify-between items-center w-full h-20 px-4 text-white bg-black fixed nav z-10">
       <div>
         <h1 className="text-5xl font-signature ml-2">
           <Link href="/" passHref>
-            <div className="flex items-center space-x-2"><div className="relative w-20 h-20 sm:w-24 sm:h-24">
-              <Image
-                src="/images/Logo281.png"
-                alt="logo"
-                layout="fill"
-                objectFit="cover"
-                className="rounded-full"
-              />
-            </div>
-            <span className="text-lg font-normal text-white " style={{ fontFamily: 'Dancing-Script, cursive',letterSpacing: '0.em' }}>ARTIISNINC</span>
+            <div className="flex items-center space-x-2">
+              <div className="relative w-20 h-20 sm:w-24 sm:h-24">
+                <Image
+                  src="/images/Logo281.png"
+                  alt="logo"
+                  layout="fill"
+                  objectFit="cover"
+                  className="rounded-full"
+                />
+              </div>
+              <span
+                className="text-lg font-normal text-white "
+                style={{
+                  fontFamily: "Dancing-Script, cursive",
+                  letterSpacing: "0.em",
+                }}
+              >
+                ARTIISNINC
+              </span>
             </div>
           </Link>
         </h1>
       </div>
-  
+
       <ul className="hidden md:flex">
         {links.map(({ id, text, link }) => (
           <li
             key={id}
             className="nav-links px-4 cursor-pointer capitalize font-medium text-gray-500 hover:scale-105 hover:text-white duration-200 link-underline"
           >
-            <Link href={link} className="text-[#FF9F1C]">{text}</Link>
+            <Link href={link} className="text-[#FF9F1C]">
+              {text}
+            </Link>
           </li>
         ))}
-  
+
         {/* Icono del carrito y usuario */}
         <div className="flex items-center text-gray-600">
           {isLoggedIn ? (
@@ -178,12 +197,12 @@ const Navbar = () => {
                   )}
                 </button>
               )}
-  
+
               {/* Botón de usuario */}
               <button onClick={toggleUserMenu} className="relative ml-4">
                 <FaUserCircle className="text-white rounded-full" size={36} />
               </button>
-  
+
               {/* Menú desplegable de usuario */}
               {isUserMenuOpen && (
                 <div className="absolute top-16 right-0 mt-2 bg-white text-black rounded shadow-md p-2">
@@ -191,7 +210,7 @@ const Navbar = () => {
                   {renderUserMenu()} {/* Renderiza el menú basado en el rol */}
                 </div>
               )}
-  
+
               {/* Carrito solo si el rol es 'cliente' */}
               {role === "cliente" && (
                 <CartSidebar
@@ -213,7 +232,7 @@ const Navbar = () => {
           )}
         </div>
       </ul>
-  
+
       {/* Menú de navegación para móviles */}
       <div
         onClick={() => setNav(!nav)}
@@ -221,7 +240,7 @@ const Navbar = () => {
       >
         {nav ? <FaTimes size={30} /> : <FaBars size={30} />}
       </div>
-  
+
       {nav && (
         <ul className="flex flex-col justify-center items-center absolute top-0 left-0 w-full h-screen bg-gradient-to-b from-black to-gray-800 text-gray-500">
           {links.map(({ id, text, link }) => (
@@ -267,5 +286,5 @@ const Navbar = () => {
     </div>
   );
 };
-  
+
 export default Navbar;

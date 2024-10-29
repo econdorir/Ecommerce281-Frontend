@@ -13,7 +13,7 @@ const HomePage: FC = () => {
   return (
     <>
       <Navbar />
-      <main className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
+      <main className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4 pb-20">
         <HeroSection />
         <ProductCarousel />
         <FAQSection />

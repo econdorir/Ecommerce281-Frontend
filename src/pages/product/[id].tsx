@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { QuantitySelector } from "@/components/QuantitySelector";
 import { ProductSlideShow } from "@/components/ProductSlideShow";
-import { FaTimes } from "react-icons/fa";
+import { FaTimes, FaStar } from "react-icons/fa";
 import { ProductMobileSlideShow } from "@/components/ProductMobileSlideShow";
 import Navbar from "@/components/Navbar";
 import { useAppContext } from "@/context";
@@ -114,6 +114,49 @@ const ProductDetail = ({ product, resenia, clientes, promociones }) => {
 
   if (!product) return <div>Cargando...</div>;
 
+  const renderStars = (rating: number): JSX.Element[] => {
+    const stars: JSX.Element[] = [];
+    for (let i = 1; i <= 5; i++) {
+      if (rating >= i) {
+        stars.push(<FaStar key={i} className="h-5 w-5 text-blue-500" />);
+      } else if (rating >= i - 0.5) {
+        stars.push(
+          <div className="relative h-5 w-5 overflow-hidden" key={i}>
+            <FaStar
+              className="absolute h-full w-full text-blue-500"
+              style={{ clipPath: "inset(0 50% 0 0)" }}
+            />
+          </div>
+        ); // Estrella medio llena
+      } else {
+        stars.push(<FaStar key={i} className="h-5 w-5 text-gray-300" />);
+      }
+    }
+    return stars;
+  };
+
+  // Filtrar reseñas del producto
+  const reseñasFiltradas = resenia.filter(
+    (item) => item.id_producto === product.id_producto
+  );
+  const totalCalificacion = reseñasFiltradas.reduce((acc, item) => {
+    const calificacion = Number(item.calificacion_resenia); // Asegúrate de que sea un número
+    return acc + (isNaN(calificacion) ? 0 : calificacion); // Ignora calificaciones no válidas
+  }, 0);
+  const promedioCalificacion =
+    reseñasFiltradas.length > 0
+      ? (totalCalificacion / reseñasFiltradas.length).toFixed(1)
+      : 0;
+
+  const formatDate = (dateString: string) => {
+    const options: Intl.DateTimeFormatOptions = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    };
+    return new Date(dateString).toLocaleDateString("es-ES", options);
+  };
+
   return (
     <>
       <Navbar />
@@ -149,13 +192,13 @@ const ProductDetail = ({ product, resenia, clientes, promociones }) => {
 
           {finalPrice < product.precio_producto ? (
             <>
-              <p className="my-3 line-through text-lg">Bs {product.precio_producto}</p>
+              <p className="my-3 line-through text-lg">
+                Bs {product.precio_producto}
+              </p>
               <p className="text-xl my-3 font-bold">Bs {finalPrice}</p>
             </>
           ) : (
-            <p className="text-lg my-3">
-              Bs {product.precio_producto}
-            </p>
+            <p className="text-lg my-3">Bs {product.precio_producto}</p>
           )}
 
           {/* Only show QuantitySelector and Add to Cart button if user is logged in and is a customer */}
@@ -202,54 +245,62 @@ const ProductDetail = ({ product, resenia, clientes, promociones }) => {
       </div>
 
       <h3 className="font-bold text-4xl text-center my-5">Reseñas</h3>
+      <div className="grid grid-cols-1 gap-3 mx-5 px-36 text-center">
+        <div className="mb-6 p-6 border border-gray-300 rounded-lg shadow-lg bg-gradient-to-br from-white to-gray-100 hover:shadow-2xl transition-shadow duration-300">
+          <h1 className="text-5xl">{promedioCalificacion}</h1>
+          <div className="flex justify-center items-center mt-2">{renderStars(Number(promedioCalificacion))}</div>
+          <h1>{reseñasFiltradas.length} reseñas</h1>
+        </div>
+      </div>
       <div className="mb-20 grid grid-cols-1 md:grid-cols-3 gap-3 mx-5 px-36">
-        {resenia.filter((item) => item.id_producto === product.id_producto)
-          .length > 0 ? (
-          resenia
-            .filter((item) => item.id_producto === product.id_producto)
-            .map((item) => {
-              const cliente = clientes
-                .map((c) => ({
-                  id_usuario: c.id_usuario,
-                  nombre_usuario: c.nombre_usuario,
-                  nro_compras: c.nro_compras,
-                }))
-                .find((c) => c.id_usuario === item.id_usuario);
+        {reseñasFiltradas.length > 0 ? (
+          reseñasFiltradas.map((item) => {
+            const cliente = clientes
+              .map((c) => ({
+                id_usuario: c.id_usuario,
+                nombre_usuario: c.nombre_usuario,
+                nro_compras: c.nro_compras,
+              }))
+              .find((c) => c.id_usuario === item.id_usuario);
 
-              return (
-                <div
-                  key={item.id_resenia}
-                  className="mb-6 p-6 border border-gray-300 rounded-lg shadow-lg bg-gradient-to-br from-white to-gray-100 hover:shadow-2xl transition-shadow duration-300"
-                >
-                  <p className="font-light text-justify text-gray-800">
-                    <span className="font-semibold text-xl">
-                      {item.fecha_resenia}
-                    </span>
-                    <br />
-                    <span className="text-gray-700">
-                      {item.descripcion_resenia}
-                    </span>
-                  </p>
-                  <div className="mt-4 border-t border-gray-300 pt-3">
-                    {cliente ? (
-                      <p className="font-light text-gray-600">
-                        <span className="font-semibold text-gray-800">
-                          {cliente.nombre_usuario}
-                        </span>
-                        <br />
-                        <span className="text-sm italic">
-                          {cliente.nro_compras} compras
-                        </span>
-                      </p>
-                    ) : (
-                      <p className="font-light text-gray-600 italic">
-                        Cliente desconocido
-                      </p>
-                    )}
-                  </div>
+            return (
+              <div
+                key={item.id_resenia}
+                className="mb-6 p-6 border border-gray-300 rounded-lg shadow-lg bg-gradient-to-br from-white to-gray-100 hover:shadow-2xl transition-shadow duration-300"
+              >
+                <p className="font-light text-justify text-gray-800">
+                  <span className="font-semibold text-xl">
+                    {formatDate(item.fecha_resenia)}
+                  </span>
+                  <br />
+                  <span className="text-gray-700">
+                    {item.descripcion_resenia}
+                  </span>
+                </p>
+                <div className="flex items-center mt-2">
+                  {renderStars(item.calificacion_resenia)}
                 </div>
-              );
-            })
+
+                <div className="mt-4 border-t border-gray-300 pt-3">
+                  {cliente ? (
+                    <p className="font-light text-gray-600">
+                      <span className="font-semibold text-gray-800">
+                        {cliente.nombre_usuario}
+                      </span>
+                      <br />
+                      <span className="text-sm italic">
+                        {cliente.nro_compras} compras
+                      </span>
+                    </p>
+                  ) : (
+                    <p className="font-light text-gray-600 italic">
+                      Cliente desconocido
+                    </p>
+                  )}
+                </div>
+              </div>
+            );
+          })
         ) : (
           <p className="col-span-3 font-light text-center text-gray-500 text-lg">
             No hay reseñas disponibles para este producto.

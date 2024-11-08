@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/router";
 import Navbar from "@/components/Navbar";
 import confirmDelivery from "@/components/DeliveryComponent";
+import { Andika } from "next/font/google";
 
 interface Comunidad {
     id_comunidad: number;
@@ -39,6 +40,8 @@ interface Delivery {
     id_delivery: number;
     estado_entrega: string;
     fecha_entrega: string | null;
+    delivery_confirm: boolean;
+    cliente_confirm: boolean;
     cliente: Cliente;
     pedido: {
         id_pedido: number;
@@ -54,10 +57,20 @@ interface Delivery {
                 id_aniade: number;
                 producto: Producto; // Fixed this line
                 cantidad: number;
+                artesano_confirm: boolean;
+                delivery_confirm: boolean;
             }[];
         };
     };
 }
+
+interface Aniade {
+    id_aniade: number;
+    producto: Producto;
+    cantidad: number;
+    artesano_confirm: boolean;
+    delivery_confirm: boolean;
+};
 
 const DeliveryDetails = () => {
     const router = useRouter();
@@ -114,18 +127,25 @@ const DeliveryDetails = () => {
         setModalType(null);
     }, []);
 
-    /*const confirmDelivery = async () => {
+    const confirmDelivery = async () => {
         if (!deliveryDetails) return;
-
         try {
-            const response = await fetch(`http://localhost:5000/api/v1/entrega/confirmar/${deliveryDetails.id_entrega}`, {
-                method: 'PUT',
+                // Si ambas confirmaciones están en true, no permitir modificaciones
+            console.log(deliveryDetails)
+            if (deliveryDetails.delivery_confirm && deliveryDetails.cliente_confirm) {
+                alert("La entrega ya fue confirmada por ambas partes y no se puede modificar.");
+                return;
+            }
+            if (deliveryDetails.delivery_confirm && !deliveryDetails.cliente_confirm){
+            window.confirm("¿Deseas cancelar la confirmación de la entrega?")
+            const response = await fetch(`http://localhost:5000/api/v1/entrega/${deliveryDetails.id_entrega}`, {
+                method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    estado_entrega: 'confirmada',
                     fecha_entrega: new Date().toISOString(),
+                    delivery_confirm: false
                 }),
             });
 
@@ -135,15 +155,219 @@ const DeliveryDetails = () => {
 
             setDeliveryDetails(prev => (prev ? {
                 ...prev,
-                estado_entrega: 'confirmada',
                 fecha_entrega: new Date().toISOString(),
+                delivery_confirm: false
             } : prev));
 
-            alert("Entrega confirmada con éxito");
+            alert("Confirmacion cancelada con éxito");
+            }
+
+            if (!deliveryDetails.delivery_confirm){
+                window.confirm("¿Deseas confirmar la entrega?");
+                const response = await fetch(`http://localhost:5000/api/v1/entrega/${deliveryDetails.id_entrega}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        fecha_entrega: new Date().toISOString(),
+                        delivery_confirm: true
+                    }),
+                });
+    
+                if (!response.ok) {
+                    throw new Error("Error al confirmar la entrega");
+                }
+                if(deliveryDetails.cliente_confirm){
+                    const response = await fetch(`http://localhost:5000/api/v1/entrega/${deliveryDetails.id_entrega}`, {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            estado_entrega: "Entregado"
+                        }),
+                    });
+                    const response2 = await fetch(`http://localhost:5000/api/v1/pedido/${deliveryDetails.pedido.id_pedido}`, {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            estado_pedido: "entregado"
+                        }),
+                    });
+                    setDeliveryDetails(prev => (prev ? {
+                        ...prev,
+                        fecha_entrega: new Date().toISOString(),
+                        delivery_confirm: true,
+                        estado_entrega: "Entregado",
+                        pedido: {
+                            ...prev.pedido,
+                            estado_pedido: "entregado"
+                        }
+                    } : prev));
+                }else{
+                    setDeliveryDetails(prev => (prev ? {
+                        ...prev,
+                        fecha_entrega: new Date().toISOString(),
+                        delivery_confirm: true
+                    } : prev));
+                }
+                alert("Entrega confirmada con éxito");
+            }
+            console.log(deliveryDetails)
+            if(deliveryDetails.delivery_confirm && deliveryDetails.cliente_confirm){
+                    
+                }
         } catch (error: any) {
             alert(error.message);
         }
-    };*/
+    };
+
+
+    const ConfirmArtesano =  useCallback( async (aniade: Aniade) => {
+        if (!aniade) return;
+        try {
+            if (aniade.delivery_confirm && aniade.artesano_confirm) {
+                alert("La entrega ya fue confirmada por ambas partes y no se puede modificar.");
+                return;
+            }
+            if (aniade.delivery_confirm && !aniade.artesano_confirm){
+            window.confirm("¿Deseas cancelar la confirmación de la entrega?")
+            const response = await fetch(`http://localhost:5000/api/v1/aniade/${aniade.id_aniade}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    delivery_confirm: false
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error("Error al confirmar la entrega");
+            }
+
+            setDeliveryDetails(prev => (prev ? {
+                ...prev,
+                pedido: {
+                    ...prev.pedido,
+                    carrito: {
+                        ...prev.pedido.carrito,
+                        aniade: prev.pedido.carrito.aniade.map(item =>
+                            item.id_aniade === aniade.id_aniade
+                                ? { ...item, delivery_confirm: false } // Modificar delivery_confirm aquí
+                                : item
+                        )
+                    }
+                }
+            } : prev));
+
+            alert("Confirmacion cancelada con éxito");
+            }
+
+            if (!aniade.delivery_confirm){
+                window.confirm("¿Deseas confirmar la entrega?");
+                const response = await fetch(`http://localhost:5000/api/v1/aniade/${aniade.id_aniade}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        delivery_confirm: true
+                    }),
+                });
+    
+                if (!response.ok) {
+                    throw new Error("Error al confirmar la entrega");
+                }
+    
+                setDeliveryDetails(prev => (prev ? {
+                    ...prev,
+                    pedido: {
+                        ...prev.pedido,
+                        carrito: {
+                            ...prev.pedido.carrito,
+                            aniade: prev.pedido.carrito.aniade.map(item =>
+                                item.id_aniade === aniade.id_aniade
+                                    ? { ...item, delivery_confirm: true } // Modificar delivery_confirm aquí
+                                    : item
+                            )
+                        }
+                    }
+                } : prev));
+                alert("Entrega confirmada con éxito");
+
+            }
+            if (!deliveryDetails) return;
+            const ningunoConfirmado = deliveryDetails.pedido.carrito.aniade.every(
+                (item) => !item.artesano_confirm && !item.delivery_confirm
+            );
+            console.log(ningunoConfirmado)
+            if (!ningunoConfirmado){
+                const response = await fetch(`http://localhost:5000/api/v1/entrega/${deliveryDetails.id_entrega}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        estado_entrega: "Pedido en cola"
+                    }),
+                });
+                const response2 = await fetch(`http://localhost:5000/api/v1/pedido/${deliveryDetails.pedido.id_pedido}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        estado_pedido: "pendiente"
+                    }),
+                });
+                setDeliveryDetails(prev => (prev ? {
+                    ...prev,
+                    estado_entrega: "Pedido en cola",
+                    pedido: {
+                        ...prev.pedido,
+                        estado_pedido: "pendiente"
+                    }
+                } : prev));
+            }else{
+                const response = await fetch(`http://localhost:5000/api/v1/entrega/${deliveryDetails.id_entrega}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        estado_entrega: "En preparacion"
+                    }),
+                });
+                const response2 = await fetch(`http://localhost:5000/api/v1/pedido/${deliveryDetails.pedido.id_pedido}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        estado_pedido: "procesando"
+                    }),
+                });
+                setDeliveryDetails(prev => (prev ? {
+                    ...prev,
+                    estado_entrega: "En preparación",
+                    pedido: {
+                        ...prev.pedido,
+                        estado_pedido: "procesando"
+                    }
+                } : prev));
+            }
+        
+        } catch (error: any) {
+            alert(error.message);
+        }
+    }, [deliveryDetails]);
+
+
+
 
     if (loading) return <p>Cargando...</p>;
     if (error) return <p className="text-red-600">{error}</p>;
@@ -158,7 +382,7 @@ const DeliveryDetails = () => {
                 <h1 className="text-2xl font-bold mb-4">
                     Detalle de la Entrega #{deliveryDetails.id_entrega}
                 </h1>
-                <div className="bg-white shadow-md rounded-lg p-4">
+                <div className="bg-white shadow-md rounded-lg p-4 min-w-[700px] min-h-[200px]">
                     <p className="font-semibold">Estado: {deliveryDetails.estado_entrega}</p>
                     <p className="font-semibold">
                         Fecha de Entrega:{" "}
@@ -171,13 +395,36 @@ const DeliveryDetails = () => {
                     <ul>
                         {deliveryDetails.pedido.carrito.aniade.map(item => (
                             <li key={item.id_aniade} className="flex justify-between items-center mb-2">
-                                <span>{item.producto.nombre_producto} (Cantidad: {item.cantidad})</span>
-                                <button
-                                    onClick={() => handleShowModal(item.producto.artesano)}
-                                    className="bg-blue-600 text-white px-3 py-1 rounded-md hover:bg-blue-700"
-                                >
-                                    Ver Artesano
-                                </button>
+                                {/* Contenedor para el texto alineado a la izquierda */}
+                                <span className="flex-1">
+                                    {item.producto.nombre_producto} (Cantidad: {item.cantidad})
+                                </span>
+
+                                {/* Contenedor para los botones alineados a la derecha */}
+                                <div className="flex space-x-2">
+                                    <button
+                                        onClick={() => handleShowModal(item.producto.artesano)}
+                                        className="bg-blue-600 text-white px-3 py-1 rounded-md hover:bg-blue-700"
+                                    >
+                                        Ver Artesano
+                                    </button>
+                                    <button
+                                        onClick={() => ConfirmArtesano(item)}
+                                        className={`px-3 py-1 rounded-md ${
+                                            item.delivery_confirm && !item.artesano_confirm
+                                                ? "bg-red-600 hover:bg-red-700"
+                                                : item.delivery_confirm && item.artesano_confirm
+                                                ? "bg-green-600 hover:bg-green-700"
+                                                : "bg-orange-600 hover:bg-orange-700"
+                                        } text-white`}
+                                    >
+                                        {item.delivery_confirm && !item.artesano_confirm
+                                            ? "Cancelar Confirmación"
+                                            : item.delivery_confirm && item.artesano_confirm
+                                            ? "Pedido Terminado"
+                                            : "Confirmar" }
+                                    </button>
+                                </div>
                             </li>
                         ))}
                     </ul>
@@ -192,12 +439,22 @@ const DeliveryDetails = () => {
                     </div>
 
                     <div className="mt-4">
-                        <button
-                            onClick={confirmDelivery}
-                            className="bg-orange-600 text-white px-4 py-2 rounded-md hover:bg-orange-700"
-                        >
-                            Confirmar Entrega
-                        </button>
+                    <button
+                        onClick={confirmDelivery}
+                        className={`px-3 py-1 rounded-md ${
+                            deliveryDetails.delivery_confirm && !deliveryDetails.cliente_confirm
+                                ? "bg-red-600 hover:bg-red-700"
+                                : deliveryDetails.delivery_confirm && deliveryDetails.cliente_confirm
+                                ? "bg-green-600 hover:bg-green-700"
+                                : "bg-orange-600 hover:bg-orange-700"
+                        } text-white`}
+                    >
+                        {deliveryDetails.delivery_confirm && !deliveryDetails.cliente_confirm
+                            ? "Cancelar Confirmación"
+                            : deliveryDetails.delivery_confirm && deliveryDetails.cliente_confirm
+                            ? "Pedido Terminado"
+                            : "Confirmar" }
+                    </button>
                     </div>
                 </div>
 

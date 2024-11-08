@@ -39,7 +39,6 @@ const PaymentForm = ({ onClose, cartItems, totalPrice }) => {
       // Generar enlace de pago para el QR
       const generatedPaymentLink = `https://pago-ejemplo.com/pagar?monto=${totalAmount}`;
       setPaymentLink(generatedPaymentLink);
-      setShowQRCode(true); // Mostrar QR después de procesar el pago
     } catch (error) {
       setMessage("Error al procesar el pedido. Inténtalo de nuevo.");
     }
@@ -136,7 +135,7 @@ const PaymentForm = ({ onClose, cartItems, totalPrice }) => {
         </div>
 
         {/* Código QR se muestra aquí */}
-        {showQRCode && paymentLink && (
+        {(showQRCode && paymentLink) && (
           <div className="ml-4 flex-shrink-0 text-center">
             <h3 className="font-semibold mb-2">Código QR para el pago:</h3>
             <QRCodeCanvas value={paymentLink} size={128} />

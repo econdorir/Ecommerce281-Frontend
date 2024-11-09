@@ -22,51 +22,57 @@ console.log(
   process.env.NEXT_PUBLIC_APIKEY_GEMINI_AI
 );
 
+// const genAI = new GoogleGenerativeAI("AIzaSyDFbyuvbBT0SU8Vy4o2MvYFp0Z9HGJHw1U");
+
+// const schema = {
+//   description: "Product",
+//   type: SchemaType.ARRAY,
+//   items: {
+//     type: SchemaType.OBJECT,
+//     properties: {
+//       nombre_producto: {
+//         type: SchemaType.STRING,
+//         description: "Nombre del producto",
+//         nullable: false,
+//       },
+//       precio: {
+//         type: SchemaType.STRING,
+//         description: "Precio del producto",
+//         nullable: false,
+//       },
+//       stock: {
+//         type: SchemaType.STRING,
+//         description: "Stock del producto",
+//         nullable: false,
+//       },
+//       descripcion: {
+//         type: SchemaType.STRING,
+//         description: "Descripcion del producto",
+//         nullable: false,
+//       },
+//       url_image: {
+//         type: SchemaType.STRING,
+//         description: "URL de la imagen del producto",
+//         nullable: false,
+//       },
+//     },
+//     required: ["recipeName"],
+//   },
+// };
+
+// const model = genAI.getGenerativeModel({
+//   model: "gemini-1.5-flash-001",
+//   generationConfig: {
+//     responseMimeType: "application/json",
+//     responseSchema: schema,
+//   },
+// });
+
+// Make sure to include these imports:
+// import { GoogleGenerativeAI } from "@google/generative-ai";
+
 const genAI = new GoogleGenerativeAI("AIzaSyDFbyuvbBT0SU8Vy4o2MvYFp0Z9HGJHw1U");
-
-const schema = {
-  description: "Product",
-  type: SchemaType.ARRAY,
-  items: {
-    type: SchemaType.OBJECT,
-    properties: {
-      nombre_producto: {
-        type: SchemaType.STRING,
-        description: "Nombre del producto",
-        nullable: false,
-      },
-      precio: {
-        type: SchemaType.STRING,
-        description: "Precio del producto",
-        nullable: false,
-      },
-      stock: {
-        type: SchemaType.STRING,
-        description: "Stock del producto",
-        nullable: false,
-      },
-      descripcion: {
-        type: SchemaType.STRING,
-        description: "Descripcion del producto",
-        nullable: false,
-      },
-      url_image: {
-        type: SchemaType.STRING,
-        description: "URL de la imagen del producto",
-        nullable: false,
-      },
-    },
-    required: ["recipeName"],
-  },
-};
-
-const model = genAI.getGenerativeModel({
-  model: "gemini-1.5-flash-001",
-  generationConfig: {
-    responseMimeType: "application/json",
-    responseSchema: schema,
-  },
-});
+const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 const Chatbot = () => {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -75,6 +81,33 @@ const Chatbot = () => {
   const [loading, setLoading] = useState(false); // Nuevo estado para carga
 
   const handleSend = async () => {
+    // if (!input.trim()) return;
+
+    // const newMessage = { text: input, sender: "user" };
+    // setMessages((prev) => [...prev, newMessage]);
+    // setInput("");
+    // setLoading(true); // Activar carga
+
+    // const message =
+    //   "Dame una lista de productos con los atributos de nombre, precio, descripcion, stock e una url de imagen de producto sacada de una free api, el rpdocuto que pido es el siguiente";
+    // const fullPrompt = message + input;
+
+    // try {
+    //   const response = await model.generateContent(fullPrompt);
+    //   const botMessage = response.response.text();
+    //   console.log(botMessage);
+
+    //   setMessages((prev: any) => [...prev, botMessage]);
+    // } catch (error) {
+    //   console.error("Error fetching response:", error);
+    //   setMessages((prev) => [
+    //     ...prev,
+    //     { text: "Lo siento, algo salió mal.", sender: "bot" },
+    //   ]);
+    // } finally {
+    //   setLoading(false); // Desactivar carga
+    // }
+
     if (!input.trim()) return;
 
     const newMessage = { text: input, sender: "user" };
@@ -88,6 +121,7 @@ const Chatbot = () => {
 
     try {
       const response = await model.generateContent(fullPrompt);
+
       const botMessage = response.response.text();
       console.log(botMessage);
 
@@ -101,6 +135,8 @@ const Chatbot = () => {
     } finally {
       setLoading(false); // Desactivar carga
     }
+
+
   };
 
   return (

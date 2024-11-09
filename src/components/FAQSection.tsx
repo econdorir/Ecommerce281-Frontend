@@ -46,7 +46,7 @@ const FAQSection: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto p-4 mt-8 max-w-3xl">
+    <div className="container mx-auto p-4 mt-8 max-w-3xl pt-10">
       <h2 className="text-2xl font-semibold">Preguntas Frecuentes</h2>
       <div className="mt-4">
         {faqData.map((item, index) => (

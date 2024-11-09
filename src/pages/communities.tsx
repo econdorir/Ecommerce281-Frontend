@@ -88,7 +88,7 @@ const CommunitiesPage: React.FC = () => {
   return (
     <>
       <Navbar />
-      <div className="mt-16">
+      <div className="mt-16 pb-20">
         <AuroraBackground className="w-full mx-0 px-0 py-10 flex flex-col items-center">
           <h1 className="text-6xl font-bold mb-4">Comunidades</h1>
           <p className="text-lg text-center font-bold mb-6 text-gray-700 max-w-2xl">

@@ -6,108 +6,95 @@ interface Message {
   sender: string;
 }
 
-if (!process.env.NEXT_PUBLIC_APIKEY_GEMINI_AI) {
-  console.log(
-    "API HERE :DDDDDDDDDDDDDDDDDDDDDDDDd",
-    process.env.NEXT_PUBLIC_APIKEY_GEMINI_AI
-  );
-  throw new Error("API key is not defined in the environment variables.");
-}
-
-console.log(
-  ":OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO"
-);
-console.log(
-  "API HERE :DDDDDDDDDDDDDDDDDDDDDDDDd",
-  process.env.NEXT_PUBLIC_APIKEY_GEMINI_AI
-);
-
-// const genAI = new GoogleGenerativeAI("AIzaSyDFbyuvbBT0SU8Vy4o2MvYFp0Z9HGJHw1U");
-
-// const schema = {
-//   description: "Product",
-//   type: SchemaType.ARRAY,
-//   items: {
-//     type: SchemaType.OBJECT,
-//     properties: {
-//       nombre_producto: {
-//         type: SchemaType.STRING,
-//         description: "Nombre del producto",
-//         nullable: false,
-//       },
-//       precio: {
-//         type: SchemaType.STRING,
-//         description: "Precio del producto",
-//         nullable: false,
-//       },
-//       stock: {
-//         type: SchemaType.STRING,
-//         description: "Stock del producto",
-//         nullable: false,
-//       },
-//       descripcion: {
-//         type: SchemaType.STRING,
-//         description: "Descripcion del producto",
-//         nullable: false,
-//       },
-//       url_image: {
-//         type: SchemaType.STRING,
-//         description: "URL de la imagen del producto",
-//         nullable: false,
-//       },
-//     },
-//     required: ["recipeName"],
-//   },
-// };
-
-// const model = genAI.getGenerativeModel({
-//   model: "gemini-1.5-flash-001",
-//   generationConfig: {
-//     responseMimeType: "application/json",
-//     responseSchema: schema,
-//   },
-// });
-
-// Make sure to include these imports:
-// import { GoogleGenerativeAI } from "@google/generative-ai";
-
-const genAI = new GoogleGenerativeAI("AIzaSyDFbyuvbBT0SU8Vy4o2MvYFp0Z9HGJHw1U");
+const genAI = new GoogleGenerativeAI("API KEY HERE");
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+const productDataStringForAI = JSON.stringify([
+  {
+    nombre_producto: "Canasta Palma Sunkha Mediano",
+    precio_producto: 25,
+    descripcion_producto:
+      "Este quiboro es una pieza única tejida a mano por artesanas de Vallegrande, utilizando fibra natural de palma zunjka. Su diseño artesanal y su material natural lo convierten en un objeto decorativo y funcional. Con medidas de 36 cm x 5 cm, es perfecto para llevar pequeños objetos o como elemento decorativo.",
+    stock_producto: 10,
+    categoria_producto: "Decoración",
+  },
+  {
+    nombre_producto: "Bandeja Tallada con alas Misionales",
+    precio_producto: 100,
+    descripcion_producto:
+      "Elegante bandeja tallada a mano en madera de cedro, una obra de arte única creada por artesanos de San Miguel de Velasco.",
+    stock_producto: 20,
+    categoria_producto: "Muebles",
+  },
+  {
+    nombre_producto: "Arbol toborochi con base, tamaño mediano",
+    precio_producto: 160,
+    descripcion_producto:
+      "Toborochi con base, tallado en madera cedro y pintado a mano.",
+    stock_producto: 5,
+    categoria_producto: "Decoración",
+  },
+  {
+    nombre_producto: "Baul Pintado Pequeño",
+    precio_producto: 85,
+    descripcion_producto:
+      "Baul Pintado en madera y recuerda que todas las creaciones de Artecampo son piezas únicas debido a la naturaleza de nuestro proceso de producción.",
+    stock_producto: 15,
+    categoria_producto: "Muebles",
+  },
+  {
+    nombre_producto: "Muñeca de chala Crucenia",
+    precio_producto: 35,
+    descripcion_producto: "Muñeca realizada en chala de maíz teñida.",
+    stock_producto: 10,
+    categoria_producto: "Juguetes",
+  },
+  {
+    nombre_producto: "Adorno Tallado 3 Modelos De Pajaritos.",
+    precio_producto: 155,
+    descripcion_producto: "Adorno tallado en madera cedro y pintado a mano.",
+    stock_producto: 20,
+    categoria_producto: "Decoración",
+  },
+  {
+    nombre_producto: "Angel Tallado Redondo Pequeño",
+    precio_producto: 50,
+    descripcion_producto: "Adorno tallado en madera cedro y pintado a mano.",
+    stock_producto: 11,
+    categoria_producto: "Decoración",
+  },
+  {
+    nombre_producto: "Azucarera Cerámica Tentayape mediano",
+    precio_producto: 36,
+    descripcion_producto:
+      "Piezas de cerámica realizadas con la técnica prehispánica de los rollos de arcilla y decoradas con pigmentos naturales.",
+    stock_producto: 12,
+    categoria_producto: "Cerámica",
+  },
+  {
+    nombre_producto: "Bombonera de cerámica",
+    precio_producto: 100,
+    descripcion_producto: "Bombonera de cerámica pintada a mano.",
+    stock_producto: 14,
+    categoria_producto: "Cerámica",
+  },
+  {
+    nombre_producto: "Bombonera Jipijapa tapa de madera Mediana",
+    precio_producto: 95,
+    descripcion_producto: "Bombonera Tejido en palma Jipijapa tapa de madera.",
+    stock_producto: 11,
+    categoria_producto: "Artesanía",
+  },
+]);
 
 const Chatbot = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isOpen, setIsOpen] = useState(false);
-  const [loading, setLoading] = useState(false); // Nuevo estado para carga
+  const [loading, setLoading] = useState(false);
+  const [isFirstMessage, setIsFirstMessage] = useState(true);
 
   const handleSend = async () => {
-    // if (!input.trim()) return;
-
-    // const newMessage = { text: input, sender: "user" };
-    // setMessages((prev) => [...prev, newMessage]);
-    // setInput("");
-    // setLoading(true); // Activar carga
-
-    // const message =
-    //   "Dame una lista de productos con los atributos de nombre, precio, descripcion, stock e una url de imagen de producto sacada de una free api, el rpdocuto que pido es el siguiente";
-    // const fullPrompt = message + input;
-
-    // try {
-    //   const response = await model.generateContent(fullPrompt);
-    //   const botMessage = response.response.text();
-    //   console.log(botMessage);
-
-    //   setMessages((prev: any) => [...prev, botMessage]);
-    // } catch (error) {
-    //   console.error("Error fetching response:", error);
-    //   setMessages((prev) => [
-    //     ...prev,
-    //     { text: "Lo siento, algo salió mal.", sender: "bot" },
-    //   ]);
-    // } finally {
-    //   setLoading(false); // Desactivar carga
-    // }
-
     if (!input.trim()) return;
 
     const newMessage = { text: input, sender: "user" };
@@ -115,17 +102,28 @@ const Chatbot = () => {
     setInput("");
     setLoading(true); // Activar carga
 
-    const message =
-      "Dame una lista de productos con los atributos de nombre, precio, descripcion, stock e una url de imagen de producto sacada de una free api, el rpdocuto que pido es el siguiente";
-    const fullPrompt = message + input;
+    const message = `De la siguiente data ${productDataStringForAI}, necesito que me recomiendes productos con las siguientes caracteristicas que te daré.`;
+    
+    let fullPrompt = "";
+    
+    if (isFirstMessage) {
+      fullPrompt = message + input;
+    } else {
+      fullPrompt = input;
+    }
 
     try {
       const response = await model.generateContent(fullPrompt);
-
       const botMessage = response.response.text();
       console.log(botMessage);
 
-      setMessages((prev: any) => [...prev, botMessage]);
+      setMessages((prev: any) => [
+        ...prev,
+        {
+          text: botMessage,
+          sender: "bot",
+        },
+      ]);
     } catch (error) {
       console.error("Error fetching response:", error);
       setMessages((prev) => [
@@ -135,8 +133,6 @@ const Chatbot = () => {
     } finally {
       setLoading(false); // Desactivar carga
     }
-
-
   };
 
   return (

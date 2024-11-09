@@ -111,7 +111,10 @@ const Navbar = () => {
               <Link href="/profile">Perfil (Mis productos)</Link>
             </div>
             <div>
-              <Link href="/add-product">Añadir Producto</Link>
+              <Link href="/productForm">Añadir Producto</Link>
+            </div>
+            <div>
+              <Link href="/confirmacionArtesano">Pedidos</Link>
             </div>
             <div>
               <Link href="/settings">Configuración</Link>
@@ -268,7 +271,10 @@ const Navbar = () => {
                         <Link href="/profile">Perfil (Mis productos)</Link>
                       </div>
                       <div>
-                        <Link href="/add-product">Añadir Producto</Link>
+                        <Link href="/productForm">Añadir Producto</Link>
+                      </div>
+                      <div>
+                        <Link href="/confirmacionArtesano">Pedidos</Link>
                       </div>
                       <div>
                         <Link href="/settings">Configuración</Link>

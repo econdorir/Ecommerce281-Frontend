@@ -145,7 +145,7 @@ const Navbar = () => {
         return (
           <>
             <div>
-              <Link href="/AdminDashboard">Administrar</Link>
+              <Link href="/adminPanel">Administrar</Link>
             </div>
             <div>
               <Link href="/settings">Configuración</Link>
@@ -303,7 +303,7 @@ const Navbar = () => {
                   {role === "admin" && (
                     <>
                       <div>
-                        <Link href="/AdminDashboard">Administrar</Link>
+                        <Link href="/adminPanel">Administrar</Link>
                       </div>
                       <div>
                         <Link href="/settings">Configuración</Link>

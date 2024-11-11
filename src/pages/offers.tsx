@@ -69,17 +69,22 @@ const Offers: React.FC = () => {
 
   const currentOffers = getCurrentOffers();
 
-  const filteredProducts = products.filter((product) =>
-    currentOffers.some((offer) => offer.id_promocion === product.id_promocion)
-  ).map((product) => {
+  const filteredProducts = products.filter((product) => {
+    console.log("Checking product:", product.nombre_producto, "with id_promocion:", product.id_promocion);
+    return currentOffers.some((offer) => offer.id_promocion === product.id_promocion);
+  }).map((product) => {
+    console.log("Product after filter:", product.nombre_producto);
     const offer = currentOffers.find((offer) => offer.id_promocion === product.id_promocion);
     const discountedPrice = offer ? product.precio_producto - (product.precio_producto * (offer.descuento_promocion / 100)) : product.precio_producto;
-
+  
     return {
       ...product,
       precio_con_descuento: discountedPrice,
     };
   });
+  
+  console.log("Filtered Products:", filteredProducts);
+  
 
   const formatDate = (date: Date) => {
     return new Date(date).toLocaleDateString("es-ES", {

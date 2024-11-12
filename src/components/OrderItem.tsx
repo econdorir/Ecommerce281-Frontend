@@ -137,8 +137,8 @@ const OrderItem = ({ order, orderNumber }) => {
             console.log(deliveryDetails)
             if (deliveryDetails.delivery_confirm && deliveryDetails.cliente_confirm) {
                 Swal.fire({
-                    icon: "success",
-                    title: "Éxito",
+                    icon: "error",
+                    title: "Error!",
                     text: "La entrega ya fue confirmada por ambas partes y no se puede modificar.",
                     confirmButtonText: "Aceptar",
                 });

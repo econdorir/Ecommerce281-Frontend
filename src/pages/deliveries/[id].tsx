@@ -2,7 +2,6 @@ import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/router";
 import Navbar from "@/components/Navbar";
 import confirmDelivery from "@/components/DeliveryComponent";
-import { Andika } from "next/font/google";
 
 interface Comunidad {
     id_comunidad: number;

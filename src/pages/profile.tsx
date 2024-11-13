@@ -70,7 +70,7 @@ const Profile = () => {
     const fetchUserData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/v1/${rol}/${userId}`
+          `${process.env.NEXT_PUBLIC_API_URL}/${rol}/${userId}`
         );
         setUserData(response.data);
       } catch (error) {
@@ -83,7 +83,7 @@ const Profile = () => {
     const fetchProducts = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/v1/producto"
+          `${process.env.NEXT_PUBLIC_API_URL}/producto`
         );
         setProducts(response.data);
       } catch (error) {

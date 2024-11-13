@@ -2,11 +2,9 @@
 import { API_URL } from '../libs/constants';
 import axios from "axios";
 
-const PUBLIC_API_URL = "http://localhost:5000/api/v1"; // Reemplaza con tu URL de API
-
 export const RecoveryService = async (email_usuario, tipo_usuario) => {
   try {
-    const response = await axios.post(`${PUBLIC_API_URL}/auth/recovery`, {
+    const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/recovery`, {
       email_usuario: email_usuario,
       tipo_usuario: tipo_usuario,
     });

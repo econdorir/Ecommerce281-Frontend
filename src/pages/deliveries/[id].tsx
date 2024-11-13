@@ -89,7 +89,7 @@ const DeliveryDetails = () => {
             if (!id) return;
 
             try {
-                const response = await fetch(`http://localhost:5000/api/v1/entrega/${id}`);
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/entrega/${id}`);
                 if (!response.ok) {
                     throw new Error("Error al obtener los detalles de la entrega");
                 }
@@ -138,7 +138,7 @@ const DeliveryDetails = () => {
             }
             if (deliveryDetails.delivery_confirm && !deliveryDetails.cliente_confirm){
             window.confirm("¿Deseas cancelar la confirmación de la entrega?")
-            const response = await fetch(`http://localhost:5000/api/v1/entrega/${deliveryDetails.id_entrega}`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/entrega/${deliveryDetails.id_entrega}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
@@ -164,7 +164,7 @@ const DeliveryDetails = () => {
 
             if (!deliveryDetails.delivery_confirm){
                 window.confirm("¿Deseas confirmar la entrega?");
-                const response = await fetch(`http://localhost:5000/api/v1/entrega/${deliveryDetails.id_entrega}`, {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/entrega/${deliveryDetails.id_entrega}`, {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',
@@ -179,7 +179,7 @@ const DeliveryDetails = () => {
                     throw new Error("Error al confirmar la entrega");
                 }
                 if(deliveryDetails.cliente_confirm){
-                    const response = await fetch(`http://localhost:5000/api/v1/entrega/${deliveryDetails.id_entrega}`, {
+                    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/entrega/${deliveryDetails.id_entrega}`, {
                         method: 'PATCH',
                         headers: {
                             'Content-Type': 'application/json',
@@ -188,7 +188,7 @@ const DeliveryDetails = () => {
                             estado_entrega: "Entregado"
                         }),
                     });
-                    const response2 = await fetch(`http://localhost:5000/api/v1/pedido/${deliveryDetails.pedido.id_pedido}`, {
+                    const response2 = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/pedido/${deliveryDetails.pedido.id_pedido}`, {
                         method: 'PATCH',
                         headers: {
                             'Content-Type': 'application/json',
@@ -235,7 +235,7 @@ const DeliveryDetails = () => {
             }
             if (aniade.delivery_confirm && !aniade.artesano_confirm){
             window.confirm("¿Deseas cancelar la confirmación de la entrega?")
-            const response = await fetch(`http://localhost:5000/api/v1/aniade/${aniade.id_aniade}`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/aniade/${aniade.id_aniade}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
@@ -269,7 +269,7 @@ const DeliveryDetails = () => {
 
             if (!aniade.delivery_confirm){
                 window.confirm("¿Deseas confirmar la entrega?");
-                const response = await fetch(`http://localhost:5000/api/v1/aniade/${aniade.id_aniade}`, {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/aniade/${aniade.id_aniade}`, {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',
@@ -306,7 +306,7 @@ const DeliveryDetails = () => {
             );
             console.log(ningunoConfirmado)
             if (!ningunoConfirmado){
-                const response = await fetch(`http://localhost:5000/api/v1/entrega/${deliveryDetails.id_entrega}`, {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/entrega/${deliveryDetails.id_entrega}`, {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',
@@ -315,7 +315,7 @@ const DeliveryDetails = () => {
                         estado_entrega: "Pedido en cola"
                     }),
                 });
-                const response2 = await fetch(`http://localhost:5000/api/v1/pedido/${deliveryDetails.pedido.id_pedido}`, {
+                const response2 = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/pedido/${deliveryDetails.pedido.id_pedido}`, {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',
@@ -333,7 +333,7 @@ const DeliveryDetails = () => {
                     }
                 } : prev));
             }else{
-                const response = await fetch(`http://localhost:5000/api/v1/entrega/${deliveryDetails.id_entrega}`, {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/entrega/${deliveryDetails.id_entrega}`, {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',
@@ -342,7 +342,7 @@ const DeliveryDetails = () => {
                         estado_entrega: "En preparacion"
                     }),
                 });
-                const response2 = await fetch(`http://localhost:5000/api/v1/pedido/${deliveryDetails.pedido.id_pedido}`, {
+                const response2 = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/pedido/${deliveryDetails.pedido.id_pedido}`, {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',

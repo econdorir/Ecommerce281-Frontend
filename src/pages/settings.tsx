@@ -50,7 +50,7 @@ const Settings = () => {
     const fetchUserData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/v1/${rol}/${userId}`
+          `${process.env.NEXT_PUBLIC_API_URL}/${rol}/${userId}`
         );
         setUserData(response.data);
       } catch (error) {
@@ -63,7 +63,7 @@ const Settings = () => {
     const fetchComunidades = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/v1/comunidad"
+          "${process.env.NEXT_PUBLIC_API_URL}/comunidad"
         );
         setComunidades(response.data); // Asegúrate de que la estructura sea un array
       } catch (error) {
@@ -98,7 +98,7 @@ const Settings = () => {
         };
 
         const response = await axios.patch(
-          `http://localhost:5000/api/v1/${rol}/${userId}`,
+          `${process.env.NEXT_PUBLIC_API_URL}/${rol}/${userId}`,
           updatedData
         );
         console.log("Datos actualizados:", response.data);

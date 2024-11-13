@@ -52,7 +52,7 @@ const DeliveryDetail = () => {
       if (!id) return;
 
       try {
-        const response = await fetch(`http://localhost:5000/api/v1/pedido/${id}`);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/pedido/${id}`);
         if (!response.ok) {
           throw new Error("Error al obtener los detalles de la entrega");
         }

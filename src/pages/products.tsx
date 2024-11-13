@@ -18,7 +18,7 @@ const ProductPage: React.FC = () => {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const response = await fetch("http://localhost:5000/api/v1/producto");
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/producto`);
       const data: Product[] = await response.json();
       console.log(data); // Check the structure here
       setProducts(data);

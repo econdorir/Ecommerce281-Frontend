@@ -10,12 +10,12 @@ interface Item {
 }
 
 const endpoints = {
-  clientes: "http://localhost:5000/api/v1/cliente",
-  artesanos: "http://localhost:5000/api/v1/artesano",
-  productos: "http://localhost:5000/api/v1/producto",
-  reseñas: "http://localhost:5000/api/v1/resenia",
-  comunidades: "http://localhost:5000/api/v1/comunidad",
-  deliverys: "http://localhost:5000/api/v1/delivery",
+  clientes: `${process.env.NEXT_PUBLIC_API_URL}/cliente`,
+  artesanos: `${process.env.NEXT_PUBLIC_API_URL}/artesano`,
+  productos: `${process.env.NEXT_PUBLIC_API_URL}/producto`,
+  reseñas: `${process.env.NEXT_PUBLIC_API_URL}/resenia`,
+  comunidades: `${process.env.NEXT_PUBLIC_API_URL}/comunidad`,
+  deliverys: `${process.env.NEXT_PUBLIC_API_URL}/delivery`,
 };
 
 const idAccessors = {

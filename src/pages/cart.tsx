@@ -45,7 +45,7 @@ const Cart = () => {
 
       //TODO hacer get del carrito del cliente con data de localstorage
       const response = await fetch(
-        `http://localhost:5000/api/v1/carrito/cliente/${userData.id_usuario}`
+        `${process.env.NEXT_PUBLIC_API_URL}/carrito/cliente/${userData.id_usuario}`
       );
       const data = await response.json();
       

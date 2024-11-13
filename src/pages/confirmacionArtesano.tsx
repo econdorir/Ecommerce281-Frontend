@@ -57,7 +57,7 @@ const ConfirmacionArtesano = () => {
     const fetchData = async () => {
       try {
         const productsResponse = await fetch(
-          "http://localhost:5000/api/v1/producto/"
+          `${process.env.NEXT_PUBLIC_API_URL}/producto/`
         );
         const productsData = await productsResponse.json();
         const userProducts = productsData.filter(
@@ -66,13 +66,13 @@ const ConfirmacionArtesano = () => {
         setProducts(userProducts);
 
         const pedidosResponse = await fetch(
-          "http://localhost:5000/api/v1/pedido/"
+          `${process.env.NEXT_PUBLIC_API_URL}/pedido/`
         );
         const pedidosData = await pedidosResponse.json();
         setOrders(pedidosData);
 
         const aniadeResponse = await fetch(
-          "http://localhost:5000/api/v1/aniade/"
+          `${process.env.NEXT_PUBLIC_API_URL}/aniade/`
         );
         const aniadeData = await aniadeResponse.json();
         const filteredAniade = aniadeData.filter((aniade: Aniade) =>
@@ -86,7 +86,7 @@ const ConfirmacionArtesano = () => {
         setAniade(filteredAniade2);
 
         const deliveriesResponse = await fetch(
-          "http://localhost:5000/api/v1/delivery/"
+          `${process.env.NEXT_PUBLIC_API_URL}/delivery/`
         );
         const deliveriesData = await deliveriesResponse.json();
         setDeliveries(deliveriesData);
@@ -119,7 +119,7 @@ const ConfirmacionArtesano = () => {
 
     if (confirmed.isConfirmed) {
       try {
-        const response = await fetch(`http://localhost:5000/api/v1/aniade/${idAniade}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/aniade/${idAniade}`, {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
@@ -168,7 +168,7 @@ const ConfirmacionArtesano = () => {
 
     if (canceled.isConfirmed) {
       try {
-        const response = await fetch(`http://localhost:5000/api/v1/aniade/${idAniade}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/aniade/${idAniade}`, {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",

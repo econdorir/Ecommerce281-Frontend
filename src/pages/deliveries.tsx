@@ -112,7 +112,7 @@ const Deliveries = () => {
       }
 
       try {
-        const deliveryResponse = await fetch("http://localhost:5000/api/v1/entrega/");
+        const deliveryResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/entrega/`);
         if (!deliveryResponse.ok) {
           throw new Error("Error al obtener las entregas");
         }
@@ -142,7 +142,7 @@ const Deliveries = () => {
       }
 
       try {
-        const deliveryResponse = await fetch("http://localhost:5000/api/v1/entrega/");
+        const deliveryResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/entrega/`);
         if (!deliveryResponse.ok) {
           throw new Error("Error al obtener las entregas");
         }
@@ -160,7 +160,7 @@ const Deliveries = () => {
 
     const fetchOrders = async () => {
       try {
-        const orderResponse = await fetch("http://localhost:5000/api/v1/pedido");
+        const orderResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/pedido`);
         if (!orderResponse.ok) {
           throw new Error("Error al obtener los pedidos");
         }
@@ -192,7 +192,7 @@ const Deliveries = () => {
     console.log(deliveryToUpdate);
   
     if (deliveryToUpdate) {
-      const response = await fetch(`http://localhost:5000/api/v1/entrega/${deliveryToUpdate.id_entrega}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/entrega/${deliveryToUpdate.id_entrega}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

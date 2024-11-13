@@ -46,7 +46,7 @@ const CommunitiesPage: React.FC = () => {
   // Function to fetch community data
   const fetchCommunities = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/v1/comunidad");
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/comunidad`);
       const data = await response.json();
       setCommunities(data);
     } catch (error) {

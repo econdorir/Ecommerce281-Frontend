@@ -41,11 +41,11 @@ const Offers: React.FC = () => {
     const fetchProducts = async () => {
       try {
         const productResponse = await axios.get<Product[]>(
-          "http://localhost:5000/api/v1/producto/"
+          "${process.env.NEXT_PUBLIC_API_URL}/producto/"
         );
         setProducts(productResponse.data);
         const offerResponse = await axios.get<Offer[]>(
-          "http://localhost:5000/api/v1/promocion/"
+          "${process.env.NEXT_PUBLIC_API_URL}/promocion/"
         );
         setOffers(offerResponse.data);
       } catch (err) {

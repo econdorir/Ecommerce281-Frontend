@@ -141,11 +141,11 @@ const Navbar = () => {
             </div>
           </>
         );
-      case "admin":
+      case null:
         return (
           <>
             <div>
-              <Link href="/adminPanel">Administrar</Link>
+              <Link href="/AdminPanel">Administrar</Link>
             </div>
             <div>
               <Link href="/settings">Configuración</Link>
@@ -300,10 +300,10 @@ const Navbar = () => {
                       </div>
                     </>
                   )}
-                  {role === "admin" && (
+                  {role == null && (
                     <>
                       <div>
-                        <Link href="/adminPanel">Administrar</Link>
+                        <Link href="/AdminPanel">Administrar</Link>
                       </div>
                       <div>
                         <Link href="/settings">Configuración</Link>

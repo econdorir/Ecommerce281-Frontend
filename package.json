@@ -34,7 +34,7 @@
     "lucide-react": "^0.453.0",
     "multer": "^1.4.5-lts.1",
     "mysql2": "^3.11.3",
-    "next": "^14.2.8",
+    "next": "^14.2.16",
     "next-cloudinary": "^6.15.0",
     "next-pwa": "^5.6.0",
     "parallax-js": "^3.1.0",
@@ -54,7 +54,12 @@
     "sweetalert2": "^11.14.4",
     "swiper": "^11.1.14",
     "tailwind-merge": "^2.5.4",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "workbox-core": "^7.3.0",
+    "workbox-expiration": "^7.3.0",
+    "workbox-precaching": "^7.3.0",
+    "workbox-routing": "^7.3.0",
+    "workbox-strategies": "^7.3.0"
   },
   "devDependencies": {
     "@types/node": "22.5.4",

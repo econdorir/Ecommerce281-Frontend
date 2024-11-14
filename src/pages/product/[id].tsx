@@ -162,48 +162,55 @@ const ProductDetail = ({ product, resenia, clientes, promociones }) => {
   return (
     <>
       <Navbar />
-      <div className="mt-52 mb-20 grid grid-cols-1 md:grid-cols-3 gap-3 mx-5 px-36">
-        <div className="col-span-1 md:col-span-2">
+      <div className="mt-12 mb-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mx-5 px-5 md:px-10 lg:px-36">
+        <div className="col-span-1 md:col-span-2 flex flex-col items-center">
+          {/* Close button */}
           <button
             onClick={handleClose}
-            className="flex items-center justify-center bg-gray-400 text-white p-2 rounded-full shadow hover:bg-blue-950 transition duration-200"
+            className="flex items-center justify-center bg-gray-400 text-white p-2 rounded-full shadow hover:bg-blue-950 transition duration-200 mb-5"
           >
             <FaTimes />
           </button>
 
+          {/* Product Mobile Slideshow (Visible only on small screens) */}
           <ProductMobileSlideShow
             title={product.nombre_producto}
             images={
               product.imagen[0]?.url_imagen ||
               "https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg"
             }
-            className="block md:hidden"
+            className="block md:hidden w-full max-w-md mx-auto"
           />
 
+          {/* Product Desktop Slideshow (Visible only on medium and large screens) */}
           <ProductSlideShow
             title={product.nombre_producto}
             images={product.imagen}
-            className="hidden md:block max-w-lg mx-auto"
+            className="hidden md:block w-full max-w-lg mx-auto"
           />
         </div>
 
         <div className="col-span-1 px-5 mx-5">
-          <h1 className="antialiased font-bold text-4xl my-2">
+          <h1 className="font-bold text-3xl sm:text-4xl my-2">
             {product.nombre_producto}
           </h1>
 
           {finalPrice < product.precio_producto ? (
             <>
-              <p className="my-3 line-through text-lg">
+              <p className="my-3 line-through text-lg sm:text-xl">
                 Bs {product.precio_producto}
               </p>
-              <p className="text-xl my-3 font-bold">Bs {finalPrice}</p>
+              <p className="text-xl sm:text-2xl my-3 font-bold">
+                Bs {finalPrice}
+              </p>
             </>
           ) : (
-            <p className="text-lg my-3">Bs {product.precio_producto}</p>
+            <p className="text-lg sm:text-xl my-3">
+              Bs {product.precio_producto}
+            </p>
           )}
 
-          {/* Only show QuantitySelector and Add to Cart button if user is logged in and is a customer */}
+          {/* Quantity Selector and Add to Cart Button (Visible only for logged-in customers) */}
           {isLoggedIn && role === "cliente" && (
             <>
               <QuantitySelector
@@ -213,35 +220,41 @@ const ProductDetail = ({ product, resenia, clientes, promociones }) => {
 
               <button
                 onClick={() => handleAddToCart(product)}
-                className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-blue-600 transition duration-200 ease-in-out my-5"
+                className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-blue-600 transition duration-200 ease-in-out my-5 w-full sm:w-auto"
               >
                 Agregar al carrito
               </button>
             </>
           )}
 
-          <h3 className="font-bold text-xl">Descripcion</h3>
-          <p className="font-light text-justify">
+          <h3 className="font-bold text-xl mt-5">Descripcion</h3>
+          <p className="font-light text-justify text-base sm:text-lg">
             {product.descripcion_producto}
           </p>
-          <h3 className="font-bold text-xl">Stock</h3>
+
+          <h3 className="font-bold text-xl mt-5">Stock</h3>
           <p className="font-light text-xl">{product.stock_producto}</p>
-          <h3 className="font-bold text-xl">Categoria</h3>
+
+          <h3 className="font-bold text-xl mt-5">Categoria</h3>
           <p className="font-light text-xl">{product.categoria_producto}</p>
 
-          <div className="flex items-center my-2">
-            <span className="mx-1 my-1 font-light">
+          <div className="flex flex-wrap mt-5">
+            <div className="w-full sm:w-1/2 md:w-1/4 mb-4">
               <h3 className="font-bold text-xl">Peso</h3>
               <p className="font-light text-xl">{product.peso_producto}</p>
+            </div>
+            <div className="w-full sm:w-1/2 md:w-1/4 mb-4">
               <h3 className="font-bold text-xl">Largo</h3>
               <p className="font-light text-xl">{product.largo_producto}</p>
-            </span>
-            <span className="mx-1 my-1 font-light">
+            </div>
+            <div className="w-full sm:w-1/2 md:w-1/4 mb-4">
               <h3 className="font-bold text-xl">Ancho</h3>
               <p className="font-light text-xl">{product.ancho_producto}</p>
+            </div>
+            <div className="w-full sm:w-1/2 md:w-1/4 mb-4">
               <h3 className="font-bold text-xl">Alto</h3>
               <p className="font-light text-xl">{product.alto_producto}</p>
-            </span>
+            </div>
           </div>
         </div>
       </div>

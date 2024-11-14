@@ -257,7 +257,7 @@ const Profile = () => {
                 Email
               </h1>
             </div>
-            <h1 className="text-xl text-right capitalize">
+            <h1 className="sm:text-base text-xl text-right capitalize">
               {userData.email_usuario}
             </h1>
           </div>

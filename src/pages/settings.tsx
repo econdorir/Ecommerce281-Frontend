@@ -63,7 +63,7 @@ const Settings = () => {
     const fetchComunidades = async () => {
       try {
         const response = await axios.get(
-          "${process.env.NEXT_PUBLIC_API_URL}/comunidad"
+          `${process.env.NEXT_PUBLIC_API_URL}/comunidad`
         );
         setComunidades(response.data); // Asegúrate de que la estructura sea un array
       } catch (error) {

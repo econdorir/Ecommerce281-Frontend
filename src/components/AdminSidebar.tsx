@@ -20,7 +20,7 @@ const items = [
   },
   {
     title: "Dashboard",
-    url: "/adminDashboard",
+    url: "/AdminDashboard",
     icon: Inbox,
   },
   {
@@ -30,7 +30,7 @@ const items = [
   },
   {
     title: "Buscar",
-    url: "/adminPanel",
+    url: "/AdminPanel",
     icon: Search,
   },
   {

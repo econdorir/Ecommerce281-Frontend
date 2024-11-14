@@ -141,11 +141,11 @@ const Navbar = () => {
             </div>
           </>
         );
-      case "admin":
+      case null:
         return (
           <>
             <div>
-              <Link href="/AdminDashboard">Administrar</Link>
+              <Link href="/AdminPanel">Administrar</Link>
             </div>
             <div>
               <Link href="/settings">Configuración</Link>
@@ -168,6 +168,8 @@ const Navbar = () => {
         );
     }
   };
+
+  
   return (
     <div className="flex justify-between items-center w-full h-20 px-4 text-white bg-black fixed nav z-10">
       <div>
@@ -300,10 +302,10 @@ const Navbar = () => {
                       </div>
                     </>
                   )}
-                  {role === "admin" && (
+                  {role == null && (
                     <>
                       <div>
-                        <Link href="/AdminDashboard">Administrar</Link>
+                        <Link href="/AdminPanel">Administrar</Link>
                       </div>
                       <div>
                         <Link href="/settings">Configuración</Link>

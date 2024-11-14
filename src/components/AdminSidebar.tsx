@@ -19,8 +19,8 @@ const items = [
     icon: Home,
   },
   {
-    title: "Inbox",
-    url: "#",
+    title: "Dashboard",
+    url: "/AdminDashboard",
     icon: Inbox,
   },
   {
@@ -30,7 +30,7 @@ const items = [
   },
   {
     title: "Buscar",
-    url: "/AdminDashboard",
+    url: "/AdminPanel",
     icon: Search,
   },
   {

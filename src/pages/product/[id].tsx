@@ -162,89 +162,86 @@ const ProductDetail = ({ product, resenia, clientes, promociones }) => {
   return (
     <>
       <Navbar />
-      <div className="mt-12 mb-20 grid grid-cols-1 gap-5 mx-5 px-5 sm:px-10">
-        <div className="col-span-1 flex flex-col items-center">
-          {/* Close button */}
+      <div className="mt-20 mb-20 grid grid-cols-1 md:grid-cols-3 gap-5 mx-5 px-5 md:px-36">
+        <div className="col-span-1 md:col-span-2">
           <button
             onClick={handleClose}
-            className="flex items-center justify-center bg-gray-400 text-white p-2 rounded-full shadow hover:bg-blue-950 transition duration-200 mb-5"
+            className="flex items-center justify-center bg-gray-400 text-white p-2 rounded-full shadow hover:bg-blue-950 transition duration-200"
           >
             <FaTimes />
           </button>
 
-          {/* Product Mobile Slideshow (Visible only on small screens) */}
+          {/* Imagen para pantallas pequeñas */}
           <ProductMobileSlideShow
             title={product.nombre_producto}
             images={
               product.imagen[0]?.url_imagen ||
               "https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg"
             }
-            className="block w-full max-w-md mx-auto"
+            className="block md:hidden"
+          />
+
+          {/* Imagen para pantallas medianas y grandes */}
+          <ProductSlideShow
+            title={product.nombre_producto}
+            images={product.imagen}
+            className="hidden md:block max-w-lg mx-auto"
           />
         </div>
 
         <div className="col-span-1 px-5 mx-5">
-          <h1 className="font-bold text-3xl sm:text-4xl my-2">
+          <h1 className="antialiased font-bold text-4xl my-2">
             {product.nombre_producto}
           </h1>
 
           {finalPrice < product.precio_producto ? (
             <>
-              <p className="my-3 line-through text-lg sm:text-xl">
+              <p className="my-3 line-through text-lg">
                 Bs {product.precio_producto}
               </p>
-              <p className="text-xl sm:text-2xl my-3 font-bold">
-                Bs {finalPrice}
-              </p>
+              <p className="text-xl my-3 font-bold">Bs {finalPrice}</p>
             </>
           ) : (
-            <p className="text-lg sm:text-xl my-3">
-              Bs {product.precio_producto}
-            </p>
+            <p className="text-lg my-3">Bs {product.precio_producto}</p>
           )}
 
-          {/* Quantity Selector and Add to Cart Button (Visible only for logged-in customers) */}
+          {/* Solo mostrar el selector de cantidad y botón si el usuario está logueado y es cliente */}
           {isLoggedIn && role === "cliente" && (
             <>
               <QuantitySelector
                 quantity={selectedQuantity}
-                onQuantityChange={setSelectedQuantity} // Update selected quantity
+                onQuantityChange={setSelectedQuantity} // Actualizar cantidad seleccionada
               />
 
               <button
                 onClick={() => handleAddToCart(product)}
-                className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-blue-600 transition duration-200 ease-in-out my-5 w-full"
+                className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-blue-600 transition duration-200 ease-in-out my-5"
               >
                 Agregar al carrito
               </button>
             </>
           )}
 
-          <h3 className="font-bold text-xl mt-5">Descripcion</h3>
-          <p className="font-light text-justify text-base sm:text-lg">
+          <h3 className="font-bold text-xl">Descripcion</h3>
+          <p className="font-light text-justify">
             {product.descripcion_producto}
           </p>
-
-          <h3 className="font-bold text-xl mt-5">Stock</h3>
+          <h3 className="font-bold text-xl">Stock</h3>
           <p className="font-light text-xl">{product.stock_producto}</p>
-
-          <h3 className="font-bold text-xl mt-5">Categoria</h3>
+          <h3 className="font-bold text-xl">Categoria</h3>
           <p className="font-light text-xl">{product.categoria_producto}</p>
 
-          <div className="flex flex-wrap mt-5">
-            <div className="w-full sm:w-1/2 mb-4">
+          <div className="flex flex-wrap items-center my-2">
+            <div className="w-full sm:w-1/2">
               <h3 className="font-bold text-xl">Peso</h3>
               <p className="font-light text-xl">{product.peso_producto}</p>
-            </div>
-            <div className="w-full sm:w-1/2 mb-4">
               <h3 className="font-bold text-xl">Largo</h3>
               <p className="font-light text-xl">{product.largo_producto}</p>
             </div>
-            <div className="w-full sm:w-1/2 mb-4">
+
+            <div className="w-full sm:w-1/2">
               <h3 className="font-bold text-xl">Ancho</h3>
               <p className="font-light text-xl">{product.ancho_producto}</p>
-            </div>
-            <div className="w-full sm:w-1/2 mb-4">
               <h3 className="font-bold text-xl">Alto</h3>
               <p className="font-light text-xl">{product.alto_producto}</p>
             </div>
@@ -254,7 +251,8 @@ const ProductDetail = ({ product, resenia, clientes, promociones }) => {
 
       <h3 className="font-bold text-4xl text-center my-5">Reseñas</h3>
 
-      <div className="grid grid-cols-1 gap-3 mx-5 px-5 sm:px-10">
+      {/* Sección de calificación promedio */}
+      <div className="grid grid-cols-1 gap-5 mx-5 px-5 md:px-36 text-center">
         <div className="mb-6 p-6 border border-gray-300 rounded-lg shadow-lg bg-gradient-to-br from-white to-gray-100 hover:shadow-2xl transition-shadow duration-300">
           <h1 className="text-5xl">{promedioCalificacion}</h1>
           <div className="flex justify-center items-center mt-2">
@@ -264,7 +262,8 @@ const ProductDetail = ({ product, resenia, clientes, promociones }) => {
         </div>
       </div>
 
-      <div className="mb-20 grid grid-cols-1 gap-3 mx-5 px-5 sm:px-10">
+      {/* Sección de reseñas individuales */}
+      <div className="mb-20 grid grid-cols-1 gap-5 mx-5 px-5 md:px-36">
         {reseñasFiltradas.length > 0 ? (
           reseñasFiltradas.map((item) => {
             const cliente = clientes
@@ -314,7 +313,7 @@ const ProductDetail = ({ product, resenia, clientes, promociones }) => {
             );
           })
         ) : (
-          <p className="font-light text-center text-gray-500 text-lg">
+          <p className="col-span-3 font-light text-center text-gray-500 text-lg">
             No hay reseñas disponibles para este producto.
           </p>
         )}

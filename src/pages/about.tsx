@@ -11,8 +11,12 @@ const AboutPage: React.FC = () => {
         <div className="container mx-auto p-6 pt-20">
           <h1 className="text-5xl font-bold mb-6 text-center text-[#2EC4B6]">Acerca de Nosotros</h1>
 
-          <section className="mb-12 p-4 rounded-lg flex items-center">
-            <img src="/images/mision.jpeg" alt="Nuestra Misión" className="w-3/4 h-80 object-cover rounded-lg mr-6" />
+          <section className="mb-12 p-4 rounded-lg flex items-center flex-col sm:flex-row">
+            <img 
+              src="/images/mision.jpeg" 
+              alt="Nuestra Misión" 
+              className="w-full sm:w-3/4 sm:h-80 object-cover rounded-lg sm:mr-6 mb-4 sm:mb-0" 
+            />
             <div>
               <h2 className="text-4xl font-semibold mb-2 text-[#2F4F4F]">Nuestra Misión</h2>
               <p className="text-lg">
@@ -21,8 +25,12 @@ const AboutPage: React.FC = () => {
             </div>
           </section>
 
-          <section className="mb-12 p-4 rounded-lg flex items-center flex-row-reverse">
-            <img src="/images/values.jpeg" alt="Nuestros Valores" className="w-3/4 h-80 object-cover rounded-lg ml-6" />
+          <section className="mb-12 p-4 rounded-lg flex items-center flex-col-reverse sm:flex-row-reverse">
+            <img 
+              src="/images/values.jpeg" 
+              alt="Nuestros Valores" 
+              className="w-full sm:w-3/4 sm:h-80 object-cover rounded-lg sm:ml-6 mb-4 sm:mb-0" 
+            />
             <div>
               <h2 className="text-4xl font-semibold mb-2 text-[#2F4F4F]">Nuestros Valores</h2>
               <ul className="list-disc list-inside text-lg">
@@ -34,8 +42,12 @@ const AboutPage: React.FC = () => {
             </div>
           </section>
 
-          <section className="mb-12 p-4 rounded-lg flex items-center">
-            <img src="/images/antecedent.jpeg" alt="Antecedentes" className="w-3/4 h-80 object-cover rounded-lg mr-6" />
+          <section className="mb-12 p-4 rounded-lg flex items-center flex-col sm:flex-row">
+            <img 
+              src="/images/antecedent.jpeg" 
+              alt="Antecedentes" 
+              className="w-full sm:w-3/4 sm:h-80 object-cover rounded-lg sm:mr-6 mb-4 sm:mb-0" 
+            />
             <div>
               <h2 className="text-4xl font-semibold mb-2 text-[#2F4F4F]">Antecedentes</h2>
               <p className="text-lg">
@@ -44,8 +56,12 @@ const AboutPage: React.FC = () => {
             </div>
           </section>
 
-          <section className="mb-12 p-4 rounded-lg flex items-center flex-row-reverse">
-            <img src="/images/aim.jpeg" alt="Objetivos del Proyecto" className="w-3/4 h-80 object-cover rounded-lg ml-6" />
+          <section className="mb-12 p-4 rounded-lg flex items-center flex-col-reverse sm:flex-row-reverse">
+            <img 
+              src="/images/aim.jpeg" 
+              alt="Objetivos del Proyecto" 
+              className="w-full sm:w-3/4 sm:h-80 object-cover rounded-lg sm:ml-6 mb-4 sm:mb-0" 
+            />
             <div>
               <h2 className="text-4xl font-semibold mb-2 text-[#2F4F4F]">Objetivos del Proyecto</h2>
               <p className="text-lg">
@@ -60,19 +76,23 @@ const AboutPage: React.FC = () => {
             </div>
           </section>
 
-          <section className="mb-12 p-4 rounded-lg flex items-center">
-            <img src="/images/team.jpeg" alt="Nuestro Equipo" className="w-3/4 h-80 object-cover rounded-lg mr-6" />
+          <section className="mb-12 p-4 rounded-lg flex items-center flex-col sm:flex-row">
+            <img 
+              src="/images/team.jpeg" 
+              alt="Nuestro Equipo" 
+              className="w-full sm:w-3/4 sm:h-80 object-cover rounded-lg sm:mr-6 mb-4 sm:mb-0" 
+            />
             <div>
-            <h2 className="text-4xl font-semibold mb-2 text-[#2F4F4F]">Nuestro Equipo</h2>
+              <h2 className="text-4xl font-semibold mb-2 text-[#2F4F4F]">Nuestro Equipo</h2>
               <p className="text-lg">
                 Contamos con un equipo multidisciplinario apasionado por el arte, la cultura y la tecnología. Nuestro compromiso es empoderar a los artesanos y ofrecerles las herramientas necesarias para que puedan prosperar en el mercado actual.
               </p>
             </div>
           </section>
 
-          <section className="p-4 rounded-lg flex items-center flex-row-reverse">
+          <section className="p-4 rounded-lg flex items-center flex-col-reverse sm:flex-row">
             <div>
-            <h2 className="text-4xl font-semibold mb-2 text-[#2F4F4F]">Contáctanos</h2>
+              <h2 className="text-4xl font-semibold mb-2 text-[#2F4F4F]">Contáctanos</h2>
               <p className="text-lg text-black">
                 Estamos aquí para responder tus preguntas y colaborar en el crecimiento de las comunidades artesanales. No dudes en <a href="/contact" className="underline text-[#1E90FF] font-semibold">contactarnos</a> para más información.
               </p>

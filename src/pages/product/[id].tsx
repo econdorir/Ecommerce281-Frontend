@@ -199,7 +199,7 @@ const ProductDetail = ({ product, resenia, clientes, promociones }) => {
               <p className="my-3 line-through text-lg">
                 Bs {product.precio_producto}
               </p>
-              <p className="text-xl my-3 font-bold">Bs {finalPrice}</p>
+              <p className="text-xl my-3 font-bold">Bs {finalPrice.toFixed(2)}</p>
             </>
           ) : (
             <p className="text-lg my-3">Bs {product.precio_producto}</p>

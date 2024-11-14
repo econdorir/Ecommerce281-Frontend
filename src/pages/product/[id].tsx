@@ -162,8 +162,8 @@ const ProductDetail = ({ product, resenia, clientes, promociones }) => {
   return (
     <>
       <Navbar />
-      <div className="mt-12 mb-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mx-5 px-5 md:px-10 lg:px-36">
-        <div className="col-span-1 md:col-span-2 flex flex-col items-center">
+      <div className="mt-12 mb-20 grid grid-cols-1 gap-5 mx-5 px-5 sm:px-10">
+        <div className="col-span-1 flex flex-col items-center">
           {/* Close button */}
           <button
             onClick={handleClose}
@@ -179,14 +179,7 @@ const ProductDetail = ({ product, resenia, clientes, promociones }) => {
               product.imagen[0]?.url_imagen ||
               "https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg"
             }
-            className="block md:hidden w-full max-w-md mx-auto"
-          />
-
-          {/* Product Desktop Slideshow (Visible only on medium and large screens) */}
-          <ProductSlideShow
-            title={product.nombre_producto}
-            images={product.imagen}
-            className="hidden md:block w-full max-w-lg mx-auto"
+            className="block w-full max-w-md mx-auto"
           />
         </div>
 
@@ -220,7 +213,7 @@ const ProductDetail = ({ product, resenia, clientes, promociones }) => {
 
               <button
                 onClick={() => handleAddToCart(product)}
-                className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-blue-600 transition duration-200 ease-in-out my-5 w-full sm:w-auto"
+                className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-blue-600 transition duration-200 ease-in-out my-5 w-full"
               >
                 Agregar al carrito
               </button>
@@ -239,19 +232,19 @@ const ProductDetail = ({ product, resenia, clientes, promociones }) => {
           <p className="font-light text-xl">{product.categoria_producto}</p>
 
           <div className="flex flex-wrap mt-5">
-            <div className="w-full sm:w-1/2 md:w-1/4 mb-4">
+            <div className="w-full sm:w-1/2 mb-4">
               <h3 className="font-bold text-xl">Peso</h3>
               <p className="font-light text-xl">{product.peso_producto}</p>
             </div>
-            <div className="w-full sm:w-1/2 md:w-1/4 mb-4">
+            <div className="w-full sm:w-1/2 mb-4">
               <h3 className="font-bold text-xl">Largo</h3>
               <p className="font-light text-xl">{product.largo_producto}</p>
             </div>
-            <div className="w-full sm:w-1/2 md:w-1/4 mb-4">
+            <div className="w-full sm:w-1/2 mb-4">
               <h3 className="font-bold text-xl">Ancho</h3>
               <p className="font-light text-xl">{product.ancho_producto}</p>
             </div>
-            <div className="w-full sm:w-1/2 md:w-1/4 mb-4">
+            <div className="w-full sm:w-1/2 mb-4">
               <h3 className="font-bold text-xl">Alto</h3>
               <p className="font-light text-xl">{product.alto_producto}</p>
             </div>
@@ -261,7 +254,7 @@ const ProductDetail = ({ product, resenia, clientes, promociones }) => {
 
       <h3 className="font-bold text-4xl text-center my-5">Reseñas</h3>
 
-      <div className="grid grid-cols-1 gap-3 mx-5 px-5 sm:px-10 lg:px-36 text-center">
+      <div className="grid grid-cols-1 gap-3 mx-5 px-5 sm:px-10">
         <div className="mb-6 p-6 border border-gray-300 rounded-lg shadow-lg bg-gradient-to-br from-white to-gray-100 hover:shadow-2xl transition-shadow duration-300">
           <h1 className="text-5xl">{promedioCalificacion}</h1>
           <div className="flex justify-center items-center mt-2">
@@ -271,7 +264,7 @@ const ProductDetail = ({ product, resenia, clientes, promociones }) => {
         </div>
       </div>
 
-      <div className="mb-20 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mx-5 px-5 sm:px-10 lg:px-36">
+      <div className="mb-20 grid grid-cols-1 gap-3 mx-5 px-5 sm:px-10">
         {reseñasFiltradas.length > 0 ? (
           reseñasFiltradas.map((item) => {
             const cliente = clientes
@@ -321,7 +314,7 @@ const ProductDetail = ({ product, resenia, clientes, promociones }) => {
             );
           })
         ) : (
-          <p className="col-span-3 font-light text-center text-gray-500 text-lg">
+          <p className="font-light text-center text-gray-500 text-lg">
             No hay reseñas disponibles para este producto.
           </p>
         )}

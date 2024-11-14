@@ -26,7 +26,9 @@ const ProductDetail = ({ product, resenia, clientes, promociones }) => {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/resenia`);
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/resenia`
+        );
         if (!response.ok) {
           throw new Error("Error al cargar las reseñas");
         }
@@ -245,14 +247,18 @@ const ProductDetail = ({ product, resenia, clientes, promociones }) => {
       </div>
 
       <h3 className="font-bold text-4xl text-center my-5">Reseñas</h3>
-      <div className="grid grid-cols-1 gap-3 mx-5 px-36 text-center">
+
+      <div className="grid grid-cols-1 gap-3 mx-5 px-5 sm:px-10 lg:px-36 text-center">
         <div className="mb-6 p-6 border border-gray-300 rounded-lg shadow-lg bg-gradient-to-br from-white to-gray-100 hover:shadow-2xl transition-shadow duration-300">
           <h1 className="text-5xl">{promedioCalificacion}</h1>
-          <div className="flex justify-center items-center mt-2">{renderStars(Number(promedioCalificacion))}</div>
+          <div className="flex justify-center items-center mt-2">
+            {renderStars(Number(promedioCalificacion))}
+          </div>
           <h1>{reseñasFiltradas.length} reseñas</h1>
         </div>
       </div>
-      <div className="mb-20 grid grid-cols-1 md:grid-cols-3 gap-3 mx-5 px-36">
+
+      <div className="mb-20 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mx-5 px-5 sm:px-10 lg:px-36">
         {reseñasFiltradas.length > 0 ? (
           reseñasFiltradas.map((item) => {
             const cliente = clientes
@@ -318,10 +324,14 @@ export const getServerSideProps = async (context) => {
   );
   const product = await productResponse.json();
 
-  const reseniaResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/resenia`);
+  const reseniaResponse = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/resenia`
+  );
   const resenia = await reseniaResponse.json();
 
-  const clienteResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/cliente`);
+  const clienteResponse = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/cliente`
+  );
   const clientes = await clienteResponse.json();
 
   const promocionResponse = await fetch(

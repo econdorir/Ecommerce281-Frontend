@@ -1,0 +1,64 @@
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 80px;
+    padding: 0 16px;
+    color: white;
+    background-color: black;
+    position: fixed;
+    z-index: 10;
+}
+
+.nav-links {
+    padding: 0 16px;
+    cursor: pointer;
+    text-transform: capitalize;
+    font-weight: 500;
+    color: gray;
+}
+
+.nav-links:hover {
+    transform: scale(1.05);
+    color: white;
+    transition: color 0.2s, transform 0.2s;
+}
+
+/* Otros estilos de Navbar (continúa aquí...) */
+
+/* Estilos para AddProduct */
+.container {
+    padding: 56px 16px 0; /* Para evitar que el contenido quede detrás del navbar */
+}
+
+.input {
+    padding: 12px;
+    border: 1px solid gray;
+    border-radius: 4px;
+    margin-bottom: 16px;
+    width: 100%;
+}
+
+.button {
+    padding: 12px;
+    background-color: green;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.message {
+    margin: 16px 0;
+    padding: 10px;
+    border: 1px solid green; /* Puedes cambiar el color según sea necesario */
+    color: green; /* Color del texto */
+    background-color: #e0ffe0; /* Fondo suave */
+}
+.message2 {  
+    margin: 16px 0;
+    padding: 10px;
+    border: 1px solid rgb(245, 3, 3); /* Puedes cambiar el color según sea necesario */
+    color: rgb(138, 22, 22); /* Color del texto */
+    background-color: #e0ffe0; /* Fondo suave */
+}

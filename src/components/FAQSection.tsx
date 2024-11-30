@@ -46,7 +46,7 @@ const FAQSection: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto p-4 mt-8 max-w-3xl pt-10">
+    <div className="container mx-auto p-4 mt-8 max-w-3xl pt-10 text-white">
       <h2 className="text-2xl font-semibold">Preguntas Frecuentes</h2>
       <div className="mt-4">
         {faqData.map((item, index) => (
@@ -59,7 +59,7 @@ const FAQSection: React.FC = () => {
               <span className="text-lg">{openIndex === index ? "-" : "+"}</span>
             </button>
             {openIndex === index && (
-              <p className="text-gray-600 mt-1">{item.answer}</p>
+              <p className="text-buttonpagecolor mt-1">{item.answer}</p>
             )}
           </div>
         ))}

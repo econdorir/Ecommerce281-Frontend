@@ -113,7 +113,7 @@ const AboutPage: React.FC = () => {
     <>
       <Navbar />
       <br />
-      <div className="w-lvw text-black container mx-auto bg-black">
+      <div className="w-dvw text-black container mx-auto bg-black">
         <TextHoverEffect text="Acerca de Nosotros" />
       </div>
       <StickyScroll content={content} />

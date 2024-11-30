@@ -101,7 +101,7 @@ const Cart = () => {
           </div>
           <button
             onClick={() => setShowPaymentForm(true)}
-            className="mt-4 w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
+            className="mt-4 w-full bg-extrapagecolor text-white py-2 rounded hover:bg-blue-600"
           >
             Finalizar Compra
           </button>

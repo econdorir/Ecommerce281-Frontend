@@ -2,7 +2,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useAppContext } from "@/context";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 import { RemoveProductFromCartService } from "../services/RemoveProductFromCartService";
 
 const CartSidebar = ({ isOpen, onClose }) => {
@@ -30,53 +30,53 @@ const CartSidebar = ({ isOpen, onClose }) => {
     };
 
     fetchProducts();
-
   }, []);
 
   // Función para eliminar un producto del carrito
   // Función para eliminar un producto del carrito
-const handleRemoveFromCart = async (id_producto) => {
-  const storedUserData:any = localStorage.getItem("userData");
-  const userData = JSON.parse(storedUserData);
+  const handleRemoveFromCart = async (id_producto) => {
+    const storedUserData: any = localStorage.getItem("userData");
+    const userData = JSON.parse(storedUserData);
 
-  try {
-    const response = await fetch(
-      `http://localhost:5000/api/v1/carrito/producto/${userData.id_carrito}/${id_producto}`,
-      {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          // Agrega más encabezados si es necesario, como tokens de autorización
-        },
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error('Error al eliminar el producto');
-    }
-
-    // Actualiza el carrito en el contexto después de eliminar el producto
-    setCart((prevCart) => {
-      const updatedCart = prevCart.filter(
-        (item) => item.id_producto !== id_producto
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/v1/carrito/producto/${userData.id_carrito}/${id_producto}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            // Agrega más encabezados si es necesario, como tokens de autorización
+          },
+        }
       );
-      setNumberOfProductsInCart(updatedCart.length); // Actualiza el contador
-      return updatedCart;
-    });
-  } catch (error) {
-    console.error("Error al eliminar el producto:", error);
-  }
-};
+
+      if (!response.ok) {
+        throw new Error("Error al eliminar el producto");
+      }
+
+      // Actualiza el carrito en el contexto después de eliminar el producto
+      setCart((prevCart) => {
+        const updatedCart = prevCart.filter(
+          (item) => item.id_producto !== id_producto
+        );
+        setNumberOfProductsInCart(updatedCart.length); // Actualiza el contador
+        return updatedCart;
+      });
+    } catch (error) {
+      console.error("Error al eliminar el producto:", error);
+    }
+  };
 
   // Función para manejar la compra (puedes personalizar esto)
   const handleBuy = () => {
     router.push("/cart");
   };
 
+  const groupedCart = cart.reduce((acc: any, item: any) => {
+    const existingItem = acc.find(
+      (i: any) => i.id_producto === item.id_producto
+    );
 
-  const groupedCart = cart.reduce((acc:any, item:any) => {
-    const existingItem = acc.find((i:any) => i.id_producto === item.id_producto);
-  
     if (existingItem) {
       // Incrementa la cantidad si el producto ya existe en el acumulador
       existingItem.cantidad += item.cantidad; // Asegúrate de que `item.cantidad` es la cantidad correcta
@@ -84,15 +84,13 @@ const handleRemoveFromCart = async (id_producto) => {
       // Agrega el nuevo producto al acumulador
       acc.push({ ...item });
     }
-  
+
     return acc;
   }, []);
-  
-  
 
   return (
     <div
-      className={`fixed top-0 right-0 w-64 bg-white shadow-lg transition-transform transform ${
+      className={`fixed top-0 right-0 w-72 bg-white shadow-lg transition-transform transform ${
         isOpen ? "translate-x-0" : "translate-x-full"
       } h-full z-50`}
     >
@@ -106,35 +104,38 @@ const handleRemoveFromCart = async (id_producto) => {
             <li className="text-gray-700">Tu carrito está vacío.</li>
           ) : (
             groupedCart.map((item, index) => (
-              <li key={index} className="flex items-center mb-2">
-                <img
-                  src={item.imagen[0].url_imagen}
-                  alt={item.nombre_producto}
-                  className="w-16 h-16 object-cover mr-2"
-                />
-                <div className="flex-grow">
-                  <p>{item.nombre_producto}</p>
-                  <p>Cantidad: {item.cantidad}</p> {/* Muestra la cantidad */}
-                  <p>
-                    Precio: $
-                    {(parseFloat(item.precio_producto) * item.cantidad).toFixed(
-                      2
-                    )}
-                  </p>
-                </div>
-                <button
-                  onClick={() => handleRemoveFromCart(item.id_producto)}
-                  className="bg-red-500 text-white p-1 rounded ml-2"
-                >
-                  -
-                </button>
-              </li>
+              <>
+                <li key={index} className="flex justify-evenly items-center my-2">
+                  <img
+                    src={item.imagen[0].url_imagen}
+                    alt={item.nombre_producto}
+                    className="w-16 h-16 object-cover mr-2 border border-black"
+                  />
+                  <div className="flex-grow w-1/3">
+                    <p>{item.nombre_producto}</p>
+                    <p>Cantidad: {item.cantidad}</p> {/* Muestra la cantidad */}
+                    <p>
+                      Precio: $
+                      {(
+                        parseFloat(item.precio_producto) * item.cantidad
+                      ).toFixed(2)}
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => handleRemoveFromCart(item.id_producto)}
+                    className="w-7 bg-buttonpagecolor border border-buttonpagecolor text-buttonpagecolor2 hover:bg-buttonpagecolor2 hover:text-bgpagecolor p-1 rounded-full ml-2 font-semibold"
+                  >
+                    x
+                  </button>
+                </li>
+                <div className="w-full bg-buttonpagecolor2 h-[0.1px]"></div>
+              </>
             ))
           )}
         </ul>
         <button
           onClick={handleBuy}
-          className="w-full bg-blue-500 text-white p-2 mt-4 rounded"
+          className="w-full bg-extrapagecolor border border-buttonpagecolor2 hover:bg-buttonpagecolor text-buttonpagecolor2 p-2 mt-4 rounded"
         >
           Comprar
         </button>

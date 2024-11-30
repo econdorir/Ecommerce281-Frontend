@@ -36,7 +36,7 @@ export const ProductMobileSlideShow = ({ images, title, className }: Props) => {
             height={800}
             src={images}
             alt={title}
-            className="  object-fill"
+            className="w-full  object-fill"
           />
         </SwiperSlide>
         <SwiperSlide>
@@ -45,7 +45,7 @@ export const ProductMobileSlideShow = ({ images, title, className }: Props) => {
             height={800}
             src={images}
             alt={title}
-            className="  object-fill"
+            className="w-full  object-fill"
           />
         </SwiperSlide>
         <SwiperSlide>

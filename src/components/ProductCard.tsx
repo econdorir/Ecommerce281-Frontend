@@ -26,7 +26,7 @@ const ProductCard = ({
               className="w-full h-36 object-cover rounded-lg"
               height="1000"
               width="1000"
-              src={imageUrl}
+              src={imageUrl && imageUrl !== "" ? imageUrl : "https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg"}
               alt={title}
             />
           </CardItem>
@@ -45,7 +45,7 @@ const ProductCard = ({
               role === "cliente" && ( // Condición para mostrar el botón
                 <button
                   onClick={onAddToCart}
-                  className="bg-buttonpagecolor text-white py-2 px-4 rounded transition-colors duration-300 hover:bg-tertiarypagecolor cursor-pointer"
+                  className="bg-buttonpagecolor text-white p-2 rounded transition-colors duration-300 hover:bg-tertiarypagecolor cursor-pointer"
                 >
                   Agregar al carrito
                 </button>
@@ -53,7 +53,7 @@ const ProductCard = ({
           </CardItem>
           <CardItem translateZ={50} translateY={5} translateX={5}>
             <Link href={`/product/${id}`}>
-              <button className="bg-buttonpagecolor text-extrapagecolor2 py-2 px-4 rounded transition-colors duration-300 hover:bg-tertiarypagecolor text-center cursor-pointer">
+              <button className="bg-buttonpagecolor text-extrapagecolor2 p-2 rounded transition-colors duration-300 hover:bg-tertiarypagecolor text-center cursor-pointer">
                 Ver detalles
               </button>
             </Link>

@@ -19,7 +19,7 @@ export const QuantitySelector = ({ quantity, onQuantityChange }: Props) => {
   return (
     <div className="flex mt-5">
       <button onClick={() => onQuantityChanged(-1)}>
-        <IoRemoveCircleOutline size={30} />
+        <IoRemoveCircleOutline className="hover:text-buttonpagecolor" size={30} />
       </button>
 
       <span className="w-20 mx-3 px-5 bg-gray-100 text-center rounded">
@@ -27,7 +27,7 @@ export const QuantitySelector = ({ quantity, onQuantityChange }: Props) => {
       </span>
 
       <button onClick={() => onQuantityChanged(+1)}>
-        <IoAddCircleOutline size={30} />
+        <IoAddCircleOutline className="hover:text-buttonpagecolor" size={30} />
       </button>
     </div>
   );

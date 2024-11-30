@@ -171,7 +171,7 @@ const Navbar = () => {
 
   
   return (
-    <div className="flex justify-between items-center w-full h-20 px-4 text-white bg-black fixed nav z-10">
+    <div className="flex justify-between items-center w-full h-20 px-4 text-white bg-black fixed nav z-10 shadow-lg">
       <div>
         <h1 className="text-5xl font-signature ml-2">
           <Link href="/" passHref>
@@ -186,7 +186,7 @@ const Navbar = () => {
                 />
               </div>
               <span
-                className="text-lg font-normal text-white "
+                className="text-lg font-normal text-bgpagecolor "
                 style={{
                   fontFamily: "Dancing-Script, cursive",
                   letterSpacing: "0.em",
@@ -205,7 +205,7 @@ const Navbar = () => {
             key={id}
             className="nav-links px-4 cursor-pointer capitalize font-medium text-gray-500 hover:scale-105 hover:text-white duration-200 link-underline"
           >
-            <Link href={link} className="text-[#FF9F1C]">
+            <Link href={link} className="text-buttonpagecolor">
               {text}
             </Link>
           </li>
@@ -328,11 +328,11 @@ const Navbar = () => {
             </>
           ) : (
             <>
-              <Link href="/register" className="text-gray-100">
+              <Link href="/register" className="text-extrapagecolor2">
                 Registrarse
               </Link>
-              <p>&nbsp;|&nbsp;</p>
-              <Link href="/login" className="text-gray-100">
+              <p className="text-extrapagecolor2">&nbsp;|&nbsp;</p>
+              <Link href="/login" className="text-extrapagecolor2">
                 Iniciar Sesión
               </Link>
             </>

@@ -75,6 +75,8 @@ export default function ProductForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    console.log("primero:", JSON.stringify(formData));
+    
     try {
       const urls: string[] = []; // Arreglo temporal para almacenar URLs
 

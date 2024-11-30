@@ -16,7 +16,19 @@ export const CreateProductService = async ({
   stock_producto,
   images,
 }) => {
-  console.log(images);
+  console.log(JSON.stringify(id_artesano));
+  console.log(JSON.stringify(nombre_producto));
+  console.log(JSON.stringify(precio_producto));
+  console.log(JSON.stringify(categoria_producto));
+  console.log(JSON.stringify(descripcion_producto));
+  console.log(JSON.stringify(ancho_producto));
+  console.log(JSON.stringify(peso_producto));
+  console.log(JSON.stringify(largo_producto));
+  console.log(JSON.stringify(alto_producto));
+  console.log(JSON.stringify(envio_gratuito));
+  console.log(JSON.stringify(stock_producto));
+  console.log(JSON.stringify(images));
+  
 
   try {
     const response = await axios.post(`${API_URL}/producto`, {

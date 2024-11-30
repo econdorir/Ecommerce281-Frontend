@@ -7,6 +7,8 @@ import Chatbot from "@/components/Chatbot";
 import { AddToCartService } from "../services/AddToCartService";
 import { Image, Product } from "../types/types";
 import Footer from "@/components/Footer";
+import { CardBody, CardContainer, CardItem } from "../components/ui/3d-card";
+
 
 const ProductPage: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -107,45 +109,45 @@ const ProductPage: React.FC = () => {
           placeholder="Buscar productos..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="p-2 border border-gray-300 rounded mb-4 w-full"
+          className="p-2 border border-tertiarypagecolor bg-buttonpagecolor2 rounded mb-4 w-full focus:text-white"
         />
 
         <div className="mb-4">
           <button
             onClick={() => setActiveFilter("bajo-stock")}
-            className={`p-2 rounded mr-2 ${
-              activeFilter === "bajo-stock" ? "bg-blue-700" : "bg-blue-500"
-            } text-white`}
+            className={`px-4 py-2 rounded mr-2 ${
+              activeFilter === "bajo-stock" ? "bg-buttonpagecolor2 text-white" : "bg-buttonpagecolor"
+            } text-black font-semibold hover:opacity-90`}
           >
             Bajo Stock
           </button>
           <button
             onClick={() => setActiveFilter("alto-stock")}
-            className={`p-2 rounded mr-2 ${
-              activeFilter === "alto-stock" ? "bg-blue-700" : "bg-blue-500"
-            } text-white`}
+            className={`px-4 py-2 rounded mr-2 ${
+              activeFilter === "alto-stock" ? "bg-buttonpagecolor2 text-white" : "bg-buttonpagecolor"
+            } text-black font-semibold hover:opacity-90`}
           >
             Alto Stock
           </button>
           <button
             onClick={() => setActiveFilter("bajo-precio")}
-            className={`p-2 rounded mr-2 ${
-              activeFilter === "bajo-precio" ? "bg-blue-700" : "bg-blue-500"
-            } text-white`}
+            className={`px-4 py-2 rounded mr-2 ${
+              activeFilter === "bajo-precio" ? "bg-buttonpagecolor2 text-white" : "bg-buttonpagecolor"
+            } text-black font-semibold hover:opacity-90`}
           >
             Bajo Precio
           </button>
           <button
             onClick={() => setActiveFilter("alto-precio")}
-            className={`p-2 rounded mr-2 ${
-              activeFilter === "alto-precio" ? "bg-blue-700" : "bg-blue-500"
-            } text-white`}
+            className={`px-4 py-2 rounded mr-2 ${
+              activeFilter === "alto-precio" ? "bg-buttonpagecolor2 text-white" : "bg-buttonpagecolor"
+            } text-black font-semibold hover:opacity-90`}
           >
             Alto Precio
           </button>
           <button
             onClick={() => setActiveFilter("")}
-            className="p-2 bg-gray-300 rounded"
+            className="p-2 bg-buttonpagecolor2 text-bgpagecolor font-semibold hover:opacity-90 rounded"
           >
             Limpiar Filtros
           </button>
@@ -154,13 +156,13 @@ const ProductPage: React.FC = () => {
         <div className="mb-4">
           <button
             onClick={() => setSortOrder("asc")}
-            className="p-2 bg-green-500 text-white rounded mr-2"
+            className="p-2 bg-buttonpagecolor text-black font-semibold hover:opacity-90 rounded mr-2"
           >
             Precio: Menor a Mayor
           </button>
           <button
             onClick={() => setSortOrder("desc")}
-            className="p-2 bg-red-500 text-white rounded"
+            className="p-2 bg-buttonpagecolor text-black font-semibold hover:opacity-90 rounded"
           >
             Precio: Mayor a Menor
           </button>

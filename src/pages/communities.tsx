@@ -109,14 +109,15 @@ const CommunitiesPage: React.FC = () => {
             placeholder="Buscar comunidades..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="border p-2 rounded mb-4 w-full"
+            className="p-2 border border-tertiarypagecolor bg-buttonpagecolor2 rounded mb-4 w-full focus:text-bgpagecolor"
+            
           />
 
           {/* Department Filter */}
           <select
             value={selectedDepartment}
             onChange={(e) => setSelectedDepartment(e.target.value)}
-            className="border p-2 rounded mb-4 w-full"
+            className="border p-2 rounded mb-4 w-full bg-buttonpagecolor2 text-bgpagecolor"
           >
             <option value="">Todos Los Departamentos</option>
             {departments.map((department) => (
@@ -130,7 +131,7 @@ const CommunitiesPage: React.FC = () => {
           <select
             value={sortOrder}
             onChange={(e) => setSortOrder(e.target.value)}
-            className="border p-2 rounded mb-4 w-full"
+            className="border p-2 rounded mb-4 w-full bg-buttonpagecolor2 text-bgpagecolor"
           >
             <option value="asc">Ordenar A a la Z</option>
             <option value="desc">Ordenar Z a la A</option>

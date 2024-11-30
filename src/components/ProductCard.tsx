@@ -40,7 +40,7 @@ const ProductCard = ({
         </div>
         {/* Action buttons */}
         <div className="flex justify-between items-center mt-4">
-          <CardItem translateX={-10} translateZ={20}>
+          <CardItem translateX={-5} translateZ={50} translateY={5}>
             {isLoggedIn &&
               role === "cliente" && ( // Condición para mostrar el botón
                 <button
@@ -51,7 +51,7 @@ const ProductCard = ({
                 </button>
               )}
           </CardItem>
-          <CardItem translateX={10} translateY={20}>
+          <CardItem translateZ={50} translateY={5} translateX={5}>
             <Link href={`/product/${id}`}>
               <button className="bg-buttonpagecolor text-extrapagecolor2 py-2 px-4 rounded transition-colors duration-300 hover:bg-tertiarypagecolor text-center cursor-pointer">
                 Ver detalles

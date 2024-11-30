@@ -181,7 +181,7 @@ const ProductDetail = ({ product, resenia, clientes, promociones }) => {
           <ProductSlideShow
             title={product.nombre_producto}
             images={product.imagen}
-            className="hidden md:block max-w-lg mx-auto"
+            className="hidden md:block max-w-lg mx-auto border-black"
           />
         </div>
 

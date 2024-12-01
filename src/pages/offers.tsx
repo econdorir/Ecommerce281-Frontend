@@ -117,26 +117,26 @@ const Offers: React.FC = () => {
   return (
     <>
       <Navbar />
-      <div className="container mx-auto my-auto pt-40">
+      <div className="container mx-auto my-auto pt-20 bg-black">
         <Vortex
           backgroundColor="black"
-          className="flex items-center flex-col justify-center px-2 md:px-10 py-4 w-full h-full"
+          className="flex items-center flex-col justify-center px-2 md:px-10 py-4 w-full h-full z-0"
         >
           {currentOffers.length > 0 ? (
             currentOffers.map((offer) => (
               <div
                 key={offer.id_promocion}
-                className="bg-[#000] text-[#2EC4B6] text-center p-10 rounded-lg shadow-lg mb-6 font-mono border border-[#CBF3F0]"
+                className="bg-[#000] text-[#2EC4B6] text-center p-2 sm:px-5 rounded-lg shadow-lg mb-6 font-mono border border-[#CBF3F0]"
               >
-                <h1 className="text-3xl font-bold my-4">Ofertas Especiales</h1>
-                <h1 className="text-2xl font-bold text-[#FF9F1C] my-3">
+                <h2 className="text-xxl font-bold my-4">Ofertas Especiales</h2>
+                <h2 className="text-lg font-bold text-[#FF9F1C] my-3">
                   {offer.nombre_promocion}
-                </h1>
-                <h1 className="text-2xl font-bold text-[#FFBF69] my-3">
+                </h2>
+                <h2 className="text-md font-bold text-[#FFBF69] my-3">
                   {offer.descuento_promocion}% DE DESCUENTO EN PRODUCTOS
                   SELECCIONADOS
-                </h1>
-                <p className="my-4 text-[#2EC4B6]">
+                </h2>
+                <p className="my-2 text-[#2EC4B6] text-md">
                   {" "}
                   Válido Del {formatDate(offer.fecha_ini)} Al{" "}
                   {formatDate(offer.fecha_fin)}
@@ -144,14 +144,14 @@ const Offers: React.FC = () => {
               </div>
             ))
           ) : (
-            <h1 className="bg-[#000] text-[#2EC4B6] text-center p-10 rounded-lg shadow-lg mb-6 font-mono border border-[#CBF3F0]">
+            <h2 className="bg-[#000] text-[#2EC4B6] text-center p-10 rounded-lg shadow-lg mb-6 font-mono border border-[#CBF3F0]">
               No hay ofertas disponibles en este momento.
-            </h1>
+            </h2>
           )}
           {filteredProducts.length > 0 ? (
             <OfferSlideShow
               products={filteredProducts}
-              className="block max-w-lg mx-auto"
+              className="block max-w-lg mx-auto w-screen"
             />
           ) : (
             <h2 className="bg-[#FFFFFF] text-[#2EC4B6] text-center p-10 rounded-lg shadow-lg mb-6 font-mono border border-[#CBF3F0]">

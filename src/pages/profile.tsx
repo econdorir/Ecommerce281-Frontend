@@ -130,8 +130,8 @@ const Profile = () => {
   return (
     <>
       <Navbar />
-      <div className="flex flex-col items-center justify-center bg-gray-100 mt-20 font-mono">
-        <div className="bg-white shadow-md rounded-lg p-6 max-w-screen-xl w-full">
+      <div className="flex flex-col items-center justify-center bg-gray-100 mt-20 pt-8 font-mono">
+        <div className="bg-white shadow-md rounded-lg p-6 w-full max-w-96">
           <hr className="my-4 border-gray-300" />
           <h1 className="text-2xl font-light font-mono text-center uppercase tracking-widest">
             {userData.tipo_usuario}

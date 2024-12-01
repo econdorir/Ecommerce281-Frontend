@@ -51,8 +51,8 @@ const PaymentForm = ({ onClose, cartItems, totalPrice }) => {
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-gray-600 bg-opacity-50">
-      <div className="bg-white p-6 rounded-lg shadow-lg max-w-2xl w-full flex">
+    <div className="mt-10 fixed inset-0 flex items-center justify-center bg-gray-600 bg-opacity-50">
+      <div className="bg-buttonpagecolor2 text-white p-6 rounded-lg shadow-lg max-w-2xl w-full flex">
         <div className="w-full">
           <h2 className="text-xl font-bold mb-4">Formulario de Pago</h2>
           {message ? (
@@ -70,7 +70,7 @@ const PaymentForm = ({ onClose, cartItems, totalPrice }) => {
                   value={cardNumber}
                   onChange={(e) => setCardNumber(e.target.value)}
                   required
-                  className="border rounded w-full px-3 py-2"
+                  className="border rounded w-full px-3 py-2 text-buttonpagecolor2 bg-extrapagecolor2"
                 />
               </div>
               <div className="mb-4">
@@ -82,7 +82,7 @@ const PaymentForm = ({ onClose, cartItems, totalPrice }) => {
                   value={cardHolder}
                   onChange={(e) => setCardHolder(e.target.value)}
                   required
-                  className="border rounded w-full px-3 py-2"
+                  className="border rounded w-full px-3 py-2 text-buttonpagecolor2 bg-extrapagecolor2"
                 />
               </div>
               <div className="mb-4">
@@ -95,7 +95,7 @@ const PaymentForm = ({ onClose, cartItems, totalPrice }) => {
                   value={expiryDate}
                   onChange={(e) => setExpiryDate(e.target.value)}
                   required
-                  className="border rounded w-full px-3 py-2"
+                  className="border rounded w-full px-3 py-2 text-buttonpagecolor2 bg-extrapagecolor2"
                 />
               </div>
               <div className="mb-4">
@@ -105,20 +105,20 @@ const PaymentForm = ({ onClose, cartItems, totalPrice }) => {
                   value={cvc}
                   onChange={(e) => setCvc(e.target.value)}
                   required
-                  className="border rounded w-full px-3 py-2"
+                  className="border rounded w-full px-3 py-2 text-buttonpagecolor2 bg-extrapagecolor2"
                 />
               </div>
               <div className="flex justify-between">
                 <button
                   type="submit"
-                  className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 mr-2"
+                  className="w-full bg-buttonpagecolor text-buttonpagecolor2 py-2 rounded hover:bg-blue-600 mr-2"
                 >
                   Pagar
                 </button>
                 <button
                   type="button"
                   onClick={handleGenerateQRCode}
-                  className="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600"
+                  className="w-full bg-buttonpagecolor text-buttonpagecolor2 py-2 rounded hover:bg-green-600"
                 >
                   Generar QR
                 </button>
@@ -139,7 +139,7 @@ const PaymentForm = ({ onClose, cartItems, totalPrice }) => {
           <div className="ml-4 flex-shrink-0 text-center">
             <h3 className="font-semibold mb-2">Código QR para el pago:</h3>
             <QRCodeCanvas value={paymentLink} size={128} />
-            <p className="mt-2 text-sm text-gray-600">Escanea el código QR para pagar.</p>
+            <p className="mt-2 text-sm text-white">Escanea el código QR para pagar.</p>
           </div>
         )}
       </div>

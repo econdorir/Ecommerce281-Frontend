@@ -247,8 +247,8 @@ const OrderItem = ({ order, orderNumber }) => {
     const cliente = deliveryDetails.cliente;
 
     return (
-        <div className="flex flex-col md:flex-row justify-between items-start border border-gray-200 rounded-lg p-6 shadow-lg hover:shadow-xl transition-shadow duration-300 bg-gradient-to-r from-blue-50 to-white">
-            <div className="flex-1 mb-4 md:mb-0">
+        <div className="flex flex-col md:flex-row justify-between items-start border  border-gray-200 rounded-lg p-6 shadow-lg hover:shadow-xl transition-shadow duration-300 bg-gradient-to-br from-buttonpagecolor to-tertiarypagecolor">
+            <div className="flex-1 mb-4 md:mb-0 ">
                 <h3 className="text-2xl font-bold text-gray-800 mb-2">Pedido #{orderNumber}</h3>
                 <div className="text-gray-600 mb-1">
                     <span className="font-medium">Fecha - Hora:</span> {order.fecha_pedido}
@@ -266,21 +266,21 @@ const OrderItem = ({ order, orderNumber }) => {
             <div className="flex flex-col items-end md:items-center ">
                 <Link 
                     href={`/orders/${order.id}`} 
-                    className="mt-2 inline-block bg-blue-600 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-700 transition-colors duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full text-center mt-2 inline-block bg-extrapagecolor2 text-black px-4 py-2 rounded-md shadow-md hover:bg-extrapagecolor transition-colors duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     aria-label={`Ver detalles del pedido ${orderNumber}`}
                 >
                     Ver Pedido
                 </Link>
                 <button 
                     onClick={handleShowModal} 
-                    className="mt-2 inline-block bg-green-600 text-white px-4 py-2 rounded-md shadow-md hover:bg-green-700 transition-colors duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-500"
+                    className="w-full text-center mt-2 inline-block bg-extrapagecolor2 text-black px-4 py-2 rounded-md shadow-md hover:bg-extrapagecolor transition-colors duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-500"
                     aria-label="Ver contactos del delivery"
                 >
                     Ver Contacto
                 </button>
                 <button
                     onClick={confirmDelivery}
-                    className={`mt-2 px-3 py-1 rounded-md ${
+                    className={`w-full text-center mt-2 px-3 py-1 rounded-md ${
                         !deliveryDetails?.delivery_confirm && deliveryDetails?.cliente_confirm
                             ? "bg-red-600 hover:bg-red-700"
                             : deliveryDetails?.delivery_confirm && deliveryDetails?.cliente_confirm

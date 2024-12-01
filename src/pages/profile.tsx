@@ -130,13 +130,13 @@ const Profile = () => {
   return (
     <>
       <Navbar />
-      <div className="flex flex-col items-center justify-center bg-gray-100 mt-20 pt-8 font-mono">
-        <div className="bg-white shadow-md rounded-lg p-6 w-full max-w-96">
+      <div className="h-screen flex flex-col items-center justify-center mt-20 pt-8 font-mono">
+        <div className="bg-buttonpagecolor2 shadow-lg rounded-lg p-6 w-full max-w-96">
           <hr className="my-4 border-gray-300" />
-          <h1 className="text-2xl font-light font-mono text-center uppercase tracking-widest">
+          <h1 className="text-buttonpagecolor text-2xl font-light font-mono text-center uppercase tracking-widest">
             {userData.tipo_usuario}
           </h1>
-          <h1 className="text-2xl font-semibold text-center">
+          <h1 className="text-buttonpagecolor text-2xl font-semibold text-center">
             {userData.nombre_usuario}
           </h1>
 
@@ -150,7 +150,7 @@ const Profile = () => {
 
           {userRol === "cliente" && (
             <>
-              <div className="mt-4 flex items-center justify-between">
+              <div className="text-white mt-4 flex items-center justify-between">
                 <h1 className="text-xl font-light font-mono uppercase tracking-widest">
                   Miembro desde
                 </h1>
@@ -159,7 +159,7 @@ const Profile = () => {
                 </h1>
               </div>
 
-              <div className="mt-4 flex items-center justify-between">
+              <div className="text-white mt-4 flex items-center justify-between">
                 <h1 className="text-xl font-light font-mono uppercase tracking-widest">
                   Número de compras
                 </h1>
@@ -172,7 +172,7 @@ const Profile = () => {
 
           {userRol === "artesano" && (
             <>
-              <div className="mt-4 flex items-center justify-between">
+              <div className="text-white mt-4 flex items-center justify-between">
                 <h1 className="text-xl font-light font-mono uppercase tracking-widest">
                   Especialidad
                 </h1>
@@ -208,7 +208,7 @@ const Profile = () => {
                 </div>
               </div>
 
-              <div className="mt-4 flex items-center justify-between">
+              <div className="text-white mt-4 flex items-center justify-between">
                 <div className="flex items-center">
                   <FaMapMarkerAlt className="h-6 w-6 text-gray-600 mr-2" />
                   <h1 className="text-xl font-light font-mono tracking-widest">
@@ -223,7 +223,7 @@ const Profile = () => {
           )}
 
           {userRol === "delivery" && (
-            <div className="mt-4 flex items-center justify-between">
+            <div className="text-white mt-4 flex items-center justify-between">
               <h1 className="text-xl font-light font-mono uppercase tracking-widest">
                 Estado
               </h1>
@@ -250,7 +250,7 @@ const Profile = () => {
             </div>
           )}
 
-          <div className="mt-4 flex items-center justify-between">
+          <div className="text-white mt-4 flex items-center justify-between">
             <div className="flex items-center">
               <FaEnvelope className="h-6 w-6 text-gray-600 mr-2" />
               <h1 className="text-xl font-light font-mono tracking-widest">
@@ -262,7 +262,7 @@ const Profile = () => {
             </h1>
           </div>
 
-          <div className="mt-4 flex items-center justify-between">
+          <div className="text-white mt-4 flex items-center justify-between">
             <div className="flex items-center">
               <FaPhone className="h-6 w-6 text-gray-600 mr-2" />
               <h1 className="text-xl font-light font-mono tracking-widest">
@@ -276,7 +276,7 @@ const Profile = () => {
           <hr className="my-4 border-gray-300" />
           {userRol === "artesano" && (
             <>
-              <h1 className="text-2xl font-light font-mono text-center uppercase tracking-widest">
+              <h1 className="text-white text-2xl font-light font-mono text-center uppercase tracking-widest">
                 Mis Productos
               </h1>
               <div className="mt-4">

@@ -90,7 +90,7 @@ const CartSidebar = ({ isOpen, onClose }) => {
 
   return (
     <div
-      className={`fixed top-0 right-0 w-72 bg-white shadow-lg transition-transform transform ${
+      className={`fixed top-0 right-0 w-72 bg-white text-white bg-gradient-to-r from-buttonpagecolor2 to-gray-900 shadow-lg transition-transform transform ${
         isOpen ? "translate-x-0" : "translate-x-full"
       } h-full z-50`}
     >
@@ -128,7 +128,7 @@ const CartSidebar = ({ isOpen, onClose }) => {
                     x
                   </button>
                 </li>
-                <div className="w-full bg-buttonpagecolor2 h-[0.1px]"></div>
+                <div className="w-full bg-bgpagecolor h-[0.1px]"></div>
               </>
             ))
           )}

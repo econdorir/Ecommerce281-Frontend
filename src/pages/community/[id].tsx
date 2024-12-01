@@ -57,6 +57,11 @@ const CommunityDetailPage: React.FC = () => {
               <p>Especialidad: {artesano.especialidad}</p>
               <p>Calificación: {artesano.calificacion} ✨</p>
               <p>Celular: {artesano.celular}</p>
+              <button
+                onClick={() => router.push(`/artesano/${artesano.id_usuario}`)}
+                className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+              >Ver Perfil
+              </button>
             </div>
           ))}
         </div>
@@ -67,3 +72,4 @@ const CommunityDetailPage: React.FC = () => {
 };
 
 export default CommunityDetailPage;
+

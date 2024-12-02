@@ -1,4 +1,4 @@
-"use client";
+"use client"; 
 
 import Image from "next/image";
 import Link from "next/link";
@@ -181,7 +181,43 @@ export default function LoginForm() {
             Iniciar Sesión
           </button>
         </form>
-
+        {error && (
+            <div
+              className="error-message"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                color: "#fff",
+                backgroundColor: "#ff4d4d", // Fondo rojo suave
+                padding: "15px",
+                borderRadius: "8px",
+                boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+                fontWeight: "bold",
+                fontSize: "16px",
+                margin: "20px 0",
+                maxWidth: "400px",
+                marginLeft: "auto",
+                marginRight: "auto",
+              }}
+            >
+              <span style={{ marginRight: "10px", fontSize: "20px", lineHeight: "1" }}>⚠️</span>
+              <span>{error}</span>
+              <button
+                onClick={() => setError("")} // Limpia el error al hacer clic
+                style={{
+                  background: "transparent",
+                  border: "none",
+                  color: "#fff",
+                  fontSize: "18px",
+                  cursor: "pointer",
+                  marginLeft: "10px",
+                }}
+              >
+                ✖️
+              </button>
+            </div>
+          )}
         <p className="text-sm text-gray-700 mt-4">
           ¿No tienes una cuenta?{" "}
           <Link href="/register" className="text-orange-400 hover:underline">

@@ -154,13 +154,13 @@ const PaymentForm = ({ onClose, cartItems, totalPrice }) => {
               <div className="flex justify-between mt-4">
                 <button
                   onClick={handleReturnToForm}
-                  className="w-full bg-buttonpagecolor text-buttonpagecolor2 py-2 rounded hover:bg-red-600"
+                  className="w-1/3 bg-buttonpagecolor text-buttonpagecolor2 py-2 rounded hover:bg-red-600"
                 >
                   Volver a Tarjeta
                 </button>
                 <button
                   onClick={handleConfirmPayment}
-                  className="w-full bg-buttonpagecolor text-buttonpagecolor2 py-2 rounded hover:bg-green-600"
+                  className="w-1/3 bg-buttonpagecolor text-buttonpagecolor2 py-2 rounded hover:bg-green-600"
                 >
                   Confirmar Pago QR
                 </button>

@@ -130,8 +130,8 @@ const Profile = () => {
   return (
     <>
       <Navbar />
-      <div className="h-screen flex flex-col items-center justify-center mt-20 pt-8 font-mono">
-        <div className="bg-buttonpagecolor2 shadow-lg rounded-lg p-6 w-full max-w-96">
+      <div className="h-screen flex flex-col items-center justify-center my-52 pt-8 font-mono">
+        <div className="bg-buttonpagecolor2 shadow-lg rounded-lg p-6 w-full sm:w-4/5 ">
           <hr className="my-4 border-gray-300" />
           <h1 className="text-buttonpagecolor text-2xl font-light font-mono text-center uppercase tracking-widest">
             {userData.tipo_usuario}
@@ -182,7 +182,7 @@ const Profile = () => {
               </div>
 
               <div className="mt-4 flex items-center justify-between">
-                <h1 className="text-xl font-light font-mono uppercase tracking-widest">
+                <h1 className="text-white text-xl font-light font-mono uppercase tracking-widest">
                   Calificación
                 </h1>
                 <div className="flex items-center text-xl text-right capitalize">
@@ -190,7 +190,7 @@ const Profile = () => {
                   {Array.from({ length: 5 }, (v, i) => {
                     if (i < Math.floor(userData.calificacion)) {
                       return (
-                        <FaStar key={i} className="text-blue-600 h-5 w-5" />
+                        <FaStar key={i} className="text-buttonpagecolor h-5 w-5" />
                       );
                     } else if (i < userData.calificacion) {
                       return (
@@ -293,7 +293,7 @@ const Profile = () => {
                           className="w-32 h-32 object-cover rounded-lg mr-4"
                         />
                       )}
-                      <div>
+                      <div className="text-white">
                         <h2 className="text-lg font-semibold">
                           {product.nombre_producto}
                         </h2>

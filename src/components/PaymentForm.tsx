@@ -66,7 +66,7 @@ const PaymentForm = ({ onClose, cartItems, totalPrice }) => {
   };
 
   return (
-    <div className="mt-10 fixed inset-0 flex items-center justify-center bg-gray-600 bg-opacity-50">
+    <div className="mt-20 fixed inset-0 flex items-center justify-center bg-gray-600 bg-opacity-50">
       <div className="bg-buttonpagecolor2 text-white p-6 rounded-lg shadow-lg max-w-2xl w-full flex">
         <div className="w-full">
           <h2 className="text-xl font-bold mb-4">Formulario de Pago</h2>
@@ -149,18 +149,22 @@ const PaymentForm = ({ onClose, cartItems, totalPrice }) => {
           ) : (
             <div className="text-center w-full">
               <h3 className="font-semibold mb-2">Código QR para el pago:</h3>
-              <QRCodeCanvas value={paymentLink} size={128} />
-              <p className="mt-2 text-sm text-white">Escanea el código QR para pagar.</p>
-              <div className="flex justify-between mt-4">
+              <div className="w-full flex justify-center">
+                <QRCodeCanvas value={paymentLink} size={128} />
+              </div>
+              <p className="mt-2 text-sm text-white">
+                Escanea el código QR para pagar.
+              </p>
+              <div className="flex justify-center mt-4">
                 <button
                   onClick={handleReturnToForm}
-                  className="w-1/3 bg-buttonpagecolor text-buttonpagecolor2 py-2 rounded hover:bg-red-600"
+                  className="w-1/3 bg-buttonpagecolor text-buttonpagecolor2 py-2 mr-1 rounded hover:bg-red-600"
                 >
                   Volver a Tarjeta
                 </button>
                 <button
                   onClick={handleConfirmPayment}
-                  className="w-1/3 bg-buttonpagecolor text-buttonpagecolor2 py-2 rounded hover:bg-green-600"
+                  className="w-1/3 bg-buttonpagecolor text-buttonpagecolor2 py-2 ml-1 rounded hover:bg-green-600"
                 >
                   Confirmar Pago QR
                 </button>

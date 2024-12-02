@@ -2,6 +2,7 @@ import { useState } from "react";
 import { createOrder } from "../services/OrderService";
 import { useAppContext } from "@/context";
 import { QRCodeCanvas } from "qrcode.react";
+import { useRouter } from "next/router"; // Asegúrate de importar useRouter si no lo tienes ya
 
 const PaymentForm = ({ onClose, cartItems, totalPrice }) => {
   const [cardNumber, setCardNumber] = useState("");
@@ -12,6 +13,8 @@ const PaymentForm = ({ onClose, cartItems, totalPrice }) => {
   const { setCart } = useAppContext();
   const [paymentLink, setPaymentLink] = useState(""); // Estado para el enlace de pago
   const [showQRCode, setShowQRCode] = useState(false); // Estado para controlar la visualización del QR
+  const [showForm, setShowForm] = useState(true); // Estado para alternar entre el formulario y el QR
+  const router = useRouter(); // Hook para redireccionar
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,7 +23,6 @@ const PaymentForm = ({ onClose, cartItems, totalPrice }) => {
 
     const storedUserData = localStorage.getItem("userData");
     const userData = storedUserData ? JSON.parse(storedUserData) : {};
-
 
     const orderData = {
       id_carrito: userData.id_carrito,
@@ -34,7 +36,9 @@ const PaymentForm = ({ onClose, cartItems, totalPrice }) => {
       await createOrder(orderData);
       setMessage("Pago procesado con éxito. ¡Gracias por tu compra!");
       setCart([]);
-      setTimeout(onClose, 3000);
+      setTimeout(() => {
+        router.push("/orders"); // Redirige a la página de pedidos
+      }, 3000);
 
       // Generar enlace de pago para el QR
       const generatedPaymentLink = `https://pago-ejemplo.com/pagar?monto=${totalAmount}`;
@@ -48,6 +52,17 @@ const PaymentForm = ({ onClose, cartItems, totalPrice }) => {
     const generatedPaymentLink = `https://pago-ejemplo.com/pagar?monto=${totalPrice}`;
     setPaymentLink(generatedPaymentLink);
     setShowQRCode(true); // Mostrar el QR
+    setShowForm(false); // Ocultar el formulario
+  };
+
+  const handleReturnToForm = () => {
+    setShowForm(true); // Volver a mostrar el formulario
+    setShowQRCode(false); // Ocultar el QR
+  };
+
+  const handleConfirmPayment = async () => {
+    // Procesar el pago de la misma forma que el botón "Pagar"
+    await handleSubmit({ preventDefault: () => {} });
   };
 
   return (
@@ -59,7 +74,7 @@ const PaymentForm = ({ onClose, cartItems, totalPrice }) => {
             <div className="text-green-500 font-semibold text-center mb-4">
               {message}
             </div>
-          ) : (
+          ) : showForm ? (
             <form onSubmit={handleSubmit}>
               <div className="mb-4">
                 <label className="block text-sm font-medium mb-1">
@@ -131,17 +146,28 @@ const PaymentForm = ({ onClose, cartItems, totalPrice }) => {
                 Cancelar
               </button>
             </form>
+          ) : (
+            <div className="text-center w-full">
+              <h3 className="font-semibold mb-2">Código QR para el pago:</h3>
+              <QRCodeCanvas value={paymentLink} size={128} />
+              <p className="mt-2 text-sm text-white">Escanea el código QR para pagar.</p>
+              <div className="flex justify-between mt-4">
+                <button
+                  onClick={handleReturnToForm}
+                  className="w-full bg-buttonpagecolor text-buttonpagecolor2 py-2 rounded hover:bg-red-600"
+                >
+                  Volver a Tarjeta
+                </button>
+                <button
+                  onClick={handleConfirmPayment}
+                  className="w-full bg-buttonpagecolor text-buttonpagecolor2 py-2 rounded hover:bg-green-600"
+                >
+                  Confirmar Pago QR
+                </button>
+              </div>
+            </div>
           )}
         </div>
-
-        {/* Código QR se muestra aquí */}
-        {(showQRCode && paymentLink) && (
-          <div className="ml-4 flex-shrink-0 text-center">
-            <h3 className="font-semibold mb-2">Código QR para el pago:</h3>
-            <QRCodeCanvas value={paymentLink} size={128} />
-            <p className="mt-2 text-sm text-white">Escanea el código QR para pagar.</p>
-          </div>
-        )}
       </div>
     </div>
   );

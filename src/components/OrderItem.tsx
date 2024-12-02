@@ -71,6 +71,7 @@ interface Delivery {
 }
 
 const OrderItem = ({ order, orderNumber }) => {
+    const router = useRouter(); // Usamos el hook useRouter para navegar
     const { id } = order;
     const [showModal, setShowModal] = useState(false);
     const [deliveryContacts, setDeliveryContacts] = useState<DeliveryContact | null>(null);
@@ -246,6 +247,14 @@ const OrderItem = ({ order, orderNumber }) => {
     if (!deliveryDetails) return <p>No se encontraron detalles de la entrega.</p>;
     const cliente = deliveryDetails.cliente;
 
+    // Función para redirigir al perfil de delivery
+    const handleRedirectToProfile = () => {
+        if (deliveryDetails && deliveryDetails.id_delivery) {
+            router.push(`/delivery/${deliveryDetails.id_delivery}`);
+        }
+    };
+
+
     return (
         <div className="flex flex-col md:flex-row justify-between items-start border  border-gray-200 rounded-lg p-6 shadow-lg hover:shadow-xl transition-shadow duration-300 bg-gradient-to-br from-buttonpagecolor to-tertiarypagecolor">
             <div className="flex-1 mb-4 md:mb-0 ">
@@ -302,20 +311,36 @@ const OrderItem = ({ order, orderNumber }) => {
                     <div className="bg-white p-6 rounded-lg shadow-lg transform transition-all duration-300 scale-100">
                         <h2 className="text-2xl font-semibold text-gray-800 mb-4">Contacto del Delivery</h2>
                         {deliveryContacts ? (
+                            <div>
                             <ul>
                                 <li>Nombre: {deliveryContacts.nombre_usuario}</li>
                                 <li>Celular: {deliveryContacts.celular}</li> {/* Se muestra como número */}
                                 <li>Email: {deliveryContacts.email_usuario}</li>
                             </ul>
+                            <button 
+                                onClick={handleCloseModal} 
+                                className="mt-4 bg-red-600 text-white px-4 py-2 rounded-md"
+                            >
+                                Cerrar
+                            </button>
+                            
+                            <button 
+                                onClick={handleRedirectToProfile}
+                                className="mt-4 bg-red-600 text-white px-4 py-2 rounded-md"
+                            >
+                                Ver PERFIL
+                            </button>
+                            </div>
                         ) : (
-                            <p>Cargando contactos del delivery...</p>
+                            <div><p>Cargando contactos del delivery...</p>
+                            <button 
+                                onClick={handleCloseModal} 
+                                className="mt-4 bg-red-600 text-white px-4 py-2 rounded-md"
+                            >
+                                Cerrar
+                            </button>
+                            </div>
                         )}
-                        <button 
-                            onClick={handleCloseModal} 
-                            className="mt-4 bg-red-600 text-white px-4 py-2 rounded-md"
-                        >
-                            Cerrar
-                        </button>
                     </div>
                 </div>
             )}

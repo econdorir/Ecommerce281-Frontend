@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useAppContext } from "@/context";
 import { useRouter } from "next/navigation";
 
-const CartItem = ({ item}) => {
+const CartItem = ({ item }) => {
   const { cart, setCart, setNumberOfProductsInCart } = useAppContext();
   const router = useRouter();
   const handleRemoveFromCart = async (id_producto) => {
@@ -59,10 +59,13 @@ const CartItem = ({ item}) => {
 
     return acc;
   }, []);
-  const updateProductQuantity = async (id_producto: number, nuevaCantidad: number) => {
+  const updateProductQuantity = async (
+    id_producto: number,
+    nuevaCantidad: number
+  ) => {
     const storedUserData: any = localStorage.getItem("userData");
     const userData = JSON.parse(storedUserData);
-  
+
     try {
       const response = await fetch(
         `http://localhost:5000/api/v1/aniade/${userData.id_carrito}/${id_producto}`,
@@ -74,15 +77,15 @@ const CartItem = ({ item}) => {
           body: JSON.stringify({ cantidad: nuevaCantidad }),
         }
       );
-  
+
       if (!response.ok) {
         throw new Error("Error al actualizar la cantidad del producto");
       }
-  
+
       // Maneja posibles respuestas vacías
       const text = await response.text();
       const data = text ? JSON.parse(text) : {};
-  
+
       // Actualiza el estado del carrito en el frontend
       setCart((prevCart) =>
         prevCart.map((item) =>
@@ -95,41 +98,42 @@ const CartItem = ({ item}) => {
       console.error("Error al actualizar la cantidad del producto:", error);
     }
   };
-  
 
   return (
-    <div className="flex justify-between items-center border-b border-gray-300 py-2">
-      <div>
+    <div className="flex flex-col sm:flex-row justify-between items-center border-b border-gray-300 py-2">
+      <div className="sm:w-3/4">
         <h3 className="text-lg font-semibold">{item.nombre_producto}</h3>
         <p className="text-tertiarypagecolor">Cantidad: {item.cantidad}</p>
       </div>
-      <div className="text-lg font-semibold">${item.precio_producto * item.cantidad}</div>
+      <div className="text-lg font-semibold pr-2">
+        ${item.precio_producto * item.cantidad}
+      </div>
       <div className="flex items-center space-x-2">
-      <div className="flex items-center space-x-2 mt-2">
-                    {/* Botón para decrementar */}
-                    <button
-                      onClick={async () => {
-                        if (item.cantidad === 1) {
-                          // Lógica para eliminar si la cantidad llega a 0
-                          await handleRemoveFromCart(item.id_producto);
-                        } else {
-                          await updateProductQuantity(item.id_producto,-1);
-                        }
-                      }}
-                      className="w-7 h-7 bg-red-500 text-white rounded-full flex items-center justify-center"
-                    >
-                      -
-                    </button>
-                    {/* Botón para incrementar */}
-                    <button
-                      onClick={async () => {
-                        await updateProductQuantity(item.id_producto,1);
-                      }}
-                      className="w-7 h-7 bg-green-500 text-white rounded-full flex items-center justify-center"
-                    >
-                      +
-                    </button>
-                  </div>
+        <div className="flex items-center space-x-2 mt-2">
+          {/* Botón para decrementar */}
+          <button
+            onClick={async () => {
+              if (item.cantidad === 1) {
+                // Lógica para eliminar si la cantidad llega a 0
+                await handleRemoveFromCart(item.id_producto);
+              } else {
+                await updateProductQuantity(item.id_producto, -1);
+              }
+            }}
+            className="w-7 h-7 bg-red-500 text-white rounded-full flex items-center justify-center"
+          >
+            -
+          </button>
+          {/* Botón para incrementar */}
+          <button
+            onClick={async () => {
+              await updateProductQuantity(item.id_producto, 1);
+            }}
+            className="w-7 h-7 bg-green-500 text-white rounded-full flex items-center justify-center"
+          >
+            +
+          </button>
+        </div>
         <button
           onClick={() => handleRemoveFromCart(item.id_producto)}
           className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"

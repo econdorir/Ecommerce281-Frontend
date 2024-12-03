@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import { useRouter } from "next/router";
 import axios from "axios";
@@ -301,7 +302,12 @@ const Profile = () => {
                         <p className="text-justify">
                           Descripción: {product.descripcion_producto}
                         </p>
-                        <p>Stock: {product.stock_producto}</p>
+                        <p>Stock: {product.stock_producto}</p><br />           
+                        <Link href={`/product/${product.id_producto}`}>
+                          <button className="bg-buttonpagecolor text-extrapagecolor2 p-2 rounded transition-colors duration-300 hover:bg-tertiarypagecolor text-center cursor-pointer">
+                            Ver detalles
+                          </button>
+                        </Link>
                       </div>
                     </div>
                   ))

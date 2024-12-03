@@ -71,7 +71,7 @@ const OrderDetails = () => {
         };
 
         try {
-            const response = await fetch("http://localhost:5000/api/v1/resenia", {
+            const response = await fetch("${process.env.NEXT_PUBLIC_API_URL}/resenia", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

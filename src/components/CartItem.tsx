@@ -12,7 +12,7 @@ const CartItem = ({ item }) => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/v1/carrito/producto/${userData.id_carrito}/${id_producto}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/carrito/producto/${userData.id_carrito}/${id_producto}`,
         {
           method: "DELETE",
           headers: {
@@ -68,7 +68,7 @@ const CartItem = ({ item }) => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/v1/aniade/${userData.id_carrito}/${id_producto}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/aniade/${userData.id_carrito}/${id_producto}`,
         {
           method: "PATCH",
           headers: {

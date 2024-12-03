@@ -146,16 +146,16 @@ export default function ProductForm() {
 
   return (
     <form
-      className="max-w-4xl mx-auto p-8 bg-gradient-to-r from-blue-100 to-white shadow-lg rounded-lg space-y-6"
+      className="max-w-3xl mx-auto p-8 bg-gradient-to-r from-buttonpagecolor2 to-gray-800 text-white shadow-lg rounded-lg space-y-6"
       onSubmit={handleSubmit}
     >
-      <h2 className="text-3xl font-semibold text-center text-gray-800">
+      <h2 className="text-3xl font-semibold text-center text-tertiarypagecolor">
         Añadir Producto
       </h2>
 
       {/* Nombre */}
       <div>
-        <label className="block text-gray-700 font-medium">
+        <label className="block text-white font-medium">
           Nombre del Producto
         </label>
         <input
@@ -163,7 +163,7 @@ export default function ProductForm() {
           name="nombre_producto"
           value={formData.nombre_producto}
           onChange={handleChange}
-          className="w-full mt-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
+          className="w-full bg-extrapagecolor2 text-buttonpagecolor2 mt-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
           minLength={2}
           maxLength={50}
         />
@@ -171,25 +171,25 @@ export default function ProductForm() {
 
       {/* Precio */}
       <div>
-        <label className="block text-gray-700 font-medium">Precio</label>
+        <label className="block text-white font-medium">Precio</label>
         <input
           type="number"
           name="precio_producto"
           value={formData.precio_producto}
           onChange={handleChange}
-          className="w-full mt-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
+          className="w-full bg-extrapagecolor2 text-buttonpagecolor2 mt-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
           min={1}
         />
       </div>
 
       {/* Descripción */}
       <div>
-        <label className="block text-gray-700 font-medium">Descripción</label>
+        <label className="block text-white font-medium">Descripción</label>
         <textarea
           name="descripcion_producto"
           value={formData.descripcion_producto}
           onChange={handleChange}
-          className="w-full mt-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
+          className="w-full bg-extrapagecolor2 text-buttonpagecolor2 mt-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
           rows={4}
           minLength={10}
           maxLength={100}
@@ -198,25 +198,25 @@ export default function ProductForm() {
 
       {/* Stock */}
       <div>
-        <label className="block text-gray-700 font-medium">Stock</label>
+        <label className="block text-white font-medium">Stock</label>
         <input
           type="number"
           name="stock_producto"
           value={formData.stock_producto}
           onChange={handleChange}
-          className="w-full mt-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
+          className="w-full bg-extrapagecolor2 text-buttonpagecolor2 mt-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
         />
       </div>
 
       {/* Categoría */}
       <div>
-        <label className="block text-gray-700 font-medium">Categoría</label>
+        <label className="block text-white font-medium">Categoría</label>
         <input
           type="text"
           name="categoria_producto"
           value={formData.categoria_producto}
           onChange={handleChange}
-          className="w-full mt-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
+          className="w-full bg-extrapagecolor2 text-buttonpagecolor2 mt-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
           minLength={2}
           maxLength={50}
         />
@@ -224,13 +224,13 @@ export default function ProductForm() {
 
       {/* Peso */}
       <div>
-        <label className="block text-gray-700 font-medium">Peso (kg)</label>
+        <label className="block text-white font-medium">Peso (kg)</label>
         <input
           type="number"
           name="peso_producto"
           value={formData.peso_producto}
           onChange={handleChange}
-          className="w-full mt-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
+          className="w-full bg-extrapagecolor2 text-buttonpagecolor2 mt-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
           min={1}
         />
       </div>
@@ -238,53 +238,53 @@ export default function ProductForm() {
       {/* Dimensiones */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div>
-          <label className="block text-gray-700 font-medium">Largo (cm)</label>
+          <label className="block text-white font-medium">Largo (cm)</label>
           <input
             type="number"
             name="largo_producto"
             value={formData.largo_producto}
             onChange={handleChange}
-            className="w-full mt-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
+            className="w-full bg-extrapagecolor2 text-buttonpagecolor2 mt-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
             min={1}
           />
         </div>
         <div>
-          <label className="block text-gray-700 font-medium">Ancho (cm)</label>
+          <label className="block text-white font-medium">Ancho (cm)</label>
           <input
             type="number"
             name="ancho_producto"
             value={formData.ancho_producto}
             onChange={handleChange}
-            className="w-full mt-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
+            className="w-full bg-extrapagecolor2 text-buttonpagecolor2 mt-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
             min={1}
           />
         </div>
         <div>
-          <label className="block text-gray-700 font-medium">Alto (cm)</label>
+          <label className="block text-white font-medium">Alto (cm)</label>
           <input
             type="number"
             name="alto_producto"
             value={formData.alto_producto}
             onChange={handleChange}
-            className="w-full mt-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
+            className="w-full bg-extrapagecolor2 text-buttonpagecolor2 mt-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
             min={1}
           />
         </div>
       </div>
 
       <div className="mb-4">
-        <label className="block text-gray-700">Imágenes</label>
+        <label className="block text-white">Imágenes</label>
         <input
           type="file"
           accept="image/*"
           multiple
           onChange={handleFileChange}
-          className="w-full mt-1 p-2 border border-gray-300 rounded-md"
+          className="w-full bg-extrapagecolor2 text-buttonpagecolor2 mt-1 p-2 border border-gray-300 rounded-md"
         />
         {errorMaxImage && <p className="text-red-500 mt-2">{errorMaxImage}</p>}{" "}
         {selectedFiles.length > 0 && (
           <div className="mt-4">
-            <h3 className="text-gray-700">Selected Images:</h3>
+            <h3 className="text-white">Selected Images:</h3>
             <div className="flex flex-wrap mt-2">
               {selectedFiles.map((file, index) => (
                 <div key={index} className="relative w-24 h-24 m-2">
@@ -325,7 +325,7 @@ export default function ProductForm() {
 
       {/* Etiquetas */}
       {/* <div className="mb-4">
-        <label className="block text-gray-700">Etiquetas (separadas por comas)</label>
+        <label className="block text-white">Etiquetas (separadas por comas)</label>
         <input
           type="text"
           name="tags"
@@ -351,7 +351,7 @@ export default function ProductForm() {
       {/* A partir de qué cantidad se habilita el envío gratuito */}
       {/* {formData.freeShipping && (
         <div className="mb-4">
-          <label className="block text-gray-700">A partir de qué cantidad</label>
+          <label className="block text-white">A partir de qué cantidad</label>
           <input
             type="number"
             name="shippingThreshold"
@@ -364,7 +364,7 @@ export default function ProductForm() {
 
       {/* Ubicación */}
       {/* <div className="mb-4">
-        <label className="block text-gray-700">Ubicación</label>
+        <label className="block text-white">Ubicación</label>
         <input
           type="text"
           name="location"
@@ -379,7 +379,7 @@ export default function ProductForm() {
       {errorMessage && <div className="text-red-600 mb-4">{errorMessage}</div>}
       <button
         type="submit"
-        className="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 transition duration-200"
+        className="w-full bg-extrapagecolor text-black p-3 rounded-lg hover:bg-blue-700 transition duration-200"
       >
         Añadir Producto
       </button>

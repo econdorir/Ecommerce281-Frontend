@@ -27,7 +27,7 @@ const PaymentForm = ({ onClose, cartItems, totalPrice }) => {
     const orderData = {
       id_carrito: userData.id_carrito,
       fecha_pedido: new Date().toISOString(),
-      estado_pedido: "pendiente",
+      estado_pedido: "Pendiente",
       monto_pago: parseInt(totalAmount),
       tipo_de_pedido: "rapido",
     };

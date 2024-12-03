@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import DeliveryItem from "@/components/DeliveryItem";
 import Navbar from "@/components/Navbar";
+import Link from 'next/link';
 
 // Define la interfaz para las entregas y pedidos
 
@@ -166,7 +167,7 @@ const Deliveries = () => {
         }
 
         const ordersData: Order[] = await orderResponse.json();
-        const pendingOrders = ordersData.filter(order => order.estado_pedido === "pendiente");
+        const pendingOrders = ordersData.filter(order => order.estado_pedido === "Pendiente");
 
         setOrders(pendingOrders);
       } catch (error: any) {
@@ -258,6 +259,7 @@ const Deliveries = () => {
                   id: delivery.id_entrega,
                   estado: delivery.estado_entrega,
                   fecha_entrega: delivery.fecha_entrega,
+                  pedido: delivery.pedido,
                 }}
                 deliveryNumber={index + 1}
               />
@@ -289,6 +291,9 @@ const Deliveries = () => {
                     >
                       Añadir Pedido
                     </button>
+                    <Link href={`/deliveriesDelivery/${order.entrega[0].id_entrega}`}>
+                      <button className="bg-green-500 text-white px-3 py-1 rounded">Ver Detalles</button>
+                    </Link>
                   </div>
                 );
               }

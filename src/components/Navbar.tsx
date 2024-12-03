@@ -16,15 +16,20 @@ const Navbar = () => {
   const [isUserMenuOpen, setUserMenuOpen] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const router = useRouter();
+  console.log(isActive)
 
   useEffect(() => {
     const storedIsLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+    const storedIsActive = localStorage.getItem("isActive");
     setIsLoggedIn(storedIsLoggedIn);
     if (storedIsLoggedIn) {
       const storedUserData: any = localStorage.getItem("userData");
       const userData = JSON.parse(storedUserData);
       setUsername(userData.nombre_usuario);
       setRole(userData.tipo_usuario);
+    }
+    if (storedIsActive) {
+      setIsActive(storedIsActive === "true"); // Establecer el valor recuperado del localStorage
     }
   }, []);
   const {
@@ -41,7 +46,15 @@ const Navbar = () => {
     setIdUser,
   } = useAppContext();
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    if(role==="delivery"){
+      try {
+        await toggleDeliveryStatus(idUser, false);
+        console.log("Estado actualizado correctamente");
+      } catch (error) {
+        console.error("Error al actualizar el estado:", error);
+      }
+    }
     setIsLoggedIn(false);
     setUsername("");
     setEmail("");
@@ -77,12 +90,15 @@ const Navbar = () => {
   const toggleActive = async () => {
     const newState = !isActive; // Invertir el estado actual
     setIsActive(newState);
+    localStorage.setItem("isActive", newState.toString());
     try {
       await toggleDeliveryStatus(idUser, newState);
       console.log("Estado actualizado correctamente");
     } catch (error) {
       console.error("Error al actualizar el estado:", error);
     }
+
+
   };
   // Nuevo: función para renderizar el menú basado en el rol
   const renderUserMenu = () => {

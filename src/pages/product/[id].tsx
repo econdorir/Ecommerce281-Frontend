@@ -3,11 +3,21 @@ import { useRouter } from "next/router";
 import { QuantitySelector } from "@/components/QuantitySelector";
 import { ProductSlideShow } from "@/components/ProductSlideShow";
 import { FaTimes, FaStar } from "react-icons/fa";
+import { IoMdArrowBack } from "react-icons/io";
 import { ProductMobileSlideShow } from "@/components/ProductMobileSlideShow";
 import Navbar from "@/components/Navbar";
 import { useAppContext } from "@/context";
 import { AddToCartService } from "../../services/AddToCartService";
 import { Product } from "../../types/types";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import Image from "next/image";
+
 
 const ProductDetail = ({ product, resenia, clientes, promociones }) => {
   const router = useRouter();
@@ -120,12 +130,12 @@ const ProductDetail = ({ product, resenia, clientes, promociones }) => {
     const stars: JSX.Element[] = [];
     for (let i = 1; i <= 5; i++) {
       if (rating >= i) {
-        stars.push(<FaStar key={i} className="h-5 w-5 text-blue-500" />);
+        stars.push(<FaStar key={i} className="h-5 w-5 text-buttonpagecolor" />);
       } else if (rating >= i - 0.5) {
         stars.push(
           <div className="relative h-5 w-5 overflow-hidden" key={i}>
             <FaStar
-              className="absolute h-full w-full text-blue-500"
+              className="absolute h-full w-full text-buttonpagecolor"
               style={{ clipPath: "inset(0 50% 0 0)" }}
             />
           </div>
@@ -162,13 +172,13 @@ const ProductDetail = ({ product, resenia, clientes, promociones }) => {
   return (
     <>
       <Navbar />
-      <div className="mt-20 mb-20 grid grid-cols-1 md:grid-cols-3 gap-5 mx-5 px-5 md:px-36">
+      <div className="mt-52 mb-20 grid grid-cols-1 md:grid-cols-3 gap-3 mx-5 sm:px-36">
         <div className="col-span-1 md:col-span-2">
           <button
             onClick={handleClose}
-            className="flex items-center justify-center bg-gray-400 text-white p-2 rounded-full shadow hover:bg-blue-950 transition duration-200"
+            className="w-12 h-12 flex items-center justify-center bg-buttonpagecolor text-buttonpagecolor2 p-2 rounded-full shadow hover:bg-buttonpagecolor2 font-bolder hover:text-bgpagecolor text-xlg transition duration-200"
           >
-            <FaTimes />
+            <IoMdArrowBack />
           </button>
 
           {/* Imagen para pantallas pequeñas */}
@@ -184,9 +194,26 @@ const ProductDetail = ({ product, resenia, clientes, promociones }) => {
           {/* Imagen para pantallas medianas y grandes */}
           <ProductSlideShow
             title={product.nombre_producto}
-            images={product.imagen}
-            className="hidden md:block max-w-lg mx-auto"
+            images={product?.imagen || "https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg"}
+            className="hidden md:block max-w-lg mx-auto border-black"
           />
+          {/* <Carousel className="w-full max-w-xs">
+            <CarouselContent>
+              {product.imagen.map((image, index) => (
+                <CarouselItem key={index}>
+                  <Image
+                    width={1024}
+                    height={800}
+                    src={image.url_imagen}
+                    alt={"title"}
+                    className="rounded-lg  object-fill"
+                  />
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious />
+            <CarouselNext />
+          </Carousel> */}
         </div>
 
         <div className="col-span-1 px-5 mx-5">
@@ -215,7 +242,7 @@ const ProductDetail = ({ product, resenia, clientes, promociones }) => {
 
               <button
                 onClick={() => handleAddToCart(product)}
-                className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-blue-600 transition duration-200 ease-in-out my-5"
+                className="bg-buttonpagecolor text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-buttonpagecolor2 transition duration-200 ease-in-out my-5"
               >
                 Agregar al carrito
               </button>
@@ -250,9 +277,7 @@ const ProductDetail = ({ product, resenia, clientes, promociones }) => {
       </div>
 
       <h3 className="font-bold text-4xl text-center my-5">Reseñas</h3>
-
-      {/* Sección de calificación promedio */}
-      <div className="grid grid-cols-1 gap-5 mx-5 px-5 md:px-36 text-center">
+      <div className="grid grid-cols-1 gap-3 mx-5 sm:px-36 text-center">
         <div className="mb-6 p-6 border border-gray-300 rounded-lg shadow-lg bg-gradient-to-br from-white to-gray-100 hover:shadow-2xl transition-shadow duration-300">
           <h1 className="text-5xl">{promedioCalificacion}</h1>
           <div className="flex justify-center items-center mt-2">
@@ -261,9 +286,7 @@ const ProductDetail = ({ product, resenia, clientes, promociones }) => {
           <h1>{reseñasFiltradas.length} reseñas</h1>
         </div>
       </div>
-
-      {/* Sección de reseñas individuales */}
-      <div className="mb-20 grid grid-cols-1 gap-5 mx-5 px-5 md:px-36">
+      <div className="mb-20 grid grid-cols-1 md:grid-cols-3 gap-3 mx-5 sm:px-36">
         {reseñasFiltradas.length > 0 ? (
           reseñasFiltradas.map((item) => {
             const cliente = clientes

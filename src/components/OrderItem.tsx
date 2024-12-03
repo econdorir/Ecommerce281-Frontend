@@ -71,6 +71,7 @@ interface Delivery {
 }
 
 const OrderItem = ({ order, orderNumber }) => {
+    const router = useRouter(); // Usamos el hook useRouter para navegar
     const { id } = order;
     const [showModal, setShowModal] = useState(false);
     const [deliveryContacts, setDeliveryContacts] = useState<DeliveryContact | null>(null);
@@ -246,9 +247,17 @@ const OrderItem = ({ order, orderNumber }) => {
     if (!deliveryDetails) return <p>No se encontraron detalles de la entrega.</p>;
     const cliente = deliveryDetails.cliente;
 
+    // Función para redirigir al perfil de delivery
+    const handleRedirectToProfile = () => {
+        if (deliveryDetails && deliveryDetails.id_delivery) {
+            router.push(`/delivery/${deliveryDetails.id_delivery}`);
+        }
+    };
+
+
     return (
-        <div className="flex flex-col md:flex-row justify-between items-start border border-gray-200 rounded-lg p-6 shadow-lg hover:shadow-xl transition-shadow duration-300 bg-gradient-to-r from-blue-50 to-white">
-            <div className="flex-1 mb-4 md:mb-0">
+        <div className="flex flex-col md:flex-row justify-between items-start border  border-gray-200 rounded-lg p-6 shadow-lg hover:shadow-xl transition-shadow duration-300 bg-gradient-to-br from-buttonpagecolor to-tertiarypagecolor">
+            <div className="flex-1 mb-4 md:mb-0 ">
                 <h3 className="text-2xl font-bold text-gray-800 mb-2">Pedido #{orderNumber}</h3>
                 <div className="text-gray-600 mb-1">
                     <span className="font-medium">Fecha - Hora:</span> {order.fecha_pedido}
@@ -266,21 +275,21 @@ const OrderItem = ({ order, orderNumber }) => {
             <div className="flex flex-col items-end md:items-center ">
                 <Link 
                     href={`/orders/${order.id}`} 
-                    className="mt-2 inline-block bg-blue-600 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-700 transition-colors duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full text-center mt-2 inline-block bg-extrapagecolor2 text-black px-4 py-2 rounded-md shadow-md hover:bg-extrapagecolor transition-colors duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     aria-label={`Ver detalles del pedido ${orderNumber}`}
                 >
                     Ver Pedido
                 </Link>
                 <button 
                     onClick={handleShowModal} 
-                    className="mt-2 inline-block bg-green-600 text-white px-4 py-2 rounded-md shadow-md hover:bg-green-700 transition-colors duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-500"
+                    className="w-full text-center mt-2 inline-block bg-extrapagecolor2 text-black px-4 py-2 rounded-md shadow-md hover:bg-extrapagecolor transition-colors duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-500"
                     aria-label="Ver contactos del delivery"
                 >
                     Ver Contacto
                 </button>
                 <button
                     onClick={confirmDelivery}
-                    className={`mt-2 px-3 py-1 rounded-md ${
+                    className={`w-full text-center mt-2 px-3 py-1 rounded-md ${
                         !deliveryDetails?.delivery_confirm && deliveryDetails?.cliente_confirm
                             ? "bg-red-600 hover:bg-red-700"
                             : deliveryDetails?.delivery_confirm && deliveryDetails?.cliente_confirm
@@ -302,20 +311,36 @@ const OrderItem = ({ order, orderNumber }) => {
                     <div className="bg-white p-6 rounded-lg shadow-lg transform transition-all duration-300 scale-100">
                         <h2 className="text-2xl font-semibold text-gray-800 mb-4">Contacto del Delivery</h2>
                         {deliveryContacts ? (
+                            <div>
                             <ul>
                                 <li>Nombre: {deliveryContacts.nombre_usuario}</li>
                                 <li>Celular: {deliveryContacts.celular}</li> {/* Se muestra como número */}
                                 <li>Email: {deliveryContacts.email_usuario}</li>
                             </ul>
+                            <button 
+                                onClick={handleCloseModal} 
+                                className="mt-4 bg-red-600 text-white px-4 py-2 rounded-md"
+                            >
+                                Cerrar
+                            </button>
+                            
+                            <button 
+                                onClick={handleRedirectToProfile}
+                                className="mt-4 bg-red-600 text-white px-4 py-2 rounded-md"
+                            >
+                                Ver PERFIL
+                            </button>
+                            </div>
                         ) : (
-                            <p>Cargando contactos del delivery...</p>
+                            <div><p>Cargando contactos del delivery...</p>
+                            <button 
+                                onClick={handleCloseModal} 
+                                className="mt-4 bg-red-600 text-white px-4 py-2 rounded-md"
+                            >
+                                Cerrar
+                            </button>
+                            </div>
                         )}
-                        <button 
-                            onClick={handleCloseModal} 
-                            className="mt-4 bg-red-600 text-white px-4 py-2 rounded-md"
-                        >
-                            Cerrar
-                        </button>
                     </div>
                 </div>
             )}

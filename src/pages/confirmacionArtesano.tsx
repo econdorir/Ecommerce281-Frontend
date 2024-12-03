@@ -208,12 +208,12 @@ const ConfirmacionArtesano = () => {
   return (
     <>
       <Navbar />
-      <div className="container mx-auto mt-20 p-6 bg-white shadow-lg rounded-lg">
-        <h1 className="text-3xl font-semibold text-gray-800 mb-6">Confirmación Artesano</h1>
+      <div className="w-5/6 container mx-auto mt-24 p-6 bg-buttonpagecolor2  shadow-lg rounded-lg">
+        <h1 className="text-3xl font-semibold text-buttonpagecolor mb-6">Confirmación Artesano</h1>
 
         {aniade.length > 0 ? (
           <div className="space-y-6">
-            <h2 className="text-2xl font-bold text-gray-700">Artículos Añadidos</h2>
+            <h2 className="text-2xl font-bold text-white">Artículos Añadidos</h2>
             {aniade.map((item) => {
               const producto = products.find(
                 (product) => product.id_producto === item.id_producto
@@ -231,7 +231,7 @@ const ConfirmacionArtesano = () => {
                   <h3 className="text-xl font-medium text-gray-800">
                     Producto: {producto ? producto.nombre_producto : "Desconocido"}
                   </h3>
-                  <p className="text-gray-600">Cantidad: {item.cantidad}</p>
+                  <p className="text-white">Cantidad: {item.cantidad}</p>
                   <p className={`text-lg ${item.artesano_confirm ? "text-green-500" : "text-red-500"}`}>
                     Estado: {item.artesano_confirm ? "Confirmado" : "No confirmado"}
                   </p>

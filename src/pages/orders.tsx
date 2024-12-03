@@ -86,8 +86,8 @@ const Orders = () => {
     <>
       <Navbar />
       <div className="max-w-2xl w-3/4 mx-auto mt-10 p-4 pt-28">
-        <h1 className="text-2xl font-bold mb-4 text-center">Mis Pedidos</h1>
-        <div className="bg-white shadow-md rounded-lg p-4">
+        <h1 className="text-2xl font-bold mb-4 text-center text-buttonpagecolor">Mis Pedidos</h1>
+        <div className="bg-buttonpagecolor2 shadow-md rounded-lg p-4">
           {loading ? (
             <p className="text-center text-gray-600">Cargando...</p>
           ) : error ? (

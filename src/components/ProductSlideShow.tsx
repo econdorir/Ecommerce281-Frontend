@@ -12,7 +12,6 @@ import "swiper/css/thumbs";
 
 import "../../src/styles/slideshow.css";
 
-
 interface Image {
   id_imagen: number;
   url_imagen: string;
@@ -33,14 +32,14 @@ export const ProductSlideShow = ({ images, title, className }: Props) => {
       <Swiper
         style={
           {
-            "--swiper-navigation-color": "#fff",
-            "--swiper-pagination-color": "#fff",
+            "--swiper-navigation-color": "#1f2937",
+            "--swiper-pagination-color": "#1f2937",
           } as React.CSSProperties
         }
         spaceBetween={10}
         navigation={true}
         autoplay={{
-          delay: 2500
+          delay: 2500,
         }}
         thumbs={{
           swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null,
@@ -48,18 +47,19 @@ export const ProductSlideShow = ({ images, title, className }: Props) => {
         modules={[FreeMode, Navigation, Thumbs, Autoplay]}
         className="mySwiper2"
       >
-        {images.map((image)=>
-        <SwiperSlide>
-        <Image
-          width={1024}
-          height={800}
-          src={image.url_imagen}
-          alt={title}
-          className="rounded-lg  object-fill"
-        />
-      </SwiperSlide>
-        )}
-        
+        {images.map((image) => (
+          <SwiperSlide>
+            <div>
+              <Image
+                width={1024}
+                height={800}
+                src={image.url_imagen}
+                alt={title}
+                className="rounded-lg object-fill"
+              />
+            </div>
+          </SwiperSlide>
+        ))}
       </Swiper>
 
       <Swiper
@@ -71,19 +71,17 @@ export const ProductSlideShow = ({ images, title, className }: Props) => {
         modules={[FreeMode, Navigation, Thumbs]}
         className="mySwiper"
       >
-        {images.map((image)=>
-        <SwiperSlide>
-        <Image
-          width={300}
-          height={300}
-          src={image.url_imagen}
-          alt={title}
-          className="rounded-lg  object-fill"
-        />
-      </SwiperSlide>
-        )}
-        
-        
+        {images.map((image) => (
+          <SwiperSlide>
+            <Image
+              width={300}
+              height={300}
+              src={image.url_imagen}
+              alt={title}
+              className="rounded-lg  object-fill"
+            />
+          </SwiperSlide>
+        ))}
       </Swiper>
     </div>
   );

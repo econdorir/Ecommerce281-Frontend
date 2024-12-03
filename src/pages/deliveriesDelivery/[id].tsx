@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import "leaflet/dist/leaflet.css";
@@ -23,8 +23,12 @@ const DeliveryDetail = () => {
   const [delivery, setDelivery] = useState<Delivery | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [userLocation, setUserLocation] = useState<LatLngExpression | null>(null);
-  const [targetLocation, setTargetLocation] = useState<LatLngExpression | null>(null);
+  const [userLocation, setUserLocation] = useState<LatLngExpression | null>(
+    null
+  );
+  const [targetLocation, setTargetLocation] = useState<LatLngExpression | null>(
+    null
+  );
 
   const locations: LatLngExpression[] = [
     [-16.5, -68.1193], // La Paz
@@ -60,7 +64,9 @@ const DeliveryDetail = () => {
         const data: Delivery = await response.json();
         setDelivery(data);
       } catch (error) {
-        setError(error instanceof Error ? error.message : "Hubo un error inesperado.");
+        setError(
+          error instanceof Error ? error.message : "Hubo un error inesperado."
+        );
       } finally {
         setLoading(false);
       }
@@ -88,7 +94,7 @@ const DeliveryDetail = () => {
       });
     };
     getUserLocation()
-      .then((coords:any) => {
+      .then((coords: any) => {
         setUserLocation([coords.latitude, coords.longitude]);
       })
       .catch((error) => {
@@ -103,15 +109,26 @@ const DeliveryDetail = () => {
     <>
       <Navbar />
       <div className="mt-10 px-20 py-20">
-        <h1 className="text-2xl font-bold mb-4">Detalles de la Entrega</h1>
+        <h1 className="text-2xl text-buttonpagecolor font-bold mb-4">Detalles de la Entrega</h1>
         {delivery && (
-          <>
-            <p>ID de Pedido: {delivery.id_pedido}</p>
-            <p>Estado: {delivery.estado_pedido}</p>
-            <p>Fecha: {new Date(delivery.fecha_pedido).toLocaleString()}</p>
-            <p>Monto a Pagar: {delivery.monto_pago} Bs</p>
-            <p>Tipo de Pedido: {delivery.tipo_de_pedido}</p>
-          </>
+          <div className="bg-buttonpagecolor2 text-white p-2 sm:p-5 border border-black rounded-lg">
+            <p>
+              <span className="text-buttonpagecolor">ID de Pedido:</span> {delivery.id_pedido}
+            </p>
+            <p>
+              <span className="text-buttonpagecolor">Estado: </span> {delivery.estado_pedido}
+            </p>
+            <p>
+              <span className="text-buttonpagecolor">Fecha: </span>{" "}
+              {new Date(delivery.fecha_pedido).toLocaleString()}
+            </p>
+            <p>
+              <span className="text-buttonpagecolor">Monto a Pagar: </span> {delivery.monto_pago} Bs
+            </p>
+            <p>
+              <span className="text-buttonpagecolor">Tipo de Pedido: </span> {delivery.tipo_de_pedido}
+            </p>
+          </div>
         )}
 
         <h2 className="mt-6 text-xl font-bold">Ubicación</h2>

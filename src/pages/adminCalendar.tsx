@@ -33,15 +33,15 @@ const AdminCalendar = () => {
   return (
     <SidebarProvider>
       <AdminSidebar />
-      <div className="flex flex-col p-10">
-        <h1 className="text-2xl font-bold mb-4">Panel de Administración</h1>
+      <div className="w-full flex flex-col p-10 bg-black">
+        <h1 className="text-2xl font-bold mb-4 text-tertiarypagecolor">Panel de Administración</h1>
 
         <div className="mb-6">
           <Calendar
             mode="single"
             selected={date} // Now this will be Date or undefined
             onSelect={setDate}
-            className="rounded-md border"
+            className="rounded-md border w-fit text-white"
           />
         </div>
 
@@ -51,17 +51,17 @@ const AdminCalendar = () => {
             placeholder="Agregar nueva tarea"
             value={task}
             onChange={(e) => setTask(e.target.value)}
-            className="border rounded-md p-2 flex-grow"
+            className="border rounded-md p-2 flex-grow bg-extrapagecolor2"
           />
           <button
             onClick={handleAddTask}
-            className="ml-2 bg-blue-500 text-white rounded-md px-4 py-2"
+            className="ml-2 bg-buttonpagecolor text-white rounded-md px-4 py-2"
           >
             Agregar Tarea
           </button>
         </div>
 
-        <h2 className="text-xl font-semibold">Tareas Agregadas</h2>
+        <h2 className="text-xl font-semibold text-buttonpagecolor">Tareas Agregadas</h2>
         <div className="mt-4 overflow-x-auto">
           <DataTable
             data={tasks.map((t) => ({

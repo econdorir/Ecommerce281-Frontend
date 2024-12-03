@@ -13,7 +13,7 @@ function SocialLinks() {
   }, []);
 
   return (
-    <div className="mb-12">
+    <div className="mb-12"><br />
       <h2 className="text-4xl font-semibold mb-4 text-[#2F4F4F]">Síguenos en Redes Sociales</h2>
       <div className="flex space-x-6">
         <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="flex items-center space-x-2 text-blue-600">

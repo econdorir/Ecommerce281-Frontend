@@ -38,15 +38,32 @@ export const ProductMobileSlideShow = ({ images, title, className }: Props) => {
       >
         {images.map((image)=>
         <SwiperSlide>
-        <Image
-          width={1024}
-          height={800}
-          src={image.url_imagen}
-          alt={title}
-          className="rounded-lg  object-fill"
-        />
-      </SwiperSlide>
-        )}
+          <Image
+            width={1024}
+            height={800}
+            src={images}
+            alt={title}
+            className="w-full  object-fill"
+          />
+        </SwiperSlide>
+        <SwiperSlide>
+          <Image
+            width={1024}
+            height={800}
+            src={images}
+            alt={title}
+            className="w-full  object-fill"
+          />
+        </SwiperSlide>
+        <SwiperSlide>
+          <Image
+            width={1024}
+            height={800}
+            src={images}
+            alt={title}
+            className="  object-fill"
+          />
+        </SwiperSlide>
       </Swiper>
     </div>
   );

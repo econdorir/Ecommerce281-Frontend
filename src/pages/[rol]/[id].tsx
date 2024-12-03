@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import { useRouter } from "next/router";
 import axios from "axios";
@@ -12,6 +11,8 @@ import {
   FaStarHalfAlt,
 } from "react-icons/fa";
 import { MdCircle, MdDirectionsCar } from "react-icons/md";
+import { API_URL } from "../../libs/constants";
+
 interface UserData {
   id_usuario: number;
   nombre_usuario: string;
@@ -55,24 +56,19 @@ interface Product {
 
 const Profile = () => {
   const router = useRouter();
+  const { rol, id } = router.query; // Obtenemos rol e id desde la URL dinámica
 
   const [userData, setUserData] = useState<UserData | null>(null);
   const [loading, setLoading] = useState(true);
-  const [userRol, setUserRol] = useState<string | null>(null);
-  const [products, setProducts] = useState<Product[]>([]); // Estado para productos
-  const [artesanoProducts, setArtesanoProducts] = useState<Product[]>([]); // Productos del artesano
+  const [products, setProducts] = useState<Product[]>([]);
+  const [artesanoProducts, setArtesanoProducts] = useState<Product[]>([]);
 
   useEffect(() => {
-    const userDataLocal = localStorage.getItem("userData");
-    const userId = userDataLocal ? JSON.parse(userDataLocal).id_usuario : null;
-    const rol = userDataLocal ? JSON.parse(userDataLocal).tipo_usuario : null;
-    setUserRol(rol);
+    if (!rol || !id) return; // Esperamos a que rol e id estén disponibles
 
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/${rol}/${userId}`
-        );
+        const response = await axios.get(`${API_URL}/${rol}/${id}`);
         setUserData(response.data);
       } catch (error) {
         console.error("Error al obtener los datos del usuario:", error);
@@ -83,24 +79,16 @@ const Profile = () => {
 
     const fetchProducts = async () => {
       try {
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/producto`
-        );
+        const response = await axios.get(`${API_URL}/producto`);
         setProducts(response.data);
       } catch (error) {
         console.error("Error al obtener productos:", error);
       }
     };
 
-    if (userId) {
-      fetchUserData();
-    } else {
-      console.error("ID de usuario no encontrada en localStorage");
-      setLoading(false);
-    }
-
+    fetchUserData();
     fetchProducts();
-  }, []);
+  }, [rol, id]);
 
   useEffect(() => {
     if (userData) {
@@ -112,11 +100,11 @@ const Profile = () => {
   }, [products, userData]);
 
   if (loading) {
-    return <div>Cargando...</div>;
+    return <div className="text-center mt-20">Cargando...</div>;
   }
 
   if (!userData) {
-    return <div>No se encontraron datos del usuario.</div>;
+    return <div className="text-center mt-20">No se encontraron datos del usuario.</div>;
   }
 
   const formatDate = (dateString: string) => {
@@ -127,12 +115,11 @@ const Profile = () => {
     };
     return new Date(dateString).toLocaleDateString("es-ES", options);
   };
-
   return (
     <>
       <Navbar />
-      <div className="h-screen flex flex-col items-center justify-center my-52 pt-8 font-mono">
-        <div className="bg-buttonpagecolor2 shadow-lg rounded-lg p-6 w-full sm:w-4/5 ">
+      <div className="h-screen flex flex-col items-center justify-center mt-20 pt-8 font-mono">
+        <div className="bg-buttonpagecolor2 shadow-lg rounded-lg p-6 w-full max-w-96">
           <hr className="my-4 border-gray-300" />
           <h1 className="text-buttonpagecolor text-2xl font-light font-mono text-center uppercase tracking-widest">
             {userData.tipo_usuario}
@@ -140,16 +127,16 @@ const Profile = () => {
           <h1 className="text-buttonpagecolor text-2xl font-semibold text-center">
             {userData.nombre_usuario}
           </h1>
-
+  
           <div className="flex items-center justify-center mt-4">
             <div className="flex items-center justify-center w-24 h-24 rounded-full bg-gray-300">
               <FaUserCircle className="h-16 w-16 text-gray-600" />
             </div>
           </div>
-
+  
           <hr className="my-4 border-gray-300" />
-
-          {userRol === "cliente" && (
+  
+          {rol === "cliente" && (
             <>
               <div className="text-white mt-4 flex items-center justify-between">
                 <h1 className="text-xl font-light font-mono uppercase tracking-widest">
@@ -159,7 +146,7 @@ const Profile = () => {
                   {formatDate(userData.fecha_registro)}
                 </h1>
               </div>
-
+  
               <div className="text-white mt-4 flex items-center justify-between">
                 <h1 className="text-xl font-light font-mono uppercase tracking-widest">
                   Número de compras
@@ -170,8 +157,8 @@ const Profile = () => {
               </div>
             </>
           )}
-
-          {userRol === "artesano" && (
+  
+          {rol === "artesano" && (
             <>
               <div className="text-white mt-4 flex items-center justify-between">
                 <h1 className="text-xl font-light font-mono uppercase tracking-widest">
@@ -181,17 +168,16 @@ const Profile = () => {
                   {userData.especialidad}
                 </h1>
               </div>
-
+  
               <div className="mt-4 flex items-center justify-between">
-                <h1 className="text-white text-xl font-light font-mono uppercase tracking-widest">
+                <h1 className="text-xl font-light font-mono uppercase tracking-widest">
                   Calificación
                 </h1>
                 <div className="flex items-center text-xl text-right capitalize">
-                  {/* Aquí se muestran las estrellas */}
                   {Array.from({ length: 5 }, (v, i) => {
                     if (i < Math.floor(userData.calificacion)) {
                       return (
-                        <FaStar key={i} className="text-buttonpagecolor h-5 w-5" />
+                        <FaStar key={i} className="text-blue-600 h-5 w-5" />
                       );
                     } else if (i < userData.calificacion) {
                       return (
@@ -208,7 +194,7 @@ const Profile = () => {
                   })}
                 </div>
               </div>
-
+  
               <div className="text-white mt-4 flex items-center justify-between">
                 <div className="flex items-center">
                   <FaMapMarkerAlt className="h-6 w-6 text-gray-600 mr-2" />
@@ -222,8 +208,8 @@ const Profile = () => {
               </div>
             </>
           )}
-
-          {userRol === "delivery" && (
+  
+          {rol === "delivery" && (
             <div className="text-white mt-4 flex items-center justify-between">
               <h1 className="text-xl font-light font-mono uppercase tracking-widest">
                 Estado
@@ -250,7 +236,7 @@ const Profile = () => {
               </div>
             </div>
           )}
-
+  
           <div className="text-white mt-4 flex items-center justify-between">
             <div className="flex items-center">
               <FaEnvelope className="h-6 w-6 text-gray-600 mr-2" />
@@ -258,11 +244,11 @@ const Profile = () => {
                 Email
               </h1>
             </div>
-            <h1 className="text-sm sm:text-base md:text-xl text-center sm:text-right capitalize">
+            <h1 className="text-xl text-right capitalize">
               {userData.email_usuario}
             </h1>
           </div>
-
+  
           <div className="text-white mt-4 flex items-center justify-between">
             <div className="flex items-center">
               <FaPhone className="h-6 w-6 text-gray-600 mr-2" />
@@ -275,7 +261,7 @@ const Profile = () => {
             </h1>
           </div>
           <hr className="my-4 border-gray-300" />
-          {userRol === "artesano" && (
+          {rol === "artesano" && (
             <>
               <h1 className="text-white text-2xl font-light font-mono text-center uppercase tracking-widest">
                 Mis Productos
@@ -294,7 +280,7 @@ const Profile = () => {
                           className="w-32 h-32 object-cover rounded-lg mr-4"
                         />
                       )}
-                      <div className="text-white">
+                      <div>
                         <h2 className="text-lg font-semibold">
                           {product.nombre_producto}
                         </h2>
@@ -302,12 +288,7 @@ const Profile = () => {
                         <p className="text-justify">
                           Descripción: {product.descripcion_producto}
                         </p>
-                        <p>Stock: {product.stock_producto}</p><br />           
-                        <Link href={`/product/${product.id_producto}`}>
-                          <button className="bg-buttonpagecolor text-extrapagecolor2 p-2 rounded transition-colors duration-300 hover:bg-tertiarypagecolor text-center cursor-pointer">
-                            Ver detalles
-                          </button>
-                        </Link>
+                        <p>Stock: {product.stock_producto}</p>
                       </div>
                     </div>
                   ))
@@ -321,6 +302,6 @@ const Profile = () => {
       </div>
     </>
   );
+  
 };
-
 export default Profile;

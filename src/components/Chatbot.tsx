@@ -139,7 +139,7 @@ const Chatbot = () => {
     <div className="fixed bottom-4 right-4 z-50">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="p-3 bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 transition"
+        className="p-3 bg-buttonpagecolor text-white rounded-full shadow-lg hover:bg-opacity-90 transition"
       >
         Chat
       </button>
@@ -178,7 +178,7 @@ const Chatbot = () => {
             />
             <button
               onClick={handleSend}
-              className="p-2 bg-blue-500 text-white rounded-r-lg hover:bg-blue-600"
+              className="p-2 bg-buttonpagecolor text-white rounded-r-lg hover:bg-buttonpagecolor2"
             >
               Enviar
             </button>

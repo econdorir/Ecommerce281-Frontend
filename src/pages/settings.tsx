@@ -156,12 +156,12 @@ const Settings = () => {
   return (
     <>
       <Navbar />
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 mt-20">
-        <div className="bg-white shadow-md rounded-lg p-6 max-w-screen-xl w-full">
-          <h1 className="text-2xl font-semibold text-center">Configuración</h1>
+      <div className="flex flex-col items-center justify-center min-h-screen bg-black mt-20">
+        <div className="bg-buttonpagecolor2 shadow-md rounded-lg p-6 max-w-[600px] w-full my-10">
+          <h1 className="text-2xl font-semibold text-center text-buttonpagecolor">Configuración</h1>
 
           <div className="mt-4">
-            <label className="block text-gray-500 text-sm">Nombre</label>
+            <label className="block text-white text-sm">Nombre</label>
             <input
               type="text"
               value={userData.nombre_usuario}
@@ -170,24 +170,24 @@ const Settings = () => {
               onChange={(e) =>
                 setUserData({ ...userData, nombre_usuario: e.target.value })
               }
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm transition-all duration-300 ease-in-out transform hover:border-blue-500 hover:scale-105 focus:border-blue-500 focus:ring focus:ring-blue-200"
+              className="mt-1 bg-extrapagecolor2 block w-full border border-gray-300 rounded-md shadow-sm transition-all duration-300 ease-in-out transform hover:border-blue-500 hover:scale-105 focus:border-blue-500 focus:ring focus:ring-blue-200"
             />
           </div>
 
           <div className="mt-4">
-            <label className="block text-gray-500 text-sm">Email</label>
+            <label className="block text-white text-sm">Email</label>
             <input
               type="email"
               value={userData.email_usuario}
               onChange={(e) =>
                 setUserData({ ...userData, email_usuario: e.target.value })
               }
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm transition-all duration-300 ease-in-out transform hover:border-blue-500 hover:scale-105 focus:border-blue-500 focus:ring focus:ring-blue-200"
+              className="mt-1 bg-extrapagecolor2 block w-full border border-gray-300 rounded-md shadow-sm transition-all duration-300 ease-in-out transform hover:border-blue-500 hover:scale-105 focus:border-blue-500 focus:ring focus:ring-blue-200"
             />
           </div>
 
           <div className="mt-4">
-            <label className="block text-gray-500 text-sm">Celular</label>
+            <label className="block text-white text-sm">Celular</label>
             <input
               type="tel"
               value={userData.celular}
@@ -196,43 +196,43 @@ const Settings = () => {
               onChange={(e) =>
                 setUserData({ ...userData, celular: parseInt(e.target.value) })
               }
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm transition-all duration-300 ease-in-out transform hover:border-blue-500 hover:scale-105 focus:border-blue-500 focus:ring focus:ring-blue-200"
+              className="mt-1 bg-extrapagecolor2 block w-full border border-gray-300 rounded-md shadow-sm transition-all duration-300 ease-in-out transform hover:border-blue-500 hover:scale-105 focus:border-blue-500 focus:ring focus:ring-blue-200"
             />
           </div>
 
           <div className="mt-4">
-            <label className="block text-gray-500 text-sm">Tipo de Usuario</label>
+            <label className="block text-white text-sm">Tipo de Usuario</label>
             <input
               type="text"
               value={userData.tipo_usuario}
               readOnly
-              className="mt-1 block w-full bg-gray-200 border-gray-300 rounded-md shadow-sm"
+              className="mt-1 block w-full bg-gray-500 border-gray-300 rounded-md shadow-sm"
             />
           </div>
 
           {userRol === "cliente" && (
             <>
               <div className="mt-4">
-                <label className="block text-gray-500 text-sm">
+                <label className="block text-white text-sm">
                   Fecha de Registro
                 </label>
                 <input
                   type="text"
                   value={userData.fecha_registro}
                   readOnly
-                  className="mt-1 block w-full bg-gray-200 border-gray-300 rounded-md shadow-sm"
+                  className="mt-1 block w-full bg-gray-500 border-gray-300 rounded-md shadow-sm"
                 />
               </div>
 
               <div className="mt-4">
-                <label className="block text-gray-500 text-sm">
+                <label className="block text-white text-sm">
                   Número de Compras
                 </label>
                 <input
                   type="text"
                   value={userData.nro_compras}
                   readOnly
-                  className="mt-1 block w-full bg-gray-200 border-gray-300 rounded-md shadow-sm"
+                  className="mt-1 block w-full bg-gray-500 border-gray-300 rounded-md shadow-sm"
                 />
               </div>
             </>
@@ -321,21 +321,21 @@ const Settings = () => {
 
           <button
             onClick={handleUpdate}
-            className="mt-6 w-full bg-blue-600 text-white rounded-md py-5 hover:bg-blue-700"
+            className="mt-6 w-full bg-buttonpagecolor text-white rounded-md py-2 hover:bg-blue-700"
           >
             Actualizar Datos
           </button>
 
           <button
             onClick={handleChangePassword}
-            className="mt-4 w-full bg-red-600 text-white rounded-md py-5 hover:bg-red-700"
+            className="mt-2 w-full bg-buttonpagecolor text-white rounded-md py-2 hover:bg-red-700"
           >
             Cambiar Contraseña
           </button>
           {userRol === "cliente" && (
             <button
               onClick={viewOrders}
-              className="mt-4 w-full bg-green-600 text-white rounded-md py-5 hover:bg-green-700"
+              className="mt-2 w-full bg-buttonpagecolor text-white rounded-md py-2 hover:bg-green-700"
             >
               Ver Mis Pedidos
             </button>
@@ -343,7 +343,7 @@ const Settings = () => {
           {userRol === "delivery" && (
             <button
               onClick={viewDeliveries}
-              className="mt-4 w-full bg-green-600 text-white rounded-md py-5 hover:bg-green-700"
+              className="mt-2 w-full bg-buttonpagecolor text-white rounded-md py-2 hover:bg-green-700"
             >
               Ver Mis Entregas
             </button>

@@ -43,7 +43,7 @@ const items = [
 export function AdminSidebar() {
   return (
     <Sidebar>
-      <SidebarContent>
+      <SidebarContent className="bg-buttonpagecolor2">
         <SidebarGroup>
           <SidebarGroupLabel>Application</SidebarGroupLabel>
           <SidebarGroupContent>

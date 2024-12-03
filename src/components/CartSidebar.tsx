@@ -87,6 +87,43 @@ const CartSidebar = ({ isOpen, onClose }) => {
 
     return acc;
   }, []);
+  const updateProductQuantity = async (id_producto: number, nuevaCantidad: number) => {
+    const storedUserData: any = localStorage.getItem("userData");
+    const userData = JSON.parse(storedUserData);
+  
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/v1/aniade/${userData.id_carrito}/${id_producto}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ cantidad: nuevaCantidad }),
+        }
+      );
+  
+      if (!response.ok) {
+        throw new Error("Error al actualizar la cantidad del producto");
+      }
+  
+      // Maneja posibles respuestas vacías
+      const text = await response.text();
+      const data = text ? JSON.parse(text) : {};
+  
+      // Actualiza el estado del carrito en el frontend
+      setCart((prevCart) =>
+        prevCart.map((item) =>
+          item.id_producto === id_producto
+            ? { ...item, cantidad: item.cantidad + nuevaCantidad }
+            : item
+        )
+      );
+    } catch (error) {
+      console.error("Error al actualizar la cantidad del producto:", error);
+    }
+  };
+  
 
   return (
     <div
@@ -106,28 +143,50 @@ const CartSidebar = ({ isOpen, onClose }) => {
             groupedCart.map((item, index) => (
               <>
                 <li key={index} className="flex justify-evenly items-center my-2">
-                  <img
-                    src={item.imagen[0].url_imagen}
-                    alt={item.nombre_producto}
-                    className="w-16 h-16 object-cover mr-2 border border-black"
-                  />
-                  <div className="flex-grow w-1/3">
-                    <p>{item.nombre_producto}</p>
-                    <p>Cantidad: {item.cantidad}</p> {/* Muestra la cantidad */}
-                    <p>
-                      Precio: $
-                      {(
-                        parseFloat(item.precio_producto) * item.cantidad
-                      ).toFixed(2)}
-                    </p>
+                <img
+                  src={item.imagen[0].url_imagen}
+                  alt={item.nombre_producto}
+                  className="w-16 h-16 object-cover mr-2 border border-black"
+                />
+                <div className="flex-grow w-1/3">
+                  <p>{item.nombre_producto}</p>
+                  <p>Cantidad: {item.cantidad}</p>
+                  <p>
+                    Precio: ${(parseFloat(item.precio_producto) * item.cantidad).toFixed(2)}
+                  </p>
+                  <div className="flex items-center space-x-2 mt-2">
+                    {/* Botón para decrementar */}
+                    <button
+                      onClick={async () => {
+                        if (item.cantidad === 1) {
+                          // Lógica para eliminar si la cantidad llega a 0
+                          await handleRemoveFromCart(item.id_producto);
+                        } else {
+                          await updateProductQuantity(item.id_producto,-1);
+                        }
+                      }}
+                      className="w-7 h-7 bg-red-500 text-white rounded-full flex items-center justify-center"
+                    >
+                      -
+                    </button>
+                    {/* Botón para incrementar */}
+                    <button
+                      onClick={async () => {
+                        await updateProductQuantity(item.id_producto,1);
+                      }}
+                      className="w-7 h-7 bg-green-500 text-white rounded-full flex items-center justify-center"
+                    >
+                      +
+                    </button>
                   </div>
-                  <button
-                    onClick={() => handleRemoveFromCart(item.id_producto)}
-                    className="w-7 bg-buttonpagecolor border border-buttonpagecolor text-buttonpagecolor2 hover:bg-buttonpagecolor2 hover:text-bgpagecolor p-1 rounded-full ml-2 font-semibold"
-                  >
-                    x
-                  </button>
-                </li>
+                </div>
+                <button
+                  onClick={() => handleRemoveFromCart(item.id_producto)}
+                  className="w-7 bg-buttonpagecolor border border-buttonpagecolor text-buttonpagecolor2 hover:bg-buttonpagecolor2 hover:text-bgpagecolor p-1 rounded-full ml-2 font-semibold"
+                >
+                  x
+                </button>
+              </li>
                 <div className="w-full bg-bgpagecolor h-[0.1px]"></div>
               </>
             ))

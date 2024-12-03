@@ -19,11 +19,11 @@ const DataTable = ({ data, columns, onDelete, idAccessor }) => {
 
   return (
     <Table>
-      <TableCaption>A list of your recent items.</TableCaption>
+      <TableCaption>Una lista de todos tus items.</TableCaption>
       <TableHeader>
         <TableRow>
           {columns.map((column) => (
-            <TableHead key={column.accessor}>{column.header}</TableHead>
+            <TableHead className="text-tertiarypagecolor" key={column.accessor}>{column.header}</TableHead>
           ))}
           <TableHead>Actions</TableHead>
         </TableRow>
@@ -34,7 +34,7 @@ const DataTable = ({ data, columns, onDelete, idAccessor }) => {
             {columns.map((column) => (
               <TableCell
                 key={column.accessor}
-                className={column.accessor === "amount" ? "text-right" : ""}
+                className={column.accessor === "amount" ? "text-right text-white" : "text-white"}
               >
                 {renderCellValue(item[column.accessor])}
               </TableCell>

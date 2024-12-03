@@ -112,10 +112,10 @@ const ProductPage: React.FC = () => {
           className="p-2 border border-tertiarypagecolor bg-buttonpagecolor2 rounded mb-4 w-full focus:text-white"
         />
 
-        <div className="mb-4">
+        <div className="mb-4 flex flex-wrap">
           <button
             onClick={() => setActiveFilter("bajo-stock")}
-            className={`px-4 py-2 rounded mr-2 ${
+            className={`px-4 py-2 rounded m-2 sm:sm-0 ${
               activeFilter === "bajo-stock" ? "bg-buttonpagecolor2 text-white" : "bg-buttonpagecolor"
             } text-black font-semibold hover:opacity-90`}
           >
@@ -123,7 +123,7 @@ const ProductPage: React.FC = () => {
           </button>
           <button
             onClick={() => setActiveFilter("alto-stock")}
-            className={`px-4 py-2 rounded mr-2 ${
+            className={`px-4 py-2 rounded m-2 sm:sm-0 ${
               activeFilter === "alto-stock" ? "bg-buttonpagecolor2 text-white" : "bg-buttonpagecolor"
             } text-black font-semibold hover:opacity-90`}
           >
@@ -131,7 +131,7 @@ const ProductPage: React.FC = () => {
           </button>
           <button
             onClick={() => setActiveFilter("bajo-precio")}
-            className={`px-4 py-2 rounded mr-2 ${
+            className={`px-4 py-2 rounded m-2 sm:sm-0 ${
               activeFilter === "bajo-precio" ? "bg-buttonpagecolor2 text-white" : "bg-buttonpagecolor"
             } text-black font-semibold hover:opacity-90`}
           >
@@ -139,7 +139,7 @@ const ProductPage: React.FC = () => {
           </button>
           <button
             onClick={() => setActiveFilter("alto-precio")}
-            className={`px-4 py-2 rounded mr-2 ${
+            className={`px-4 py-2 rounded m-2 sm:sm-0 ${
               activeFilter === "alto-precio" ? "bg-buttonpagecolor2 text-white" : "bg-buttonpagecolor"
             } text-black font-semibold hover:opacity-90`}
           >
@@ -147,7 +147,7 @@ const ProductPage: React.FC = () => {
           </button>
           <button
             onClick={() => setActiveFilter("")}
-            className="p-2 bg-buttonpagecolor2 text-bgpagecolor font-semibold hover:opacity-90 rounded"
+            className="p-2 m-2 sm:sm-0 bg-buttonpagecolor2 text-bgpagecolor font-semibold hover:opacity-90 rounded"
           >
             Limpiar Filtros
           </button>
@@ -156,13 +156,13 @@ const ProductPage: React.FC = () => {
         <div className="mb-4">
           <button
             onClick={() => setSortOrder("asc")}
-            className="p-2 bg-buttonpagecolor text-black font-semibold hover:opacity-90 rounded mr-2"
+            className="p-2 m-2 sm:sm-0 bg-buttonpagecolor text-black font-semibold hover:opacity-90 rounded mr-2"
           >
             Precio: Menor a Mayor
           </button>
           <button
             onClick={() => setSortOrder("desc")}
-            className="p-2 bg-buttonpagecolor text-black font-semibold hover:opacity-90 rounded"
+            className="p-2 m-2 sm:m-0 bg-buttonpagecolor text-black font-semibold hover:opacity-90 rounded"
           >
             Precio: Mayor a Menor
           </button>

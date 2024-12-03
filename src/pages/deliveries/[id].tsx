@@ -126,8 +126,76 @@ const DeliveryDetails = () => {
         setModalType(null);
     }, []);
 
+    async function updateDeliveryStatus(deliveryDetails: Delivery) {
+        // Verificar todos los "aniades" para determinar el estado de la entrega
+        const allConfirmed = deliveryDetails.pedido.carrito.aniade.every(item => item.artesano_confirm && item.delivery_confirm);
+        const someConfirmed = deliveryDetails.pedido.carrito.aniade.some(item => item.artesano_confirm || item.delivery_confirm);
+
+        let estadoEntrega = "Pendiente"; // Valor por defecto
+        if (allConfirmed) {
+            estadoEntrega = "En camino";
+        } else if (someConfirmed) {
+            estadoEntrega = "En preparacion";
+        }
+        console.log(estadoEntrega)
+    
+        // Realizar el POST para actualizar el estado de la entrega y el pedido
+        try {
+            const response = await fetch(`http://localhost:5000/api/v1/entrega/${deliveryDetails.id_entrega}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    estado_entrega: estadoEntrega,
+                }),
+            });
+    
+            if (!response.ok) {
+                throw new Error('Error al actualizar el estado de la entrega');
+            }
+    
+            const response2 = await fetch(`http://localhost:5000/api/v1/pedido/${deliveryDetails.pedido.id_pedido}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    estado_pedido: estadoEntrega,
+                }),
+            });
+    
+            if (!response2.ok) {
+                throw new Error('Error al actualizar el estado del pedido');
+            }
+    
+            // Actualizar el estado local en el estado de la aplicación
+            setDeliveryDetails(prev => (prev ? {
+                ...prev,
+                estado_entrega: estadoEntrega,
+                pedido: {
+                    ...prev.pedido,
+                    estado_pedido: estadoEntrega,
+                }
+            } : prev));
+    
+        } catch (error) {
+            console.error("Error al actualizar el estado:", error);
+        }
+    }
+    
     const confirmDelivery = async () => {
+        
         if (!deliveryDetails) return;
+
+        
+        const allConfirmed = deliveryDetails.pedido.carrito.aniade.every(item => item.artesano_confirm && item.delivery_confirm);
+
+        if(!allConfirmed){
+            alert("Se debe completar todas las confirmaciones con los Artesanos!");
+            return;
+        }
+
         try {
                 // Si ambas confirmaciones están en true, no permitir modificaciones
             console.log(deliveryDetails)
@@ -159,9 +227,11 @@ const DeliveryDetails = () => {
             } : prev));
 
             alert("Confirmacion cancelada con éxito");
+            return;
             }
 
             if (!deliveryDetails.delivery_confirm){
+
                 window.confirm("¿Deseas confirmar la entrega?");
                 const response = await fetch(`http://localhost:5000/api/v1/entrega/${deliveryDetails.id_entrega}`, {
                     method: 'PATCH',
@@ -178,32 +248,14 @@ const DeliveryDetails = () => {
                     throw new Error("Error al confirmar la entrega");
                 }
                 if(deliveryDetails.cliente_confirm){
-                    const response = await fetch(`http://localhost:5000/api/v1/entrega/${deliveryDetails.id_entrega}`, {
-                        method: 'PATCH',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            estado_entrega: "Entregado"
-                        }),
-                    });
-                    const response2 = await fetch(`http://localhost:5000/api/v1/pedido/${deliveryDetails.pedido.id_pedido}`, {
-                        method: 'PATCH',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            estado_pedido: "entregado"
-                        }),
-                    });
+                    
                     setDeliveryDetails(prev => (prev ? {
                         ...prev,
-                        fecha_entrega: new Date().toISOString(),
                         delivery_confirm: true,
                         estado_entrega: "Entregado",
                         pedido: {
                             ...prev.pedido,
-                            estado_pedido: "entregado"
+                            estado_pedido: "Entregado"
                         }
                     } : prev));
                 }else{
@@ -214,11 +266,8 @@ const DeliveryDetails = () => {
                     } : prev));
                 }
                 alert("Entrega confirmada con éxito");
+                return;
             }
-            console.log(deliveryDetails)
-            if(deliveryDetails.delivery_confirm && deliveryDetails.cliente_confirm){
-                    
-                }
         } catch (error: any) {
             alert(error.message);
         }
@@ -248,20 +297,28 @@ const DeliveryDetails = () => {
                 throw new Error("Error al confirmar la entrega");
             }
 
-            setDeliveryDetails(prev => (prev ? {
-                ...prev,
-                pedido: {
-                    ...prev.pedido,
-                    carrito: {
-                        ...prev.pedido.carrito,
-                        aniade: prev.pedido.carrito.aniade.map(item =>
-                            item.id_aniade === aniade.id_aniade
-                                ? { ...item, delivery_confirm: false } // Modificar delivery_confirm aquí
-                                : item
-                        )
+            setDeliveryDetails(prev => {
+                const updatedDetails = prev ? {
+                    ...prev,
+                    pedido: {
+                        ...prev.pedido,
+                        carrito: {
+                            ...prev.pedido.carrito,
+                            aniade: prev.pedido.carrito.aniade.map(item =>
+                                item.id_aniade === aniade.id_aniade
+                                    ? { ...item, delivery_confirm: false }
+                                    : item
+                            )
+                        }
                     }
+                } : null;
+            
+                if (updatedDetails) {
+                    updateDeliveryStatus(updatedDetails); // Llama a la función solo si no es null
                 }
-            } : prev));
+                return updatedDetails; // Devuelve el estado actualizado o null
+            });
+            
 
             alert("Confirmacion cancelada con éxito");
             }
@@ -282,91 +339,35 @@ const DeliveryDetails = () => {
                     throw new Error("Error al confirmar la entrega");
                 }
     
-                setDeliveryDetails(prev => (prev ? {
-                    ...prev,
-                    pedido: {
-                        ...prev.pedido,
-                        carrito: {
-                            ...prev.pedido.carrito,
-                            aniade: prev.pedido.carrito.aniade.map(item =>
-                                item.id_aniade === aniade.id_aniade
-                                    ? { ...item, delivery_confirm: true } // Modificar delivery_confirm aquí
-                                    : item
-                            )
+                setDeliveryDetails(prev => {
+                    const updatedDetails = prev ? {
+                        ...prev,
+                        pedido: {
+                            ...prev.pedido,
+                            carrito: {
+                                ...prev.pedido.carrito,
+                                aniade: prev.pedido.carrito.aniade.map(item =>
+                                    item.id_aniade === aniade.id_aniade
+                                        ? { ...item, delivery_confirm: true }
+                                        : item
+                                )
+                            }
                         }
+                    } : null;
+                    if (updatedDetails) {
+                        updateDeliveryStatus(updatedDetails); // Llama a la función solo si no es null
                     }
-                } : prev));
+                    return updatedDetails; // Devuelve el estado actualizado o null
+                });
+                
+                
+                
                 alert("Entrega confirmada con éxito");
-
             }
-            if (!deliveryDetails) return;
-            const ningunoConfirmado = deliveryDetails.pedido.carrito.aniade.every(
-                (item) => !item.artesano_confirm && !item.delivery_confirm
-            );
-            console.log(ningunoConfirmado)
-            if (!ningunoConfirmado){
-                const response = await fetch(`http://localhost:5000/api/v1/entrega/${deliveryDetails.id_entrega}`, {
-                    method: 'PATCH',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        estado_entrega: "Pedido en cola"
-                    }),
-                });
-                const response2 = await fetch(`http://localhost:5000/api/v1/pedido/${deliveryDetails.pedido.id_pedido}`, {
-                    method: 'PATCH',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        estado_pedido: "pendiente"
-                    }),
-                });
-                setDeliveryDetails(prev => (prev ? {
-                    ...prev,
-                    estado_entrega: "Pedido en cola",
-                    pedido: {
-                        ...prev.pedido,
-                        estado_pedido: "pendiente"
-                    }
-                } : prev));
-            }else{
-                const response = await fetch(`http://localhost:5000/api/v1/entrega/${deliveryDetails.id_entrega}`, {
-                    method: 'PATCH',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        estado_entrega: "En preparacion"
-                    }),
-                });
-                const response2 = await fetch(`http://localhost:5000/api/v1/pedido/${deliveryDetails.pedido.id_pedido}`, {
-                    method: 'PATCH',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        estado_pedido: "procesando"
-                    }),
-                });
-                setDeliveryDetails(prev => (prev ? {
-                    ...prev,
-                    estado_entrega: "En preparación",
-                    pedido: {
-                        ...prev.pedido,
-                        estado_pedido: "procesando"
-                    }
-                } : prev));
-            }
-        
         } catch (error: any) {
             alert(error.message);
         }
     }, [deliveryDetails]);
-
-
-
 
     if (loading) return <p>Cargando...</p>;
     if (error) return <p className="text-red-600">{error}</p>;

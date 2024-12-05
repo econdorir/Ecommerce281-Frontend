@@ -6,7 +6,7 @@ interface Message {
   sender: string;
 }
 
-const genAI = new GoogleGenerativeAI("AIzaSyAOiuNfxpwugO1EdCrsQcRkMTAZhQIWAeI");
+const genAI = new GoogleGenerativeAI(`${process.env.NEXT_PUBLIC_APIKEY_GEMINI_AI}`);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 const productDataStringForAI = JSON.stringify([

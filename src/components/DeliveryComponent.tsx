@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { API_URL } from '@/libs/constants';
 
 const DeliveryComponent = () => {
     const [isArtesano, setIsArtesano] = useState(false);
@@ -19,7 +20,7 @@ const DeliveryComponent = () => {
 
     const loadDeliveryDetails = async () => {
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/entrega/detalles/1`);
+            const response = await fetch(`${API_URL}/entrega/detalles/1`);
             if (!response.ok) {
                 throw new Error("Error al cargar los detalles de la entrega");
             }
@@ -44,7 +45,7 @@ const DeliveryComponent = () => {
         if (!deliveryDetails.id_entrega) return;
 
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/entrega/confirmar/artesano/${deliveryDetails.id_entrega}`, {
+            const response = await fetch(`${API_URL}/entrega/confirmar/artesano/${deliveryDetails.id_entrega}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -75,7 +76,7 @@ const DeliveryComponent = () => {
         if (!deliveryDetails.id_entrega) return;
 
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/entrega/confirmar/cliente/${deliveryDetails.id_entrega}`, {
+            const response = await fetch(`${API_URL}/entrega/confirmar/cliente/${deliveryDetails.id_entrega}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

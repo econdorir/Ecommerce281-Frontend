@@ -6,6 +6,7 @@ import { LatLngExpression } from "leaflet";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import MyMapComponent from "@/components/MapComponent";
+import { API_URL } from "@/libs/constants";
 
 // Define the structure of the delivery data
 interface Delivery {
@@ -56,7 +57,9 @@ const DeliveryDetail = () => {
       if (!id) return;
 
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/pedido/${id}`);
+        const response = await fetch(
+          `${API_URL}/pedido/${id}`
+        );
         if (!response.ok) {
           throw new Error("Error al obtener los detalles de la entrega");
         }

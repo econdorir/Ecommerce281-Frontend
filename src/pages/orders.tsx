@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import OrderItem from "@/components/OrderItem";
 import Navbar from "@/components/Navbar";
+import { API_URL } from "@/libs/constants";
 
 interface Order {
   id_pedido: number;
@@ -49,14 +50,14 @@ const Orders = () => {
 
       try {
         const cartResponse = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/carrito`
+          `${API_URL}/carrito`
         );
         if (!cartResponse.ok) throw new Error("Error al obtener los carritos");
         const carts: Cart[] = await cartResponse.json();
         const userCarts = carts.filter((cart) => cart.id_usuario === userId); // Aquí no se necesita modificar
 
         const orderResponse = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/pedido`
+          `${API_URL}/pedido`
         );
         if (!orderResponse.ok) throw new Error("Error al obtener los pedidos");
         const ordersData: Order[] = await orderResponse.json();
@@ -64,7 +65,6 @@ const Orders = () => {
         const userOrders = ordersData.filter((order) => {
           return order.entrega.some((delivery) => delivery.id_cliente === userId);
         });
-        console.log("444444444");
 
         // const storedUserData: any = localStorage.getItem("userData");
         // const userData = JSON.parse(storedUserData);

@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import { useRouter } from "next/router";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { API_URL } from "@/libs/constants";
 
 interface UserData {
   id_usuario: number;
@@ -50,7 +51,7 @@ const Settings = () => {
     const fetchUserData = async () => {
       try {
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/${rol}/${userId}`
+          `${API_URL}/${rol}/${userId}`
         );
         setUserData(response.data);
       } catch (error) {
@@ -63,7 +64,7 @@ const Settings = () => {
     const fetchComunidades = async () => {
       try {
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/comunidad`
+          `${API_URL}/comunidad`
         );
         setComunidades(response.data); // Asegúrate de que la estructura sea un array
       } catch (error) {
@@ -98,7 +99,7 @@ const Settings = () => {
         };
 
         const response = await axios.patch(
-          `${process.env.NEXT_PUBLIC_API_URL}/${rol}/${userId}`,
+          `${API_URL}/${rol}/${userId}`,
           updatedData
         );
         console.log("Datos actualizados:", response.data);

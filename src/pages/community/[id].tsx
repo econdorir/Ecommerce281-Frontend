@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
+import { API_URL } from "@/libs/constants";
 
 const CommunityDetailPage: React.FC = () => {
   const router = useRouter();
@@ -15,7 +16,7 @@ const CommunityDetailPage: React.FC = () => {
       const fetchCommunity = async () => {
         try {
           const response = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/comunidad/${id}`
+            `${API_URL}/comunidad/${id}`
           );
           const data = await response.json();
           setCommunity(data);

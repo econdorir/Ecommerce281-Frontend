@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useAppContext } from "@/context";
 import { useRouter } from "next/navigation";
 import { RemoveProductFromCartService } from "../services/RemoveProductFromCartService";
+import { API_URL } from "@/libs/constants";
 
 const CartSidebar = ({ isOpen, onClose }) => {
   const { cart, setCart, setNumberOfProductsInCart } = useAppContext();
@@ -16,7 +17,7 @@ const CartSidebar = ({ isOpen, onClose }) => {
 
       //TODO hacer get del carrito del cliente con data de localstorage
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/carrito/cliente/${userData.id_usuario}`
+        `${API_URL}/carrito/cliente/${userData.id_usuario}`
       );
       const data = await response.json();
       const productsList = data.producto.map((item) => {
@@ -38,17 +39,17 @@ const CartSidebar = ({ isOpen, onClose }) => {
     const storedUserData: any = localStorage.getItem("userData");
     const userData = JSON.parse(storedUserData);
 
-  try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/carrito/producto/${userData.id_carrito}/${id_producto}`,
-      {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          // Agrega más encabezados si es necesario, como tokens de autorización
-        },
-      }
-    );
+    try {
+      const response = await fetch(
+        `${API_URL}/carrito/producto/${userData.id_carrito}/${id_producto}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            // Agrega más encabezados si es necesario, como tokens de autorización
+          },
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Error al eliminar el producto");
@@ -93,7 +94,7 @@ const CartSidebar = ({ isOpen, onClose }) => {
   
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/aniade/${userData.id_carrito}/${id_producto}`,
+        `${API_URL}/aniade/${userData.id_carrito}/${id_producto}`,
         {
           method: "PATCH",
           headers: {

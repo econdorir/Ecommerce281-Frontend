@@ -3,6 +3,7 @@ import CartItem from "@/components/CartItem";
 import Navbar from "@/components/Navbar";
 import PaymentForm from "@/components/PaymentForm";
 import { useAppContext } from "@/context";
+import { API_URL } from "@/libs/constants";
 
 const calculateShippingCost = (cart) => {
   // Calcula el peso total del carrito
@@ -45,7 +46,7 @@ const Cart = () => {
 
       //TODO hacer get del carrito del cliente con data de localstorage
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/carrito/cliente/${userData.id_usuario}`
+        `${API_URL}/carrito/cliente/${userData.id_usuario}`
       );
       const data = await response.json();
       

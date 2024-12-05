@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import { OfferSlideShow } from "@/components/OfferSlideShow";
 import axios from "axios";
 import { Vortex } from "@/components/ui/vortex";
+import { API_URL } from "@/libs/constants";
 
 // Define la interfaz para el producto
 interface Image {
@@ -42,11 +43,11 @@ const Offers: React.FC = () => {
     const fetchProducts = async () => {
       try {
         const productResponse = await axios.get<Product[]>(
-          `${process.env.NEXT_PUBLIC_API_URL}/producto/`
+          `${API_URL}/producto/`
         );
         setProducts(productResponse.data);
         const offerResponse = await axios.get<Offer[]>(
-          `${process.env.NEXT_PUBLIC_API_URL}/promocion/`
+          `${API_URL}/promocion/`
         );
         setOffers(offerResponse.data);
       } catch (err) {

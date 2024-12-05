@@ -4,7 +4,7 @@ import axios from "axios";
 
 export const RecoveryService = async (email_usuario, tipo_usuario) => {
   try {
-    const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/recovery`, {
+    const response = await axios.post(`${API_URL}/auth/recovery`, {
       email_usuario: email_usuario,
       tipo_usuario: tipo_usuario,
     });

@@ -3,6 +3,7 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import { useRouter } from "next/router";
 import axios from "axios";
+import { API_URL } from "@/libs/constants";
 import {
   FaPhone,
   FaEnvelope,
@@ -71,7 +72,7 @@ const Profile = () => {
     const fetchUserData = async () => {
       try {
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/${rol}/${userId}`
+          `{API_URL}/${rol}/${userId}`
         );
         setUserData(response.data);
       } catch (error) {
@@ -84,7 +85,7 @@ const Profile = () => {
     const fetchProducts = async () => {
       try {
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/producto`
+          `{API_URL}/producto`
         );
         setProducts(response.data);
       } catch (error) {

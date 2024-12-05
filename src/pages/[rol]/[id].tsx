@@ -12,6 +12,7 @@ import {
 } from "react-icons/fa";
 import { MdCircle, MdDirectionsCar } from "react-icons/md";
 import { API_URL } from "../../libs/constants";
+import Link from "next/link";
 
 interface UserData {
   id_usuario: number;
@@ -289,9 +290,11 @@ const Profile = () => {
                           Descripción: {product.descripcion_producto}
                         </p>
                         <p>Stock: {product.stock_producto}</p>
-                        <button className="">
-
-                        </button>
+                        <Link href={`/product/${product.id_producto}`}>
+                          <button className="bg-buttonpagecolor text-extrapagecolor2 p-2 rounded transition-colors duration-300 hover:bg-tertiarypagecolor text-center cursor-pointer">
+                            Ver detalles
+                          </button>
+                        </Link>
                       </div>
                     </div>
                   ))

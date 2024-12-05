@@ -34,7 +34,7 @@ const ProductCard = ({
         </div>
         <div className="flex-grow">
           <h2 className="text-white text-lg font-semibold truncate">{title}</h2>
-          <p className="text-white text-md mb-2">{`$${price.toFixed(2)}`}</p>
+          <p className="text-white text-md mb-2">{`Bs ${price.toFixed(2)}`}</p>
           <p className="text-gray-400 mb-2 text-sm truncate">{description}</p>
           <p className="text-extrapagecolor font-semibold text-sm">{`Stock: ${stock}`}</p>
         </div>

@@ -72,7 +72,7 @@ const Profile = () => {
     const fetchUserData = async () => {
       try {
         const response = await axios.get(
-          `{API_URL}/${rol}/${userId}`
+          `${API_URL}/${rol}/${userId}`
         );
         setUserData(response.data);
       } catch (error) {
@@ -85,7 +85,7 @@ const Profile = () => {
     const fetchProducts = async () => {
       try {
         const response = await axios.get(
-          `{API_URL}/producto`
+          `${API_URL}/producto`
         );
         setProducts(response.data);
       } catch (error) {

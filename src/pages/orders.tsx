@@ -65,7 +65,6 @@ const Orders = () => {
         const userOrders = ordersData.filter((order) => {
           return order.entrega.some((delivery) => delivery.id_cliente === userId);
         });
-        console.log("444444444");
 
         // const storedUserData: any = localStorage.getItem("userData");
         // const userData = JSON.parse(storedUserData);

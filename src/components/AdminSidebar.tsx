@@ -33,11 +33,11 @@ const items = [
     url: "/AdminPanel",
     icon: Search,
   },
-  {
-    title: "Configuración",
-    url: "#",
-    icon: Settings,
-  },
+  // {
+  //   title: "Configuración",
+  //   url: "#",
+  //   icon: Settings,
+  // },
 ];
 
 export function AdminSidebar() {

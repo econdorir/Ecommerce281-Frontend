@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/router";
 import Navbar from "@/components/Navbar";
 import confirmDelivery from "@/components/DeliveryComponent";
+import { API_URL } from "@/libs/constants";
 
 interface Comunidad {
   id_comunidad: number;
@@ -93,7 +94,7 @@ const DeliveryDetails = () => {
 
       try {
         const response = await fetch(
-          `http://localhost:5000/api/v1/entrega/${id}`
+          `${API_URL}/entrega/${id}`
         );
         if (!response.ok) {
           throw new Error("Error al obtener los detalles de la entrega");
@@ -147,7 +148,7 @@ const DeliveryDetails = () => {
     
         // Realizar el POST para actualizar el estado de la entrega y el pedido
         try {
-            const response = await fetch(`http://localhost:5000/api/v1/entrega/${deliveryDetails.id_entrega}`, {
+            const response = await fetch(`${API_URL}/entrega/${deliveryDetails.id_entrega}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
@@ -161,7 +162,7 @@ const DeliveryDetails = () => {
                 throw new Error('Error al actualizar el estado de la entrega');
             }
     
-            const response2 = await fetch(`http://localhost:5000/api/v1/pedido/${deliveryDetails.pedido.id_pedido}`, {
+            const response2 = await fetch(`${API_URL}/pedido/${deliveryDetails.pedido.id_pedido}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
@@ -211,7 +212,7 @@ const DeliveryDetails = () => {
             }
             if (deliveryDetails.delivery_confirm && !deliveryDetails.cliente_confirm){
             window.confirm("¿Deseas cancelar la confirmación de la entrega?")
-            const response = await fetch(`http://localhost:5000/api/v1/entrega/${deliveryDetails.id_entrega}`, {
+            const response = await fetch(`${API_URL}/entrega/${deliveryDetails.id_entrega}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
@@ -243,7 +244,7 @@ const DeliveryDetails = () => {
             if (!deliveryDetails.delivery_confirm){
 
                 window.confirm("¿Deseas confirmar la entrega?");
-                const response = await fetch(`http://localhost:5000/api/v1/entrega/${deliveryDetails.id_entrega}`, {
+                const response = await fetch(`${API_URL}/entrega/${deliveryDetails.id_entrega}`, {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',
@@ -296,7 +297,7 @@ const DeliveryDetails = () => {
         if (aniade.delivery_confirm && !aniade.artesano_confirm) {
           window.confirm("¿Deseas cancelar la confirmación de la entrega?");
           const response = await fetch(
-            `http://localhost:5000/api/v1/aniade/${aniade.id_aniade}`,
+            `${API_URL}/aniade/${aniade.id_aniade}`,
             {
               method: "PATCH",
               headers: {
@@ -340,7 +341,7 @@ const DeliveryDetails = () => {
 
             if (!aniade.delivery_confirm){
                 window.confirm("¿Deseas confirmar la entrega?");
-                const response = await fetch(`http://localhost:5000/api/v1/aniade/${aniade.id_aniade}`, {
+                const response = await fetch(`${API_URL}/aniade/${aniade.id_aniade}`, {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',

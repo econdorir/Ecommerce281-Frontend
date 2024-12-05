@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import OrderItem from "@/components/OrderItem";
 import Navbar from "@/components/Navbar";
+import { API_URL } from "@/libs/constants";
 
 interface Order {
   id_pedido: number;
@@ -49,14 +50,14 @@ const Orders = () => {
 
       try {
         const cartResponse = await fetch(
-          "http://localhost:5000/api/v1/carrito"
+          `${API_URL}/carrito`
         );
         if (!cartResponse.ok) throw new Error("Error al obtener los carritos");
         const carts: Cart[] = await cartResponse.json();
         const userCarts = carts.filter((cart) => cart.id_usuario === userId); // Aquí no se necesita modificar
 
         const orderResponse = await fetch(
-          "http://localhost:5000/api/v1/pedido"
+          `${API_URL}/pedido`
         );
         if (!orderResponse.ok) throw new Error("Error al obtener los pedidos");
         const ordersData: Order[] = await orderResponse.json();

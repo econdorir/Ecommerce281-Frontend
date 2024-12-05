@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Link from "next/link";
 import { AuroraBackground } from "@/components/ui/aurora-background";
+import { API_URL } from "@/libs/constants";
 
 // Define the type for a community
 interface Municipio {
@@ -46,7 +47,7 @@ const CommunitiesPage: React.FC = () => {
   // Function to fetch community data
   const fetchCommunities = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/v1/comunidad");
+      const response = await fetch(`${API_URL}/comunidad`);
       const data = await response.json();
       setCommunities(data);
     } catch (error) {

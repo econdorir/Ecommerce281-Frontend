@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import DataTable from "@/components/DataTable";
 import { AdminSidebar } from "@/components/AdminSidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
+import { API_URL } from "@/libs/constants";
 
 interface Item {
   id_usuario?: number; // for clientes
@@ -10,13 +11,13 @@ interface Item {
 }
 
 const endpoints = {
-  clientes: "http://localhost:5000/api/v1/cliente",
-  artesanos: "http://localhost:5000/api/v1/artesano",
-  productos: "http://localhost:5000/api/v1/producto",
-  reseñas: "http://localhost:5000/api/v1/resenia",
-  comunidades: "http://localhost:5000/api/v1/comunidad",
-  deliverys: "http://localhost:5000/api/v1/delivery",
-  promociones: "http://localhost:5000/api/v1/promocion"
+  clientes: `${API_URL}/cliente`,
+  artesanos: `${API_URL}/artesano`,
+  productos: `${API_URL}/producto`,
+  reseñas: `${API_URL}/resenia`,
+  comunidades: `${API_URL}/comunidad`,
+  deliverys: `${API_URL}/delivery`,
+  promociones: `${API_URL}/promocion`
 };
 /*DEPLOY TODO, CAMBIAR ESTO AL BACKEND DE DEPLOY*/
 const idAccessors = {

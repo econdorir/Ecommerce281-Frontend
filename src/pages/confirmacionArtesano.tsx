@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
 import { Product } from "../types/types";
 import Swal from "sweetalert2";
+import { API_URL } from "@/libs/constants";
+
 
 interface Pedido {
   id_pedido: number;
@@ -57,7 +59,7 @@ const ConfirmacionArtesano = () => {
     const fetchData = async () => {
       try {
         const productsResponse = await fetch(
-          "http://localhost:5000/api/v1/producto/"
+          `${API_URL}/producto/`
         );
         const productsData = await productsResponse.json();
         const userProducts = productsData.filter(
@@ -66,13 +68,13 @@ const ConfirmacionArtesano = () => {
         setProducts(userProducts);
 
         const pedidosResponse = await fetch(
-          "http://localhost:5000/api/v1/pedido/"
+          `${API_URL}/pedido/`
         );
         const pedidosData = await pedidosResponse.json();
         setOrders(pedidosData);
 
         const aniadeResponse = await fetch(
-          "http://localhost:5000/api/v1/aniade/"
+          `${API_URL}/aniade/`
         );
         const aniadeData = await aniadeResponse.json();
         const filteredAniade = aniadeData.filter((aniade: Aniade) =>
@@ -86,7 +88,7 @@ const ConfirmacionArtesano = () => {
         setAniade(filteredAniade2);
 
         const deliveriesResponse = await fetch(
-          "http://localhost:5000/api/v1/delivery/"
+          `${API_URL}/delivery/`
         );
         const deliveriesData = await deliveriesResponse.json();
         setDeliveries(deliveriesData);
@@ -119,7 +121,7 @@ const ConfirmacionArtesano = () => {
 
     if (confirmed.isConfirmed) {
       try {
-        const response = await fetch(`http://localhost:5000/api/v1/aniade/${idAniade}`, {
+        const response = await fetch(`${API_URL}/aniade/${idAniade}`, {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
@@ -168,7 +170,7 @@ const ConfirmacionArtesano = () => {
 
     if (canceled.isConfirmed) {
       try {
-        const response = await fetch(`http://localhost:5000/api/v1/aniade/${idAniade}`, {
+        const response = await fetch(`${API_URL}/aniade/${idAniade}`, {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",

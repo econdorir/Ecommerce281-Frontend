@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import { LoginService } from "@/services/LoginService";
 import { useAppContext } from "@/context";
+import { API_URL } from "@/libs/constants";
 
 const VerifyAccount = () => {
   const router = useRouter();
@@ -44,7 +45,7 @@ const VerifyAccount = () => {
 
   const verifyToken = async (token) => {
     try {
-      const res = await axios.post("http://localhost:5000/api/v1/auth/login", {
+      const res = await axios.post(`${API_URL}/auth/login`, {
         token,
       });
 

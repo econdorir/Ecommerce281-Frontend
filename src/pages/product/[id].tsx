@@ -17,7 +17,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import Image from "next/image";
-
+import { API_URL } from "@/libs/constants";
 
 const ProductDetail = ({ product, resenia, clientes, promociones }) => {
   const router = useRouter();
@@ -36,7 +36,7 @@ const ProductDetail = ({ product, resenia, clientes, promociones }) => {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/v1/resenia");
+        const response = await fetch(`${API_URL}/resenia`);
         if (!response.ok) {
           throw new Error("Error al cargar las reseñas");
         }
@@ -343,18 +343,18 @@ const ProductDetail = ({ product, resenia, clientes, promociones }) => {
 export const getServerSideProps = async (context) => {
   const { id } = context.params;
   const productResponse = await fetch(
-    `http://localhost:5000/api/v1/producto/${id}`
+    `${API_URL}/producto/${id}`
   );
   const product = await productResponse.json();
 
-  const reseniaResponse = await fetch(`http://localhost:5000/api/v1/resenia`);
+  const reseniaResponse = await fetch(`${API_URL}/resenia`);
   const resenia = await reseniaResponse.json();
 
-  const clienteResponse = await fetch(`http://localhost:5000/api/v1/cliente`);
+  const clienteResponse = await fetch(`${API_URL}/cliente`);
   const clientes = await clienteResponse.json();
 
   const promocionResponse = await fetch(
-    `http://localhost:5000/api/v1/promocion`
+    `${API_URL}/promocion`
   );
   const promociones = await promocionResponse.json();
 

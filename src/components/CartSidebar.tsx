@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useAppContext } from "@/context";
 import { useRouter } from "next/navigation";
 import { RemoveProductFromCartService } from "../services/RemoveProductFromCartService";
+import { API_URL } from "@/libs/constants";
 
 const CartSidebar = ({ isOpen, onClose }) => {
   const { cart, setCart, setNumberOfProductsInCart } = useAppContext();
@@ -16,7 +17,7 @@ const CartSidebar = ({ isOpen, onClose }) => {
 
       //TODO hacer get del carrito del cliente con data de localstorage
       const response = await fetch(
-        `http://localhost:5000/api/v1/carrito/cliente/${userData.id_usuario}`
+        `${API_URL}/carrito/cliente/${userData.id_usuario}`
       );
       const data = await response.json();
       const productsList = data.producto.map((item) => {
@@ -40,7 +41,7 @@ const CartSidebar = ({ isOpen, onClose }) => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/v1/carrito/producto/${userData.id_carrito}/${id_producto}`,
+        `${API_URL}/carrito/producto/${userData.id_carrito}/${id_producto}`,
         {
           method: "DELETE",
           headers: {
@@ -93,7 +94,7 @@ const CartSidebar = ({ isOpen, onClose }) => {
   
     try {
       const response = await fetch(
-        `http://localhost:5000/api/v1/aniade/${userData.id_carrito}/${id_producto}`,
+        `${API_URL}/aniade/${userData.id_carrito}/${id_producto}`,
         {
           method: "PATCH",
           headers: {

@@ -3,7 +3,7 @@ import { API_URL } from '../libs/constants';
 
 export const createProduct = async (formData: FormData) => {
     try {
-        const response = await axios.post('http://localhost:5000/api/products', formData, {
+        const response = await axios.post(`${API_URL}/products`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data', // Opcional: axios maneja esto automáticamente
             },
@@ -18,7 +18,7 @@ export const createProduct = async (formData: FormData) => {
 // Función para actualizar un producto
 export const updateProduct = async (productId: string, formData: FormData) => {
     try {
-        const response = await fetch(`${'http://localhost:5000/api/products'}/${productId}`, {
+        const response = await fetch(`${API_URL}/products/${productId}`, {
             method: "PUT",
             body: formData, // Usar formData directamente sin cabecera de Content-Type
         });

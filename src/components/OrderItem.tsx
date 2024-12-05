@@ -2,6 +2,7 @@ import Link from 'next/link';
 import React, { useEffect,useState } from 'react';
 import { useRouter } from "next/router";
 import Swal from "sweetalert2";
+import { API_URL } from '@/libs/constants';
 
 // Definimos la interfaz para los contactos de delivery
 interface DeliveryContact {
@@ -84,7 +85,7 @@ const OrderItem = ({ order, orderNumber }) => {
             if (!id) return;
 
             try {
-                const response = await fetch(`http://localhost:5000/api/v1/entrega/${id}`);
+                const response = await fetch(`${API_URL}/entrega/${id}`);
                 if (!response.ok) {
                     throw new Error("Error al obtener los detalles de la entrega");
                 }
@@ -104,7 +105,7 @@ const OrderItem = ({ order, orderNumber }) => {
     }, [id]);
     const fetchDeliveryContacts = async () => {
         try {
-            const response = await fetch(`http://localhost:5000/api/v1/pedido/${order.id}`);
+            const response = await fetch(`${API_URL}/pedido/${order.id}`);
             if (!response.ok) {
                 throw new Error('Error al obtener contactos del delivery');
             }
@@ -147,7 +148,7 @@ const OrderItem = ({ order, orderNumber }) => {
             }
             if (!deliveryDetails.delivery_confirm && deliveryDetails.cliente_confirm){
             window.confirm("¿Deseas cancelar la confirmación de la entrega?")
-            const response = await fetch(`http://localhost:5000/api/v1/entrega/${deliveryDetails.id_entrega}`, {
+            const response = await fetch(`${API_URL}/entrega/${deliveryDetails.id_entrega}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
@@ -178,7 +179,7 @@ const OrderItem = ({ order, orderNumber }) => {
 
             if (!deliveryDetails.cliente_confirm){
                 window.confirm("¿Deseas confirmar la entrega?");
-                const response = await fetch(`http://localhost:5000/api/v1/entrega/${deliveryDetails.id_entrega}`, {
+                const response = await fetch(`${API_URL}/entrega/${deliveryDetails.id_entrega}`, {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',
@@ -193,7 +194,7 @@ const OrderItem = ({ order, orderNumber }) => {
                     throw new Error("Error al confirmar la entrega");
                 }
                 if(deliveryDetails.cliente_confirm){
-                    const response = await fetch(`http://localhost:5000/api/v1/entrega/${deliveryDetails.id_entrega}`, {
+                    const response = await fetch(`${API_URL}/entrega/${deliveryDetails.id_entrega}`, {
                         method: 'PATCH',
                         headers: {
                             'Content-Type': 'application/json',
@@ -202,7 +203,7 @@ const OrderItem = ({ order, orderNumber }) => {
                             estado_entrega: "Entregado"
                         }),
                     });
-                    const response2 = await fetch(`http://localhost:5000/api/v1/pedido/${deliveryDetails.pedido.id_pedido}`, {
+                    const response2 = await fetch(`${API_URL}/pedido/${deliveryDetails.pedido.id_pedido}`, {
                         method: 'PATCH',
                         headers: {
                             'Content-Type': 'application/json',

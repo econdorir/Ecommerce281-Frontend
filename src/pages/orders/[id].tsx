@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Navbar from "@/components/Navbar";
+import { API_URL } from "@/libs/constants";
 
 interface Producto {
     id_producto: number;
@@ -36,7 +37,7 @@ const OrderDetails = () => {
             if (!id) return;
 
             try {
-                const response = await fetch(`http://localhost:5000/api/v1/pedido/${id}`);
+                const response = await fetch(`${API_URL}/pedido/${id}`);
                 if (!response.ok) {
                     throw new Error("Error al obtener los detalles del pedido");
                 }
@@ -71,7 +72,7 @@ const OrderDetails = () => {
         };
 
         try {
-            const response = await fetch("http://localhost:5000/api/v1/resenia", {
+            const response = await fetch(`${API_URL}/resenia`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

@@ -19,7 +19,7 @@ const ProductCard = ({
 
   return (
     <CardContainer className="w-full max-w-sm">
-      <CardBody className="w-full max-w-sm mx-auto bg-gray-800 rounded-lg p-4 mb-6 h-[350px] flex flex-col sm:mx-2 md:mx-2 lg:mx-auto px-4 transition-all transform hover:scale-105">
+      <CardBody className="w-full max-w-sm mx-auto bg-[#000] rounded-lg p-4 mb-6 h-[350px] flex flex-col sm:mx-2 md:mx-2 lg:mx-auto px-4 transition-all transform hover:scale-105">
         <div className="relative block flex-shrink-0 mb-4">
           <CardItem translateZ="50"  translateY={-5} className="w-full">
             <Image

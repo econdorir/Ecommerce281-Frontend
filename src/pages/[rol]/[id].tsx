@@ -12,6 +12,7 @@ import {
 } from "react-icons/fa";
 import { MdCircle, MdDirectionsCar } from "react-icons/md";
 import { API_URL } from "../../libs/constants";
+import Link from "next/link";
 
 interface UserData {
   id_usuario: number;
@@ -170,7 +171,7 @@ const Profile = () => {
               </div>
   
               <div className="mt-4 flex items-center justify-between">
-                <h1 className="text-xl font-light font-mono uppercase tracking-widest">
+                <h1 className="text-xl font-light font-mono uppercase tracking-widest text-white">
                   Calificación
                 </h1>
                 <div className="flex items-center text-xl text-right capitalize">
@@ -280,7 +281,7 @@ const Profile = () => {
                           className="w-32 h-32 object-cover rounded-lg mr-4"
                         />
                       )}
-                      <div>
+                      <div className="text-white">
                         <h2 className="text-lg font-semibold">
                           {product.nombre_producto}
                         </h2>
@@ -289,6 +290,11 @@ const Profile = () => {
                           Descripción: {product.descripcion_producto}
                         </p>
                         <p>Stock: {product.stock_producto}</p>
+                        <Link href={`/product/${product.id_producto}`}>
+                          <button className="bg-buttonpagecolor text-extrapagecolor2 p-2 rounded transition-colors duration-300 hover:bg-tertiarypagecolor text-center cursor-pointer">
+                            Ver detalles
+                          </button>
+                        </Link>
                       </div>
                     </div>
                   ))

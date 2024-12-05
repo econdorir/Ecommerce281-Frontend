@@ -8,7 +8,7 @@ import { AddToCartService } from "../services/AddToCartService";
 import { Image, Product } from "../types/types";
 import Footer from "@/components/Footer";
 import { CardBody, CardContainer, CardItem } from "../components/ui/3d-card";
-
+import { API_URL } from "@/libs/constants";
 
 const ProductPage: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -20,7 +20,7 @@ const ProductPage: React.FC = () => {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const response = await fetch("http://localhost:5000/api/v1/producto");
+      const response = await fetch(`${API_URL}/producto`);
       const data: Product[] = await response.json();
       console.log(data); // Check the structure here
       setProducts(data);

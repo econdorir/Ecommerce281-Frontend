@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useAppContext } from "@/context";
 import { useRouter } from "next/navigation";
+import { API_URL } from "@/libs/constants";
 
 const CartItem = ({ item }) => {
   const { cart, setCart, setNumberOfProductsInCart } = useAppContext();
@@ -12,7 +13,7 @@ const CartItem = ({ item }) => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/v1/carrito/producto/${userData.id_carrito}/${id_producto}`,
+        `${API_URL}/carrito/producto/${userData.id_carrito}/${id_producto}`,
         {
           method: "DELETE",
           headers: {
@@ -68,7 +69,7 @@ const CartItem = ({ item }) => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/v1/aniade/${userData.id_carrito}/${id_producto}`,
+        `${API_URL}/aniade/${userData.id_carrito}/${id_producto}`,
         {
           method: "PATCH",
           headers: {

@@ -45,12 +45,14 @@ export default function SignupForm() {
         currentDate,
         cellphone
       );
-      setIsLoggedIn(true);
+      setIsLoggedIn(false);
       setUsername(result.nombre_usuario);
       setEmail(result.email_usuario);
       setPassword(result.password_usuario);
       setCellphone(result.cellphone);
       console.log(result)
+      setIsLoggedIn(false);
+      
       router.push("/verification-sent");
 
     } catch (error) {

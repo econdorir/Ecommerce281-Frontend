@@ -70,7 +70,6 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       setUsername(userData.nombre_usuario);
       setEmail(userData.email);
       setRole(userData.tipo_usuario);
-      setIsLoggedIn(true);
     }
   }, []);
   

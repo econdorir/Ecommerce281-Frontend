@@ -15,7 +15,22 @@ const ProductCard = ({
   id,
 }) => {
   // Llamada al contexto dentro del componente
-  const { isLoggedIn, role } = useAppContext();
+  const { cart, setCart, isLoggedIn, role } = useAppContext();
+
+  // Función para manejar la adición al carrito con control de stock
+  const handleAddToCart = () => {
+    const existingItem = cart.find((item) => item.id_producto === id);
+    
+    // Verificar si ya hay unidades en el carrito y si no supera el stock
+    const quantityInCart = existingItem ? existingItem.cantidad : 0;
+    
+    if (quantityInCart < stock) {
+      // Llamar a la función onAddToCart solo si hay stock disponible
+      onAddToCart();
+    } else {
+      alert("No hay suficiente stock disponible.");
+    }
+  };
 
   return (
     <CardContainer className="w-full max-w-sm">
@@ -44,7 +59,7 @@ const ProductCard = ({
             {isLoggedIn &&
               role === "cliente" && ( // Condición para mostrar el botón
                 <button
-                  onClick={onAddToCart}
+                  onClick={handleAddToCart}
                   className="bg-buttonpagecolor text-white p-2 rounded transition-colors duration-300 hover:bg-tertiarypagecolor cursor-pointer"
                 >
                   Agregar al carrito

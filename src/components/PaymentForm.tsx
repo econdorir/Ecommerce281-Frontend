@@ -30,7 +30,9 @@ const PaymentForm = ({ onClose, cartItems, totalPrice }) => {
       estado_pedido: "Pendiente",
       monto_pago: parseInt(totalAmount),
       tipo_de_pedido: "rapido",
+      items: cartItems // Aquí agregamos los productos del carrito
     };
+    
 
     try {
       await createOrder(orderData);

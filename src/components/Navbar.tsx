@@ -127,7 +127,10 @@ const Navbar = () => {
         return (
           <>
             <div>
-              <Link className="text-buttonpagecolor" href="/profile">Perfil (Mis productos)</Link>
+              <Link className="text-buttonpagecolor" href="/profile">Perfil</Link>
+            </div>
+            <div>
+              <Link className="text-buttonpagecolor" href="/remove-product">Mis productos</Link>
             </div>
             <div>
               <Link className="text-buttonpagecolor" href="/productForm">Añadir Producto</Link>
@@ -289,7 +292,10 @@ const Navbar = () => {
                   {role === "artesano" && (
                     <>
                       <div>
-                        <Link className="text-buttonpagecolor" href="/profile">Perfil (Mis productos)</Link>
+                        <Link className="text-buttonpagecolor" href="/profile">Perfil</Link>
+                      </div>
+                      <div>
+                        <Link className="text-buttonpagecolor" href="/remove-product">Mis productos</Link>
                       </div>
                       <div>
                         <Link className="text-buttonpagecolor" href="/productForm">Añadir Producto</Link>

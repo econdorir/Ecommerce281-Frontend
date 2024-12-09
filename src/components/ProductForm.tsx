@@ -75,8 +75,6 @@ export default function ProductForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    console.log("primero:", JSON.stringify(formData));
-    
     try {
       const urls: string[] = []; // Arreglo temporal para almacenar URLs
 
@@ -103,9 +101,9 @@ export default function ProductForm() {
       const updatedFormData = {
         ...formData,
         images: {
-          image1: urls[0] || undefined,
-          image2: urls[1] || undefined,
-          image3: urls[2] || undefined,
+          image1: imageUrls[0] || undefined,
+          image2: imageUrls[1] || undefined,
+          image3: imageUrls[2] || undefined,
         },
         envio_gratuito: freeShipping ? 1 : 0,
       };
@@ -142,6 +140,23 @@ export default function ProductForm() {
       images: {},
     });
     setSelectedFiles([]);
+  };
+
+  const handleUpload = (result) => {
+    // La respuesta de la carga contiene la URL de la imagen en `result.info.secure_url`
+    console.log("result of upload", result);
+    const uploadedImageUrl = result.info.secure_url;
+
+    // Use the functional form of setImageUrls to correctly update the state
+    setImageUrls((prevImageUrls) => {
+      const updatedImageUrls = [...prevImageUrls, uploadedImageUrl];
+      console.log("Updated Image URLs:", updatedImageUrls);
+      return updatedImageUrls;
+    });
+
+    console.log("the state :o",imageUrls);
+    
+    console.log("Image uploaded successfully. URL:", uploadedImageUrl);
   };
 
   return (
@@ -272,7 +287,7 @@ export default function ProductForm() {
         </div>
       </div>
 
-      <div className="mb-4">
+      {/* <div className="mb-4">
         <label className="block text-white">Imágenes</label>
         <input
           type="file"
@@ -304,9 +319,9 @@ export default function ProductForm() {
             </div>
           </div>
         )}
-      </div>
+      </div> */}
 
-      {/* <CldUploadWidget
+      <CldUploadWidget
         options={{ sources: ["local", "url", "camera"] }}
         uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_PRESET_NAME}
         onSuccess={handleUpload}
@@ -316,12 +331,13 @@ export default function ProductForm() {
             <button
               className="bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 transition duration-200"
               onClick={() => open()}
+              type="button"
             >
               Elegir Archivos
             </button>
           );
         }}
-      </CldUploadWidget> */}
+      </CldUploadWidget>
 
       {/* Etiquetas */}
       {/* <div className="mb-4">

@@ -179,8 +179,8 @@ interface Image {
     return (
         <>
           <Navbar />
-          <div className="h-screen flex flex-col items-center justify-center my-52 pt-8 font-mono">
-            <div className="bg-buttonpagecolor2 shadow-lg rounded-lg p-6 w-full sm:w-4/5">
+          <div className="h-auto flex flex-col items-center justify-center my-28 pt-8 font-mono">
+            <div className=" bg-buttonpagecolor2 max-w-[628px] shadow-lg rounded-lg p-6 w-full sm:w-4/5">
               {userRol === "artesano" && (
                 <>
                   <h1 className="text-white text-2xl font-light font-mono text-center uppercase tracking-widest">
@@ -193,17 +193,17 @@ interface Image {
                         .map((product) => (
                           <div
                             key={product.id_producto}
-                            className="border p-4 mb-2 flex justify-between items-center"
+                            className="flex flex-col border p-4 mb-2 justify-between items-center"
                           >
-                            <div className="flex items-center">
+                            <div className="flex flex-col items-center">
                               {product.imagen.length > 0 && (
                                 <img
                                   src={product.imagen[0].url_imagen}
                                   alt={product.nombre_producto}
-                                  className="w-32 h-32 object-cover rounded-lg mr-4"
+                                  className="w-32 h-32 my-5 object-cover rounded-lg mr-4"
                                 />
                               )}
-                              <div className="text-white">
+                              <div className="text-white my-5">
                                 <h2 className="text-lg font-semibold">{product.nombre_producto}</h2>
                                 <p>Precio: ${product.precio_producto}</p>
                                 <p>Descripción: {product.descripcion_producto}</p>

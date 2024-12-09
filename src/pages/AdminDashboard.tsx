@@ -12,10 +12,10 @@ import { BarChartProductsComponent } from "@/components/BarChartProducts";
 
 const AdminPanel = () => {
   return (
-    <SidebarProvider>
+    <SidebarProvider className="bg-black">
       <AdminSidebar />
       {/* Grid Container */}
-      <div className="px-10 mt-10 mb-10">
+      <div className="px-10 mt-10 mb-10 h-full bg-black">
         <h1 className="font-bold ">Dashboard</h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 grid-areas">
           {/* AreaChartComponent should be the largest */}

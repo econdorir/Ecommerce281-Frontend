@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import OrderItem from "@/components/OrderItem";
 import Navbar from "@/components/Navbar";
+import { API_URL } from "@/libs/constants";
 
 interface Order {
   id_pedido: number;
@@ -49,14 +50,14 @@ const Orders = () => {
 
       try {
         const cartResponse = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/carrito`
+          `${API_URL}/carrito`
         );
         if (!cartResponse.ok) throw new Error("Error al obtener los carritos");
         const carts: Cart[] = await cartResponse.json();
         const userCarts = carts.filter((cart) => cart.id_usuario === userId); // Aquí no se necesita modificar
 
         const orderResponse = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/pedido`
+          `${API_URL}/pedido`
         );
         if (!orderResponse.ok) throw new Error("Error al obtener los pedidos");
         const ordersData: Order[] = await orderResponse.json();
@@ -64,7 +65,6 @@ const Orders = () => {
         const userOrders = ordersData.filter((order) => {
           return order.entrega.some((delivery) => delivery.id_cliente === userId);
         });
-        console.log("444444444");
 
         // const storedUserData: any = localStorage.getItem("userData");
         // const userData = JSON.parse(storedUserData);
@@ -86,8 +86,8 @@ const Orders = () => {
     <>
       <Navbar />
       <div className="max-w-2xl w-3/4 mx-auto mt-10 p-4 pt-28">
-        <h1 className="text-2xl font-bold mb-4 text-center">Mis Pedidos</h1>
-        <div className="bg-white shadow-md rounded-lg p-4">
+        <h1 className="text-2xl font-bold mb-4 text-center text-buttonpagecolor">Mis Pedidos</h1>
+        <div className="bg-buttonpagecolor2 shadow-md rounded-lg p-4">
           {loading ? (
             <p className="text-center text-gray-600">Cargando...</p>
           ) : error ? (

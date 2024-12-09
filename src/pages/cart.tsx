@@ -3,6 +3,7 @@ import CartItem from "@/components/CartItem";
 import Navbar from "@/components/Navbar";
 import PaymentForm from "@/components/PaymentForm";
 import { useAppContext } from "@/context";
+import { API_URL } from "@/libs/constants";
 
 const calculateShippingCost = (cart) => {
   // Calcula el peso total del carrito
@@ -45,7 +46,7 @@ const Cart = () => {
 
       //TODO hacer get del carrito del cliente con data de localstorage
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/carrito/cliente/${userData.id_usuario}`
+        `${API_URL}/carrito/cliente/${userData.id_usuario}`
       );
       const data = await response.json();
       
@@ -79,7 +80,7 @@ const Cart = () => {
       <Navbar />
       <div className="max-w-2xl w-3/4 mx-auto mt-10 p-4 pt-28">
         <h1 className="text-2xl font-bold mb-4">Carrito de Compras</h1>
-        <div className="bg-white shadow-md rounded-lg p-4">
+        <div className="bg-buttonpagecolor2 shadow-md rounded-lg p-4 text-white">
           {loading ? (
             <p className="text-center text-gray-600">Cargando...</p>
           ) : cart.length === 0 ? (
@@ -101,7 +102,7 @@ const Cart = () => {
           </div>
           <button
             onClick={() => setShowPaymentForm(true)}
-            className="mt-4 w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
+            className="mt-4 w-full bg-buttonpagecolor text-white py-2 rounded hover:bg-bgpagecolor hover:text-buttonpagecolor2"
           >
             Finalizar Compra
           </button>

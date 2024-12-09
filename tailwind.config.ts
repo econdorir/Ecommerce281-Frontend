@@ -28,6 +28,12 @@ const config: Config = {
         sm: "calc(var(--radius) - 4px)",
       },
       colors: {
+        buttonpagecolor: "#fb923c",
+        tertiarypagecolor: "#ffbf69",
+        buttonpagecolor2: "#1f2937",
+        extrapagecolor: "#5eead4",
+        extrapagecolor2: "#cbf3f0",
+        bgpagecolor: "#ffffff",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {

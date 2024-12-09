@@ -33,17 +33,17 @@ const items = [
     url: "/AdminPanel",
     icon: Search,
   },
-  {
-    title: "Configuración",
-    url: "#",
-    icon: Settings,
-  },
+  // {
+  //   title: "Configuración",
+  //   url: "#",
+  //   icon: Settings,
+  // },
 ];
 
 export function AdminSidebar() {
   return (
     <Sidebar>
-      <SidebarContent>
+      <SidebarContent className="bg-buttonpagecolor2">
         <SidebarGroup>
           <SidebarGroupLabel>Application</SidebarGroupLabel>
           <SidebarGroupContent>

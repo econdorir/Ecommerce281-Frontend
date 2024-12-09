@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import DeliveryItem from "@/components/DeliveryItem";
 import Navbar from "@/components/Navbar";
+import Link from 'next/link';
+import { API_URL } from "@/libs/constants";
 
 // Define la interfaz para las entregas y pedidos
 
@@ -112,7 +114,7 @@ const Deliveries = () => {
       }
 
       try {
-        const deliveryResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/entrega/`);
+        const deliveryResponse = await fetch(`${API_URL}/entrega/`);
         if (!deliveryResponse.ok) {
           throw new Error("Error al obtener las entregas");
         }
@@ -142,7 +144,7 @@ const Deliveries = () => {
       }
 
       try {
-        const deliveryResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/entrega/`);
+        const deliveryResponse = await fetch(`${API_URL}/entrega/`);
         if (!deliveryResponse.ok) {
           throw new Error("Error al obtener las entregas");
         }
@@ -160,13 +162,13 @@ const Deliveries = () => {
 
     const fetchOrders = async () => {
       try {
-        const orderResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/pedido`);
+        const orderResponse = await fetch(`${API_URL}/pedido`);
         if (!orderResponse.ok) {
           throw new Error("Error al obtener los pedidos");
         }
 
         const ordersData: Order[] = await orderResponse.json();
-        const pendingOrders = ordersData.filter(order => order.estado_pedido === "pendiente");
+        const pendingOrders = ordersData.filter(order => order.estado_pedido === "Pendiente");
 
         setOrders(pendingOrders);
       } catch (error: any) {
@@ -192,7 +194,7 @@ const Deliveries = () => {
     console.log(deliveryToUpdate);
   
     if (deliveryToUpdate) {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/entrega/${deliveryToUpdate.id_entrega}`, {
+      const response = await fetch(`${API_URL}/entrega/${deliveryToUpdate.id_entrega}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -243,7 +245,7 @@ const Deliveries = () => {
       <Navbar />
       <div className="max-w-2xl w-3/4 mx-auto mt-10 p-4 pt-28">
         <h1 className="text-2xl font-bold mb-4 text-center">Mis Entregas</h1>
-        <div className="bg-white shadow-md rounded-lg p-4 mb-6">
+        <div className="bg-buttonpagecolor2 shadow-md rounded-lg p-4 mb-6">
           {loadingDeliveries ? (
             <p className="text-center text-gray-600">Cargando entregas...</p>
           ) : error ? (
@@ -258,6 +260,7 @@ const Deliveries = () => {
                   id: delivery.id_entrega,
                   estado: delivery.estado_entrega,
                   fecha_entrega: delivery.fecha_entrega,
+                  pedido: delivery.pedido,
                 }}
                 deliveryNumber={index + 1}
               />
@@ -289,6 +292,9 @@ const Deliveries = () => {
                     >
                       Añadir Pedido
                     </button>
+                    <Link href={`/deliveriesDelivery/${order.entrega[0].id_entrega}`}>
+                      <button className="bg-green-500 text-white px-3 py-1 rounded">Ver Detalles</button>
+                    </Link>
                   </div>
                 );
               }

@@ -45,16 +45,26 @@ export default function SignupForm() {
         currentDate,
         cellphone
       );
-      setIsLoggedIn(true);
+      setIsLoggedIn(false);
       setUsername(result.nombre_usuario);
       setEmail(result.email_usuario);
       setPassword(result.password_usuario);
       setCellphone(result.cellphone);
       console.log(result)
+      setIsLoggedIn(false);
+      
       router.push("/verification-sent");
 
     } catch (error) {
       console.error("Error during registration:", error);
+    
+      // Verifica si el error tiene una propiedad 'response' (por ejemplo, un error de la API)
+      if (error.response && error.response.data && error.response.data.message) {
+        setError(error.response.data.message); // Asigna el mensaje de error desde la respuesta de la API
+      } else {
+        // Si no hay mensaje en el error, se asigna un mensaje genérico
+        setError("Ocurrió un error inesperado. Por favor, inténtalo de nuevo.");
+      }
     }
   };
   return (
@@ -243,9 +253,44 @@ export default function SignupForm() {
           >
             Crear Cuenta
           </button>
-          {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+          {error && (
+            <div
+              className="error-message"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                color: "#fff",
+                backgroundColor: "#ff4d4d", // Fondo rojo suave
+                padding: "15px",
+                borderRadius: "8px",
+                boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+                fontWeight: "bold",
+                fontSize: "16px",
+                margin: "20px 0",
+                maxWidth: "400px",
+                marginLeft: "auto",
+                marginRight: "auto",
+              }}
+            >
+              <span style={{ marginRight: "10px", fontSize: "20px", lineHeight: "1" }}>⚠️</span>
+              <span>{error}</span>
+              <button
+                onClick={() => setError("")} // Limpia el error al hacer clic
+                style={{
+                  background: "transparent",
+                  border: "none",
+                  color: "#fff",
+                  fontSize: "18px",
+                  cursor: "pointer",
+                  marginLeft: "10px",
+                }}
+              >
+                ✖️
+              </button>
+            </div>
+          )}
         </form>
-
         <p className="text-sm text-gray-700 mt-4">
           Ya tienes una cuenta{" "}
           <a href="/login" className="text-orange-400 hover:underline">

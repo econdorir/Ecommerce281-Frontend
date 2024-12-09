@@ -2,6 +2,8 @@
 import React from "react";
 import Link from "next/link";
 import { useAppContext } from "@/context";
+import { CardBody, CardContainer, CardItem } from "../components/ui/3d-card";
+import Image from "next/image";
 
 const ProductCard = ({
   title,
@@ -13,40 +15,67 @@ const ProductCard = ({
   id,
 }) => {
   // Llamada al contexto dentro del componente
-  const { isLoggedIn, role } = useAppContext();
+  const { cart, setCart, isLoggedIn, role } = useAppContext();
+
+  // Función para manejar la adición al carrito con control de stock
+  const handleAddToCart = () => {
+    const existingItem = cart.find((item) => item.id_producto === id);
+    
+    // Verificar si ya hay unidades en el carrito y si no supera el stock
+    const quantityInCart = existingItem ? existingItem.cantidad : 0;
+    
+    if (quantityInCart < stock) {
+      // Llamar a la función onAddToCart solo si hay stock disponible
+      onAddToCart();
+    } else {
+      alert("No hay suficiente stock disponible.");
+    }
+  };
 
   return (
-    <div className="tilt-card max-w-72 mx-auto bg-gray-800 rounded-lg p-6 mb-4 h-[400px] flex flex-col sm:mx-1 md:mx-1 lg:mx-auto">
-      <div className="relative block flex-shrink-0 mb-4">
-        <img
-          className="w-full h-32 object-cover rounded-lg"
-          src={imageUrl}
-          alt={title}
-        />
-        <div className="absolute inset-0 rounded-lg bg-cyan-500 bg-opacity-30 transition-opacity duration-300 opacity-0 hover:opacity-100"></div>
-      </div>
-      <div className="flex-grow">
-        <h1 className="text-white text-xl font-semibold truncate">{title}</h1>
-        <p className="text-white text-lg mb-2">{`$${price.toFixed(2)}`}</p>
-        <p className="text-gray-400 mb-2 truncate">{description}</p>
-        <p className="text-green-400 font-semibold">{`Stock: ${stock}`}</p>
-      </div>
-      <div className="flex justify-evenly">
-        {isLoggedIn && role === "cliente" && ( // Condición para mostrar el botón
-          <button
-            onClick={onAddToCart}
-            className="bg-cyan-500 text-white py-2 px-1 rounded transition-colors duration-300 hover:bg-cyan-600"
-          >
-            Agregar al carrito
-          </button>
-        )}
-        <Link href={`/product/${id}`}>
-          <button className="bg-cyan-500 text-white py-2 px-1 rounded transition-colors duration-300 hover:bg-cyan-600">
-            Ver detalles
-          </button>
-        </Link>
-      </div>
-    </div>
+    <CardContainer className="w-full max-w-sm">
+      <CardBody className="w-full max-w-sm mx-auto bg-[#000] rounded-lg p-4 mb-6 h-[350px] flex flex-col sm:mx-2 md:mx-2 lg:mx-auto px-4 transition-all transform hover:scale-105">
+        <div className="relative block flex-shrink-0 mb-4">
+          <CardItem translateZ="50"  translateY={-5} className="w-full">
+            <Image
+              className="w-full h-36 object-cover rounded-lg"
+              height="1000"
+              width="1000"
+              src={imageUrl && imageUrl !== "" ? imageUrl : "https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg"}
+              alt={title}
+            />
+          </CardItem>
+          <div className="absolute inset-0 rounded-lg bg-cyan-500 bg-opacity-30 transition-opacity duration-300 opacity-0 hover:opacity-100"></div>
+        </div>
+        <div className="flex-grow">
+          <h2 className="text-white text-lg font-semibold truncate">{title}</h2>
+          <p className="text-white text-md mb-2">{`Bs ${price.toFixed(2)}`}</p>
+          <p className="text-gray-400 mb-2 text-sm truncate">{description}</p>
+          <p className="text-extrapagecolor font-semibold text-sm">{`Stock: ${stock}`}</p>
+        </div>
+        {/* Action buttons */}
+        <div className="flex justify-between items-center mt-4">
+          <CardItem translateX={-5} translateZ={50} translateY={5}>
+            {isLoggedIn &&
+              role === "cliente" && ( // Condición para mostrar el botón
+                <button
+                  onClick={handleAddToCart}
+                  className="bg-buttonpagecolor text-white p-2 rounded transition-colors duration-300 hover:bg-tertiarypagecolor cursor-pointer"
+                >
+                  Agregar al carrito
+                </button>
+              )}
+          </CardItem>
+          <CardItem translateZ={50} translateY={5} translateX={5}>
+            <Link href={`/product/${id}`}>
+              <button className="bg-buttonpagecolor text-extrapagecolor2 p-2 rounded transition-colors duration-300 hover:bg-tertiarypagecolor text-center cursor-pointer">
+                Ver detalles
+              </button>
+            </Link>
+          </CardItem>
+        </div>
+      </CardBody>
+    </CardContainer>
   );
 };
 

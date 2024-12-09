@@ -16,15 +16,21 @@ const Navbar = () => {
   const [isUserMenuOpen, setUserMenuOpen] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const router = useRouter();
+  console.log(isActive)
+  
 
   useEffect(() => {
     const storedIsLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+    const storedIsActive = localStorage.getItem("isActive");
     setIsLoggedIn(storedIsLoggedIn);
     if (storedIsLoggedIn) {
       const storedUserData: any = localStorage.getItem("userData");
       const userData = JSON.parse(storedUserData);
       setUsername(userData.nombre_usuario);
       setRole(userData.tipo_usuario);
+    }
+    if (storedIsActive) {
+      setIsActive(storedIsActive === "true"); // Establecer el valor recuperado del localStorage
     }
   }, []);
   const {
@@ -41,7 +47,16 @@ const Navbar = () => {
     setIdUser,
   } = useAppContext();
 
-  const handleLogout = () => {
+  console.log(isLoggedIn)
+  const handleLogout = async () => {
+    if(role==="delivery"){
+      try {
+        await toggleDeliveryStatus(idUser, false);
+        console.log("Estado actualizado correctamente");
+      } catch (error) {
+        console.error("Error al actualizar el estado:", error);
+      }
+    }
     setIsLoggedIn(false);
     setUsername("");
     setEmail("");
@@ -77,30 +92,34 @@ const Navbar = () => {
   const toggleActive = async () => {
     const newState = !isActive; // Invertir el estado actual
     setIsActive(newState);
+    localStorage.setItem("isActive", newState.toString());
     try {
       await toggleDeliveryStatus(idUser, newState);
       console.log("Estado actualizado correctamente");
     } catch (error) {
       console.error("Error al actualizar el estado:", error);
     }
+
+
   };
   // Nuevo: función para renderizar el menú basado en el rol
   const renderUserMenu = () => {
+    console.log(isLoggedIn)
     switch (role) {
       case "cliente":
         return (
           <>
             <div>
-              <Link href="/profile">Perfil</Link>
+              <Link  className="text-buttonpagecolor" href="/profile">Perfil</Link>
             </div>
             <div>
-              <Link href="/orders">Mis Pedidos</Link>
+              <Link className="text-buttonpagecolor" href="/orders">Mis Pedidos</Link>
             </div>
             <div>
-              <Link href="/settings">Configuración</Link>
+              <Link className="text-buttonpagecolor" href="/settings">Configuración</Link>
             </div>
             <div>
-              <button onClick={handleLogout}>Cerrar Sesión</button>
+              <button className="text-extrapagecolor" onClick={handleLogout}>Cerrar Sesión</button>
             </div>
           </>
         );
@@ -108,19 +127,22 @@ const Navbar = () => {
         return (
           <>
             <div>
-              <Link href="/profile">Perfil (Mis productos)</Link>
+              <Link className="text-buttonpagecolor" href="/profile">Perfil</Link>
             </div>
             <div>
-              <Link href="/productForm">Añadir Producto</Link>
+              <Link className="text-buttonpagecolor" href="/remove-product">Mis productos</Link>
             </div>
             <div>
-              <Link href="/confirmacionArtesano">Pedidos</Link>
+              <Link className="text-buttonpagecolor" href="/productForm">Añadir Producto</Link>
             </div>
             <div>
-              <Link href="/settings">Configuración</Link>
+              <Link className="text-buttonpagecolor" href="/confirmacionArtesano">Pedidos</Link>
             </div>
             <div>
-              <button onClick={handleLogout}>Cerrar Sesión</button>
+              <Link className="text-buttonpagecolor" href="/settings">Configuración</Link>
+            </div>
+            <div>
+              <button className="text-extrapagecolor" onClick={handleLogout}>Cerrar Sesión</button>
             </div>
           </>
         );
@@ -128,16 +150,16 @@ const Navbar = () => {
         return (
           <>
             <div>
-              <Link href="/profile">Perfil</Link>
+              <Link className="text-buttonpagecolor" href="/profile">Perfil</Link>
             </div>
             <div>
-              <Link href="/deliveries">Mis Entregas</Link>
+              <Link className="text-buttonpagecolor" href="/deliveries">Mis Entregas</Link>
             </div>
             <div>
-              <Link href="/settings">Configuración</Link>
+              <Link className="text-buttonpagecolor" href="/settings">Configuración</Link>
             </div>
             <div>
-              <button onClick={handleLogout}>Cerrar Sesión</button>
+              <button className="text-extrapagecolor" onClick={handleLogout}>Cerrar Sesión</button>
             </div>
           </>
         );
@@ -145,13 +167,13 @@ const Navbar = () => {
         return (
           <>
             <div>
-              <Link href="/AdminPanel">Administrar</Link>
+              <Link className="text-buttonpagecolor" href="/AdminPanel">Administrar</Link>
             </div>
             <div>
-              <Link href="/settings">Configuración</Link>
+              <Link className="text-buttonpagecolor" href="/settings">Configuración</Link>
             </div>
             <div>
-              <button onClick={handleLogout}>Cerrar Sesión</button>
+              <button className="text-extrapagecolor" onClick={handleLogout}>Cerrar Sesión</button>
             </div>
           </>
         );
@@ -171,7 +193,7 @@ const Navbar = () => {
 
   
   return (
-    <div className="flex justify-between items-center w-full h-20 px-4 text-white bg-black fixed nav z-10">
+    <div className="flex justify-between items-center w-full h-20 px-4 text-white bg-black fixed nav z-10 shadow-lg">
       <div>
         <h1 className="text-5xl font-signature ml-2">
           <Link href="/" passHref>
@@ -186,7 +208,7 @@ const Navbar = () => {
                 />
               </div>
               <span
-                className="text-lg font-normal text-white "
+                className="text-lg font-normal text-bgpagecolor "
                 style={{
                   fontFamily: "Dancing-Script, cursive",
                   letterSpacing: "0.em",
@@ -205,7 +227,7 @@ const Navbar = () => {
             key={id}
             className="nav-links px-4 cursor-pointer capitalize font-medium text-gray-500 hover:scale-105 hover:text-white duration-200 link-underline"
           >
-            <Link href={link} className="text-[#FF9F1C]">
+            <Link href={link} className="text-buttonpagecolor">
               {text}
             </Link>
           </li>
@@ -248,70 +270,73 @@ const Navbar = () => {
 
               {/* Menú desplegable de usuario */}
               {isUserMenuOpen && (
-                <div className="absolute top-16 right-0 mt-2 bg-white text-black rounded shadow-md p-2">
-                  <span className="block font-bold">{username}</span>
+                <div className="absolute top-16 right-0 mt-2 bg-buttonpagecolor2 text-black rounded shadow-md p-2">
+                  <span className="block font-bold text-white">{username}</span>
                   {/* {renderUserMenu()} Renderiza el menú basado en el rol */}
                   {role === "cliente" && (
                     <>
                       <div>
-                        <Link href="/profile">Perfil</Link>
+                        <Link className="text-buttonpagecolor" href="/profile">Perfil</Link>
                       </div>
                       <div>
-                        <Link href="/orders">Mis Pedidos</Link>
+                        <Link className="text-buttonpagecolor" href="/orders">Mis Pedidos</Link>
                       </div>
                       <div>
-                        <Link href="/settings">Configuración</Link>
+                        <Link className="text-buttonpagecolor" href="/settings">Configuración</Link>
                       </div>
                       <div>
-                        <button onClick={handleLogout}>Cerrar Sesión</button>
+                        <button className="text-extrapagecolor" onClick={handleLogout}>Cerrar Sesión</button>
                       </div>
                     </>
                   )}
                   {role === "artesano" && (
                     <>
                       <div>
-                        <Link href="/profile">Perfil (Mis productos)</Link>
+                        <Link className="text-buttonpagecolor" href="/profile">Perfil</Link>
                       </div>
                       <div>
-                        <Link href="/productForm">Añadir Producto</Link>
+                        <Link className="text-buttonpagecolor" href="/remove-product">Mis productos</Link>
                       </div>
                       <div>
-                        <Link href="/confirmacionArtesano">Pedidos</Link>
+                        <Link className="text-buttonpagecolor" href="/productForm">Añadir Producto</Link>
                       </div>
                       <div>
-                        <Link href="/settings">Configuración</Link>
+                        <Link className="text-buttonpagecolor" href="/confirmacionArtesano">Pedidos</Link>
                       </div>
                       <div>
-                        <button onClick={handleLogout}>Cerrar Sesión</button>
+                        <Link className="text-buttonpagecolor" href="/settings">Configuración</Link>
+                      </div>
+                      <div>
+                        <button className="text-extrapagecolor" onClick={handleLogout}>Cerrar Sesión</button>
                       </div>
                     </>
                   )}
                   {role === "delivery" && (
                     <>
                       <div>
-                        <Link href="/profile">Perfil</Link>
+                        <Link className="text-buttonpagecolor" href="/profile">Perfil</Link>
                       </div>
                       <div>
-                        <Link href="/deliveries">Mis Entregas</Link>
+                        <Link className="text-buttonpagecolor" href="/deliveries">Mis Entregas</Link>
                       </div>
                       <div>
-                        <Link href="/settings">Configuración</Link>
+                        <Link className="text-buttonpagecolor" href="/settings">Configuración</Link>
                       </div>
                       <div>
-                        <button onClick={handleLogout}>Cerrar Sesión</button>
+                        <button className="text-extrapagecolor" onClick={handleLogout}>Cerrar Sesión</button>
                       </div>
                     </>
                   )}
                   {role == null && (
                     <>
                       <div>
-                        <Link href="/AdminPanel">Administrar</Link>
+                        <Link className="text-buttonpagecolor" href="/AdminPanel">Administrar</Link>
                       </div>
                       <div>
-                        <Link href="/settings">Configuración</Link>
+                        <Link className="text-buttonpagecolor" href="/settings">Configuración</Link>
                       </div>
                       <div>
-                        <button onClick={handleLogout}>Cerrar Sesión</button>
+                        <button className="text-extrapagecolor" onClick={handleLogout}>Cerrar Sesión</button>
                       </div>
                     </>
                   )}
@@ -328,11 +353,11 @@ const Navbar = () => {
             </>
           ) : (
             <>
-              <Link href="/register" className="text-gray-100">
+              <Link href="/register" className="text-extrapagecolor2">
                 Registrarse
               </Link>
-              <p>&nbsp;|&nbsp;</p>
-              <Link href="/login" className="text-gray-100">
+              <p className="text-extrapagecolor2">&nbsp;|&nbsp;</p>
+              <Link href="/login" className="text-extrapagecolor2">
                 Iniciar Sesión
               </Link>
             </>
@@ -349,13 +374,13 @@ const Navbar = () => {
       </div>
 
       {nav && (
-        <ul className="flex flex-col justify-center items-center absolute top-0 left-0 w-full h-screen bg-gradient-to-b from-black to-gray-800 text-gray-500">
+        <ul className="flex flex-col justify-center items-center absolute top-0 left-0 w-full h-screen bg-gradient-to-b from-black to-gray-800 text-gray-500 opacity-95">
           {links.map(({ id, text, link }) => (
             <li
               key={id}
-              className="px-4 cursor-pointer capitalize py-6 text-2xl"
+              className="px-4 cursor-pointer capitalize py-2 text-2xl"
             >
-              <Link onClick={closeNav} href={link}>
+              <Link onClick={closeNav} href={link} className="text-buttonpagecolor">
                 {text}
               </Link>
             </li>

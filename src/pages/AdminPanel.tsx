@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import DataTable from "@/components/DataTable";
 import { AdminSidebar } from "@/components/AdminSidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
+import { API_URL } from "@/libs/constants";
 
 interface Item {
   id_usuario?: number; // for clientes
@@ -10,14 +11,15 @@ interface Item {
 }
 
 const endpoints = {
-  clientes: `${process.env.NEXT_PUBLIC_API_URL}/cliente`,
-  artesanos: `${process.env.NEXT_PUBLIC_API_URL}/artesano`,
-  productos: `${process.env.NEXT_PUBLIC_API_URL}/producto`,
-  reseñas: `${process.env.NEXT_PUBLIC_API_URL}/resenia`,
-  comunidades: `${process.env.NEXT_PUBLIC_API_URL}/comunidad`,
-  deliverys: `${process.env.NEXT_PUBLIC_API_URL}/delivery`,
+  clientes: `${API_URL}/cliente`,
+  artesanos: `${API_URL}/artesano`,
+  productos: `${API_URL}/producto`,
+  reseñas: `${API_URL}/resenia`,
+  comunidades: `${API_URL}/comunidad`,
+  deliverys: `${API_URL}/delivery`,
+  promociones: `${API_URL}/promocion`
 };
-
+/*DEPLOY TODO, CAMBIAR ESTO AL BACKEND DE DEPLOY*/
 const idAccessors = {
   clientes: "id_usuario",
   artesanos: "id_artesano", // Adjust as necessary
@@ -25,6 +27,7 @@ const idAccessors = {
   reseñas: "id_resenia", // Adjust as necessary
   comunidades: "id_comunidad", // Adjust as necessary
   deliverys: "id_delivery", // Adjust as necessary
+  promociones: "id_promocion",
 };
 
 const AdminPanel = () => {
@@ -93,17 +96,17 @@ const AdminPanel = () => {
       : [];
 
   return (
-    <SidebarProvider>
+    <SidebarProvider className="bg-buttonpagecolor2">
       <AdminSidebar />
-      <div className="flex flex-col p-10">
-        <h1 className="text-2xl font-bold mb-4">Panel de Administración</h1>
+      <div className="flex flex-col p-10 bg-black">
+        <h1 className="text-2xl font-bold mb-4 text-buttonpagecolor">Panel de Administración</h1>
         <div className="mb-4">
           <input
             type="text"
-            placeholder="Search..."
+            placeholder="Buscar..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="p-2 border rounded mb-4"
+            className="p-2 border rounded mb-4 bg-extrapagecolor2 text-black mr-2"
           />
           {Object.keys(endpoints).map((key) => (
             <button
@@ -111,8 +114,8 @@ const AdminPanel = () => {
               onClick={() => handleButtonClick(key)}
               className={`mr-2 p-2 border rounded ${
                 activeEndpoint === key
-                  ? "bg-blue-500 text-white"
-                  : "bg-gray-200"
+                  ? "bg-buttonpagecolor text-white"
+                  : "bg-buttonpagecolor2 text-white"
               }`}
             >
               {key.charAt(0).toUpperCase() + key.slice(1)}

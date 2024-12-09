@@ -262,14 +262,16 @@ const Profile = () => {
             </h1>
           </div>
           <hr className="my-4 border-gray-300" />
-          {rol === "artesano" && (
-            <>
-              <h1 className="text-white text-2xl font-light font-mono text-center uppercase tracking-widest">
-                Mis Productos
-              </h1>
-              <div className="mt-4">
-                {artesanoProducts.length > 0 ? (
-                  artesanoProducts.map((product) => (
+        {rol === "artesano" && (
+          <>
+            <h1 className="text-white text-2xl font-light font-mono text-center uppercase tracking-widest">
+              Mis Productos
+            </h1>
+            <div className="mt-4">
+              {artesanoProducts.length > 0 ? (
+                artesanoProducts
+                  .filter((product) => parseInt(product.stock_producto) > 0) // Filtramos productos con stock mayor que 0
+                  .map((product) => (
                     <div
                       key={product.id_producto}
                       className="border p-4 mb-2 flex"
@@ -289,7 +291,7 @@ const Profile = () => {
                         <p className="text-justify">
                           Descripción: {product.descripcion_producto}
                         </p>
-                        <p>Stock: {product.stock_producto}</p>
+                        <p>Stock: {product.stock_producto}</p><br />           
                         <Link href={`/product/${product.id_producto}`}>
                           <button className="bg-buttonpagecolor text-extrapagecolor2 p-2 rounded transition-colors duration-300 hover:bg-tertiarypagecolor text-center cursor-pointer">
                             Ver detalles
@@ -298,12 +300,12 @@ const Profile = () => {
                       </div>
                     </div>
                   ))
-                ) : (
-                  <p>No tienes productos disponibles.</p>
-                )}
-              </div>
-            </>
-          )}
+              ) : (
+                <p>No tienes productos disponibles.</p>
+              )}
+            </div>
+          </>
+        )}
         </div>
       </div>
     </>

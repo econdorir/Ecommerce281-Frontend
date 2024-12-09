@@ -79,18 +79,33 @@ const ProductDetail = ({ product, resenia, clientes, promociones }) => {
   }, [product, promociones]);
 
   const handleAddToCart = async (product: Product) => {
+    // Calcular el total de productos de este tipo en el carrito
+    const totalQuantityInCart = cart.reduce((acc, item) => {
+      if (item.id_producto === product.id_producto) {
+        return acc + item.cantidad;
+      }
+      return acc;
+    }, 0);
+  
+    // Verificar que la cantidad total no exceda el stock
+    if (totalQuantityInCart + selectedQuantity > product.stock_producto) {
+      alert(`No puedes agregar más de ${product.stock_producto - totalQuantityInCart} unidades. Stock insuficiente.`);
+      return; // Detener la función si se excede el stock
+    }
+  
     setCart((prevCart: Product[]) => {
       const existingProduct = prevCart.find(
         (item) => item.id_producto === product.id_producto
       );
       if (existingProduct) {
-        // Update product quantity based on selectedQuantity
+        // Actualizar la cantidad del producto
         return prevCart.map((item) =>
           item.id_producto === product.id_producto
-            ? { ...item, cantidad: item.cantidad + selectedQuantity } // Use selected quantity
+            ? { ...item, cantidad: item.cantidad + selectedQuantity }
             : item
         );
       } else {
+        // Agregar el producto si no existe en el carrito
         return [
           ...prevCart,
           {
@@ -101,12 +116,12 @@ const ProductDetail = ({ product, resenia, clientes, promociones }) => {
         ];
       }
     });
-
-    setNumberOfProductsInCart((prevCount) => prevCount + selectedQuantity); // Increment by selected quantity
-
+  
+    setNumberOfProductsInCart((prevCount) => prevCount + selectedQuantity);
+  
     const storedUserData: any = localStorage.getItem("userData");
     const userData = JSON.parse(storedUserData);
-
+  
     try {
       await AddToCartService(
         product.id_producto,
@@ -117,7 +132,7 @@ const ProductDetail = ({ product, resenia, clientes, promociones }) => {
       console.error("Error al agregar el producto al carrito:", error);
     }
   };
-
+  
   const handleClose = () => {
     router.push("/products");
   };
@@ -166,7 +181,23 @@ const ProductDetail = ({ product, resenia, clientes, promociones }) => {
     };
     return new Date(dateString).toLocaleDateString("es-ES", options);
   };
-
+  const handleQuantityChange = (newQuantity) => {
+    const totalQuantity = cart.reduce((acc, item) => {
+      if (item.id_producto === product.id_producto) {
+        return acc + item.cantidad; // Sumar la cantidad actual en el carrito para este producto
+      }
+      return acc;
+    }, 0);
+  
+    // Validar que la cantidad seleccionada no supere el stock disponible
+    if (newQuantity + totalQuantity <= product.stock_producto) {
+      setSelectedQuantity(newQuantity);
+    } else {
+      // Puedes mostrar un mensaje de error si el total excede el stock
+      alert(`No puedes agregar más de ${product.stock_producto - totalQuantity} unidades. Stock insuficiente`);
+    }
+  };
+  
   return (
     <>
       <Navbar />

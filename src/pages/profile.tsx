@@ -283,35 +283,37 @@ const Profile = () => {
               </h1>
               <div className="mt-4">
                 {artesanoProducts.length > 0 ? (
-                  artesanoProducts.map((product) => (
-                    <div
-                      key={product.id_producto}
-                      className="border p-4 mb-2 flex"
-                    >
-                      {product.imagen.length > 0 && (
-                        <img
-                          src={product.imagen[0].url_imagen}
-                          alt={product.nombre_producto}
-                          className="w-32 h-32 object-cover rounded-lg mr-4"
-                        />
-                      )}
-                      <div className="text-white">
-                        <h2 className="text-lg font-semibold">
-                          {product.nombre_producto}
-                        </h2>
-                        <p>Precio: ${product.precio_producto}</p>
-                        <p className="text-justify">
-                          Descripción: {product.descripcion_producto}
-                        </p>
-                        <p>Stock: {product.stock_producto}</p><br />           
-                        <Link href={`/product/${product.id_producto}`}>
-                          <button className="bg-buttonpagecolor text-extrapagecolor2 p-2 rounded transition-colors duration-300 hover:bg-tertiarypagecolor text-center cursor-pointer">
-                            Ver detalles
-                          </button>
-                        </Link>
+                  artesanoProducts
+                    .filter((product) => parseInt(product.stock_producto) > 0) // Filtramos productos con stock mayor que 0
+                    .map((product) => (
+                      <div
+                        key={product.id_producto}
+                        className="border p-4 mb-2 flex"
+                      >
+                        {product.imagen.length > 0 && (
+                          <img
+                            src={product.imagen[0].url_imagen}
+                            alt={product.nombre_producto}
+                            className="w-32 h-32 object-cover rounded-lg mr-4"
+                          />
+                        )}
+                        <div className="text-white">
+                          <h2 className="text-lg font-semibold">
+                            {product.nombre_producto}
+                          </h2>
+                          <p>Precio: ${product.precio_producto}</p>
+                          <p className="text-justify">
+                            Descripción: {product.descripcion_producto}
+                          </p>
+                          <p>Stock: {product.stock_producto}</p><br />           
+                          <Link href={`/product/${product.id_producto}`}>
+                            <button className="bg-buttonpagecolor text-extrapagecolor2 p-2 rounded transition-colors duration-300 hover:bg-tertiarypagecolor text-center cursor-pointer">
+                              Ver detalles
+                            </button>
+                          </Link>
+                        </div>
                       </div>
-                    </div>
-                  ))
+                    ))
                 ) : (
                   <p>No tienes productos disponibles.</p>
                 )}

@@ -169,7 +169,9 @@ const ProductPage: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {sortedProducts.map((product) => (
+          {sortedProducts
+            .filter((product) => product.stock_producto > 0) // Filtrar productos con stock >= 0
+            .map((product) => (
             <ProductCard
               key={product.id_producto}
               title={product.nombre_producto}

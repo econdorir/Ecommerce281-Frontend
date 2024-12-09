@@ -232,6 +232,7 @@ const DeliveryDetails = () => {
             ? {
                 ...prev,
                 fecha_entrega: new Date().toISOString(),
+                estado_entrega: "En Preparacion",
                 delivery_confirm: false,
               }
             : prev
@@ -251,6 +252,7 @@ const DeliveryDetails = () => {
                     },
                     body: JSON.stringify({
                         fecha_entrega: new Date().toISOString(),
+                        estado_entrega: "Entregado",
                         delivery_confirm: true
                     }),
                 });

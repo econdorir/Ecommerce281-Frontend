@@ -7,6 +7,10 @@ import { API_URL } from "@/libs/constants";
 const CartItem = ({ item }) => {
   const { cart, setCart, setNumberOfProductsInCart } = useAppContext();
   const router = useRouter();
+
+  // Lógica para obtener el stock disponible del producto (asegúrate de que esté en 'item')
+  const stock_producto = item.stock_producto; // Aquí se debe utilizar el stock del producto
+
   const handleRemoveFromCart = async (id_producto) => {
     const storedUserData: any = localStorage.getItem("userData");
     const userData = JSON.parse(storedUserData);
@@ -40,30 +44,7 @@ const CartItem = ({ item }) => {
     }
   };
 
-  // Función para manejar la compra (puedes personalizar esto)
-  const handleBuy = () => {
-    router.push("/cart");
-  };
-
-  const groupedCart = cart.reduce((acc: any, item: any) => {
-    const existingItem = acc.find(
-      (i: any) => i.id_producto === item.id_producto
-    );
-
-    if (existingItem) {
-      // Incrementa la cantidad si el producto ya existe en el acumulador
-      existingItem.cantidad += item.cantidad; // Asegúrate de que `item.cantidad` es la cantidad correcta
-    } else {
-      // Agrega el nuevo producto al acumulador
-      acc.push({ ...item });
-    }
-
-    return acc;
-  }, []);
-  const updateProductQuantity = async (
-    id_producto: number,
-    nuevaCantidad: number
-  ) => {
+  const updateProductQuantity = async (id_producto, nuevaCantidad) => {
     const storedUserData: any = localStorage.getItem("userData");
     const userData = JSON.parse(storedUserData);
 
@@ -83,7 +64,6 @@ const CartItem = ({ item }) => {
         throw new Error("Error al actualizar la cantidad del producto");
       }
 
-      // Maneja posibles respuestas vacías
       const text = await response.text();
       const data = text ? JSON.parse(text) : {};
 
@@ -114,11 +94,11 @@ const CartItem = ({ item }) => {
           {/* Botón para decrementar */}
           <button
             onClick={async () => {
-              if (item.cantidad === 1) {
+              if (item.cantidad > 1) {
+                await updateProductQuantity(item.id_producto, -1);
+              } else {
                 // Lógica para eliminar si la cantidad llega a 0
                 await handleRemoveFromCart(item.id_producto);
-              } else {
-                await updateProductQuantity(item.id_producto, -1);
               }
             }}
             className="w-7 h-7 bg-red-500 text-white rounded-full flex items-center justify-center"
@@ -128,7 +108,9 @@ const CartItem = ({ item }) => {
           {/* Botón para incrementar */}
           <button
             onClick={async () => {
-              await updateProductQuantity(item.id_producto, 1);
+              if (item.cantidad < stock_producto) {
+                await updateProductQuantity(item.id_producto, 1);
+              }
             }}
             className="w-7 h-7 bg-green-500 text-white rounded-full flex items-center justify-center"
           >
@@ -147,3 +129,4 @@ const CartItem = ({ item }) => {
 };
 
 export default CartItem;
+

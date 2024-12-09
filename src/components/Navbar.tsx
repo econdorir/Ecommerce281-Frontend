@@ -17,6 +17,7 @@ const Navbar = () => {
   const [isActive, setIsActive] = useState(false);
   const router = useRouter();
   console.log(isActive)
+  
 
   useEffect(() => {
     const storedIsLoggedIn = localStorage.getItem("isLoggedIn") === "true";
@@ -46,6 +47,7 @@ const Navbar = () => {
     setIdUser,
   } = useAppContext();
 
+  console.log(isLoggedIn)
   const handleLogout = async () => {
     if(role==="delivery"){
       try {
@@ -102,6 +104,7 @@ const Navbar = () => {
   };
   // Nuevo: función para renderizar el menú basado en el rol
   const renderUserMenu = () => {
+    console.log(isLoggedIn)
     switch (role) {
       case "cliente":
         return (
@@ -124,7 +127,10 @@ const Navbar = () => {
         return (
           <>
             <div>
-              <Link className="text-buttonpagecolor" href="/profile">Perfil (Mis productos)</Link>
+              <Link className="text-buttonpagecolor" href="/profile">Perfil</Link>
+            </div>
+            <div>
+              <Link className="text-buttonpagecolor" href="/remove-product">Mis productos</Link>
             </div>
             <div>
               <Link className="text-buttonpagecolor" href="/productForm">Añadir Producto</Link>
@@ -286,7 +292,10 @@ const Navbar = () => {
                   {role === "artesano" && (
                     <>
                       <div>
-                        <Link className="text-buttonpagecolor" href="/profile">Perfil (Mis productos)</Link>
+                        <Link className="text-buttonpagecolor" href="/profile">Perfil</Link>
+                      </div>
+                      <div>
+                        <Link className="text-buttonpagecolor" href="/remove-product">Mis productos</Link>
                       </div>
                       <div>
                         <Link className="text-buttonpagecolor" href="/productForm">Añadir Producto</Link>
